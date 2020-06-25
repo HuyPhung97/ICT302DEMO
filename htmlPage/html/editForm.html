@@ -1,0 +1,192 @@
+<html>
+<head>
+    <title> Murdoch University </title>
+    <link rel="stylesheet" href="../css/editForm.css" />
+    <link rel="icon" href="../image/logo.png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+
+         var questionString = "<%= question %>";
+         console.log(questionString);
+
+        //count Question 
+        var countQuestion = 0;
+
+        var countOption = 0;
+        function displayOption()
+        {
+            datetime();
+            var insertElement = document.getElementById('containQuestion');
+            var eachData = questionString.split(';');
+            for(var i = 0 ; i < eachData.length-1 ; i++)
+            {
+                var containQuestionID = "containerOfQuestion" + countQuestion;
+                var question = eachData[i].split(',')[0];  
+                var value ="question" + countQuestion;   
+              
+                var content =
+                    `<div id="`+containQuestionID+`">
+                        <div class="question">
+                            <div id="question`+countQuestion+`">
+                                <input type="text" name="temporary" value="`+value+`" style="display:none"/>
+                                <input type"text" name="question" value="`+question+`"placeholder="Please enter question.." required>
+                                <div class="displayOption"> 
+                                    <div id="containOption`+countQuestion+`"> 
+                                        <input type="text"  name="`+value+`"placeholder="Answer" readonly/>
+                                    </div>
+                                </div>
+                                <div class="removeQuestion">
+                                     <button type="button" onclick="removeQuestion(\'`+containQuestionID+`\')"> <i class="fa fa-trash"></i> Remove Question </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;    
+
+                insertElement.insertAdjacentHTML("beforeend", content);
+                countQuestion++;
+            }
+            applyCss();
+        }
+
+        //handle add new question
+        function addNewQuestion()
+        {
+            var insertElement = document.getElementById('containQuestion');
+            var containQuestionID = "containerOfQuestion" + countQuestion;
+            var value ="question" + countQuestion;   
+            var content =
+                    `<div id="`+containQuestionID+`">
+                        <div class="question">
+                            <div id="question`+countQuestion+`">
+                                <input type="text" name="temporary" value="`+value+`" style="display:none"/>
+                                <input type"text" name="question" placeholder="Please enter question.." required>
+                                <div class="displayOption"> 
+                                    <div id="containOption`+countQuestion+`">     
+                                        <input type="text"  name="`+value+`"placeholder="Answer" readonly/>
+                                    </div>
+                                </div>
+                                <div class="removeQuestion">
+                                     <button type="button" onclick="removeQuestion(\'`+containQuestionID+`\')" > <i class="fa fa-trash"></i> Remove Question </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            insertElement.insertAdjacentHTML("beforeend" , content);
+            countQuestion++;
+            applyCss();
+        }
+
+        //handle remove question 
+        function removeQuestion(id)
+        {
+            document.getElementById(id).remove();
+            applyCss();
+        }
+        //change css
+       function applyCss()
+        {
+            //document.getElementsByClassName("theRightBackground").style.height ="auto";
+            document.getElementById("theLeftBackground").style.height = document.getElementById("theRightBackground").offsetHeight;
+            document.getElementById("theLeftBackground").style.backgroundColor="#e6e6e6";
+        }
+
+        //set min dead line
+        function datetime()
+        {
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var date = d.getDate();
+            if(month < 10)
+            {
+                month = "0" + month;
+            }
+            if(date < 10)
+            {
+                date = "0" + date;
+            }
+            current =  d.getFullYear()+"-"+ month +"-" + date;
+            document.getElementById('submitDay').min = current;
+        }
+
+        window.onload = function()
+       {
+           displayOption();
+           datetime();
+       }
+
+
+    </script>
+</head>
+<body>
+    <div class="title">
+        <div class="imgIcon">
+            <a href="/"><img src="../image/logo.svg"> </a>
+        </div>
+        <div class="titleWord">
+            <a href="/student">STUDENT </a>
+            <a href="/UC">UC </a>
+            <a href="/ABOUT%20US">ABOUT US </a>
+        </div>
+    </div>
+   
+    <div class="mainBackground">
+        <div id="theLeftBackground">
+            <div class="theOption">
+                <div id="option"> <a href="/UC/upload"> Upload File </a>  </div>
+                <div id="linkToForm"> <a href="/UC/CreateForm"> Create form </a> </div>
+                <div id="linkToForm"> <a href="/UC/formCreated"> Form have created </a> </div>
+            </div>        
+        </div>
+        <div id="theRightBackground"> 
+            <div class="mainTitle">
+                <label> Edit Form </label>
+            </div> 
+            
+            <div class="containerForm">
+                <div class="containerInfor">
+                    <form id="surveyForm"  action="/UC/EditForm" method="POST"> 
+                        <div class="containTitle">
+                            <div id="id" style="display: none;">
+                                <input type="text" name="id" value="<%= id %>" readonly />
+                           </div>  
+                            <div id="title">
+                                 <input type="text" name="title" value="<%= title %>" placeholder="Please enter title..." required />
+                            </div>    
+                            <div id="unitCode">
+                                <input type="text" name="unitCode" value="<%= unitCode %>" placeholder="Please enter unit code..." required />
+                           </div>    
+                           <div id="teamID">
+                                <input type="text" name="teamID" value="<%= teamID %>" placeholder="Please enter teamID..." required />
+                           </div>
+                           <div id="teachPeriod">
+                                <input type="text" name="teachPer" value="<%= teachPer %>" placeholder="Please enter teach period..."  required />
+                           </div>
+                            <div id="describle">
+                                <input type="date" id="submitDay" value="<%= deadline %>"  name="deadline"  >
+                            </div>
+                       </div>     
+                    <!--Question -->
+                    <div class="containQuestion">
+                        <div id="containQuestion">
+
+                        </div>
+                    </div>
+                    <!-- end of question -->
+                </div>
+            </div>  
+            
+            <div class="handleButton">
+                <div class="button">
+                    <div id="resetButton"> 
+                        <button type="button" onclick="addNewQuestion()"> New Question </button>
+                     </div>
+                     <div id="createButton"> 
+                        <button type="submit"> Update </button> 
+                     </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</body>
+</html>

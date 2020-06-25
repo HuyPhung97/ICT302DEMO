@@ -1,0 +1,104 @@
+<html>
+<head>
+    <title> Murdoch University </title>
+    <link rel="stylesheet" href="../css/formCreated.css" />
+    <link rel="icon" href="../image/logo.png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script>
+         var idString = "<%= id %>";
+         var titleString = "<%= title %>";
+         var unitCodeString = "<%= unitCode %>";
+         var teamIDString = "<%= teamID %>";
+         var teachPerString = "<%= teachPer %>";
+         var deadlineString = "<%= deadline %>";
+
+        //  console.log(idString);
+        //  console.log(titleString);
+        //  console.log(unitCodeString);
+        //  console.log(teamIDString);
+        //  console.log(teachPerString);
+        //  console.log(deadlineString);
+
+    function displayForm()
+    {
+        var table = document.getElementById('tableDetail');
+        //var tableOption = document.getElementById('optionForData');
+
+        if(!idString =="")
+        {
+            for(var i = 0 ; i < idString.split(',').length ; i++ )
+             {
+                var detailForm = `
+                    <tr> 
+                        <td>`+ titleString.split(',')[i] +`</td>
+                        <td>`+ unitCodeString.split(',')[i] +`</td>
+                        <td>`+ teamIDString.split(',')[i] +`</td>
+                        <td>`+ teachPerString.split(',')[i] +`</td>
+                        <td>`+ deadlineString.split(',')[i] +`</td>  
+                        <td> 
+                        <form action="/UC/formCreated" method="POST" >
+                            <input type="text" name="id" value="`+idString.split(',')[i]+`" style="display:none">
+                            <button id="demo" type="submit" name="event" value="edit" > Edit </button>  <button type="submit" name="event" value="detele" onsubmit="return check()"> Delete </button>  
+                        </form>
+                        </td>
+                    </tr>`;
+
+                table.insertAdjacentHTML("beforeend" , detailForm); 
+                table.insertAdjacentHTML("beforeend" , "</form>");      
+            }
+        }
+    }
+
+    function check()
+    {
+        if (confirm("Are you sure to delete !!!!!!"))
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+        }
+    }
+
+    </script>
+</head>
+<body onload="displayForm()">
+    <div class="title">
+        <div class="imgIcon">
+            <a href="/"><img src="../image/logo.svg"> </a>
+        </div>
+        <div class="titleWord">
+            <a href="/student">STUDENT </a>
+            <a href="/UC">UC </a>
+            <a href="/ABOUT%20US">ABOUT US </a>
+        </div>
+    </div>
+   
+    <div class="mainBackground">
+        <div class="theLeftBackground">
+            <div class="theOption">
+                <div id="option"> <a href="/UC/upload"> Upload File </a>  </div>
+                <div id="option"> <a href="/UC/CreateForm"> Create form </a> </div>
+                <div id="option"> <a href="/UC/formCreated"> Form have created </a>  </div>
+            </div>        
+        </div>
+        <div class="theRightBackground">
+            <p> Form created </p>
+            <div class="containDetailForm">
+                <table id="tableDetail">
+                    <tr>
+                        <th>Title</th> 
+                        <th>Unit Code</th> 
+                        <th>TeamID</th> 
+                        <th>Teaching Period</th> 
+                        <th>Deadline</th> 
+                        <th>Action</th> 
+                    </tr>                 
+                </table> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>

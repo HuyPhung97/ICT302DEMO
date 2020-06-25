@@ -1,0 +1,251 @@
+* {
+    box-sizing: border-box;
+  }
+.title
+{
+    position: sticky;
+	top : 0px;
+    width : 100%;   
+    background-color: #333333;
+}
+.imgIcon img
+{
+    float : left;
+    width : 15%;
+    height: 9.8%;
+
+}
+
+.imgIcon img:hover
+{
+    background-color: red;
+}
+
+.titleWord
+{
+    float : left;
+    width : 85%;
+    height : auto;
+}
+.titleWord a
+{
+   float : left;
+   border-left :1px solid white;
+   padding : 2.1% 0 ;
+   width : 10%;;
+   padding-left:2%;
+   padding-right : 2%;
+   text-align: center;
+   color : #a6a6a6;
+   text-decoration: none;
+}
+
+.titleWord a:hover
+{
+    background-color: #ff1a1a;
+	color: white;
+}
+.title::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.mainBackground
+{
+    height : 150px;
+    width : 100%;
+}
+
+#theLeftBackground
+{
+    float : left;
+    width : 12%;
+    height: 900px;
+    border-right: 2px solid  #404040;
+}
+
+.theOption
+{
+    font-size : 20px;
+    position: sticky;
+    top : 80px;
+}
+
+.theOption a
+{
+    color : #1a1a1a;
+    text-decoration: none;
+}
+
+.theOption a:hover
+{
+    color : #ff1a1a;
+}
+
+#option
+{
+    text-align: center;
+    padding-top: 6%;
+    padding-bottom: 4%;
+    font-style:italic;
+}
+
+#linkToForm
+{
+    text-align: center;
+    padding-top: 5%;
+    font-style:italic;
+}
+
+#theRightBackground
+{
+    background-color: #e6e6e6;
+    width : 88%;
+    float : left;
+    padding-bottom: 5%;
+}
+
+.mainTitle
+{
+    font-size : 50px;
+    font-style: italic;
+    text-align: center;
+    margin-top : 2%;
+}
+
+.containTitle 
+{
+    margin-top : 3%;
+    border-radius: 4px;
+    background-color: white;
+    width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1%;
+    padding-bottom: 4%;
+}
+
+
+
+.containTitle input[type=text], .containTitle input[type=date]
+{
+    font-size: 25px;
+    border-bottom-color: #809fff;
+    border-top-style:none;
+    border-left-style:none;
+    border-right-style:none;   
+    width: 93%;
+    padding-left: 1%; 
+    padding-top: 2.5%;
+    outline : none;
+    margin-left : 3%;
+}
+
+.handleButton 
+{
+    width: 40%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top : 5%;
+}
+
+.handleButton::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.handleButton button
+{
+    float : left;
+    font-size: 25px;
+    margin-left: 15%;
+    border-radius: 3px;
+}
+
+.handleButton button:hover
+{
+    background-color: red;
+    color : black;
+}
+
+.containQuestion
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+.Question
+{
+    padding-top : 2%;
+    margin-top : 2%;
+    background-color: white;
+    margin-bottom: 2%;
+}
+
+.Question::after
+{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+.Question input
+{
+    font-size : 28px;
+    border-top-style:none;
+    border-left-style:none;
+    border-right-style:none;  
+    border-bottom-color: #809fff; 
+    outline: none;
+    width : 95%;
+    padding-top : 1%;
+    margin-left : 2%;
+    padding-left: 1%; 
+}
+
+.Question select
+{
+    width : 20%;
+    font-size : 28px;
+    margin-left : 1%;
+    padding-left : 1%;
+    border-radius: 3px;
+}
+
+.removeQuestion button
+{
+    margin-bottom: 2%;
+    font-size : 25px;
+    border-radius: 3px;
+    background-color: #ff4d4d;
+    margin-top : 10px;
+    border-style: none;
+    float : right;
+    margin-right : 15%;
+}
+
+.displayOption 
+{
+   margin-bottom: 4%;
+}
+
+.displayOption input
+{
+    margin-top : 2%;
+}
+
+.displayOption button
+{
+    margin-left : 3%;
+    font-size: 40px;
+    color:red;
+    background-color: white;
+    border : 0px;
+}

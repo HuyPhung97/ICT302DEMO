@@ -1,0 +1,230 @@
+* {
+    box-sizing: border-box;
+  }
+.title
+{
+    position: sticky;
+	top : 0px;
+    width : 100%;   
+    background-color: #333333;
+}
+.imgIcon img
+{
+    float : left;
+    width : 15%;
+    height: 9.8%;
+
+}
+.imgIcon img:hover
+{
+    background-color: red;
+}
+
+.titleWord
+{
+    float : left;
+    width : 85%;
+    height : auto;
+}
+.titleWord a
+{
+   float : left;
+   border-left :1px solid white;
+   padding : 2.1% 0 ;
+   width : 10%;;
+   padding-left:2%;
+   padding-right : 2%;
+   text-align: center;
+   color : #a6a6a6;
+   text-decoration: none;
+}
+
+.titleWord a:hover
+{
+    background-color: #ff1a1a;
+	color: white;
+}
+.title::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+.mainBackground
+{
+    background-color: #e6e6e6;
+    height : 100%;
+    width : 100%;
+}
+.theLeftBackground
+{
+    float : left;
+    width : 12%;
+    height: 100%;
+    border-right: 2px solid  #404040;
+}
+
+.theOption
+{
+    font-size : 20px;
+    position: sticky;
+    top : 80px;
+}
+
+.theOption a
+{
+    color : #1a1a1a;
+    text-decoration: none;
+}
+
+.theOption a:hover
+{
+    color : #ff1a1a;
+}
+
+#option
+{
+    text-align: center;
+    padding-top: 6%;
+    padding-bottom: 4%;
+    font-style:italic;
+}
+
+.theRightBackground
+{
+    width : 88%;
+    float : left;
+}
+
+.theRightBackground h1
+{
+    font-size : 55px;
+    text-align: center;
+    width: 100%;
+    font-style: italic;
+}
+
+.titleUpload {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+    text-align: center;
+}
+
+.titleUpload label
+{
+    outline: none;
+    border-style: none;
+    font-size : 25px;
+    padding-left : 10%;
+    margin-bottom: 1%;
+    margin-top: 1%;
+}
+  
+.inputUpload {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+.inputUpload input
+{
+    width : 75%;
+    border-radius: 5px;
+    outline: none;
+    border-style: none;
+    font-size : 25px;
+    padding-left : 2%;
+}
+
+.containerUpload
+{
+    margin-bottom: 3%;
+    width : 75%;
+    display : block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.containerUpload:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+input[type=file]
+{
+    font-size : 25px;
+    position: relative;
+	left: -1px;
+    color: #000000;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.containerUpload1
+{
+    width : 100%;
+}
+
+button[type=submit]
+{
+    border-radius: 5px;
+    float : right;
+    margin-right: 30%;
+    font-size : 30px;
+    background-color : #4dff4d;
+    color : #333333;  
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+button[type=submit]:hover
+{
+    background-color: #ffff4d;
+    color: black;
+}
+
+.containerUpload1 input[type=submit]
+{
+    font-size : 35px;
+    width : 90%;
+    display : block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #66ff66;
+    color : #262626;
+    border-radius: 5px;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+}
+
+.inputUploadFile input[type=file]
+{
+   
+    font-size: 35px;
+    
+}
+
+.containerForm 
+{
+    border : 1px solid red;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    width : 90%;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+

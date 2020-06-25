@@ -1,0 +1,86 @@
+* {
+    box-sizing: border-box;
+  }
+.title
+{
+    position: sticky;
+	top : 0px;
+    width : 100%;   
+    background-color: #333333;
+}
+.imgIcon img
+{
+    float : left;
+    width : 15%;
+    height: 9.8%;
+}
+
+.titleWord
+{
+    float : left;
+    width : 85%;
+    height : auto;
+}
+.titleWord a
+{
+   float : left;
+   border-left :1px solid white;
+   padding : 2.1% 0 ;
+   width : 10%;;
+   padding-left:2%;
+   padding-right : 2%;
+   text-align: center;
+   color : #a6a6a6;
+   text-decoration: none;
+}
+
+.titleWord a:hover
+{
+    background-color: #d9d9d9;
+	color: #404040;
+}
+.title::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+.mainBackground
+{
+    background-color: #e6e6e6;
+    height : 100%;
+    width : 100%;
+}
+
+.contaiLogin
+{
+    width: 50%;
+    border : 1px solid red;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contaiLogin img
+{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.contaiLogin label
+{
+    font-size: 40px;
+    border : 1px solid red;
+    float: left;
+    width: 100%;
+    
+}
+
+.contaiLogin input
+{
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    font-size: 25px;
+    
+}

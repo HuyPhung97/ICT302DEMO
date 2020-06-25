@@ -1,0 +1,197 @@
+<html>
+<head>
+    <title> Murdoch University </title>
+    <link rel="icon" href="../image/logo.png"/>
+    <link rel="stylesheet" href="../css/createForm.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="../js/createForm.js"> </script>
+    <script> 
+       
+       var UnitCode = "<%= UnitCode %>";
+       var teamdID = "<%= teamdID %>";
+       var teachPeriod = "<%= teachPeriod %>";
+
+    //    console.log(UnitCode);
+    //    console.log(teamdID);
+    //    console.log(teachPeriod);
+        function insertSelect()
+        {
+            var container = document.getElementById('optionCode');
+
+            if(teamdID =="" && UnitCode =="" && teachPeriod =="")
+            {
+                var insertOption = `
+                    <div class="unitCode">
+                        <input type="text" placeholder="Enter Unit Code" name="unitCode" />
+                    </div>
+                    <div class="teamID">
+                        <input type="text" placeholder="Enter teamID"name="teamID" />
+                    </div>
+                    <div class="teachPer">
+                        <input type="text" placeholder="Enter teach period"name="teachPer"  />
+                    </div>`;
+
+                container.innerHTML = insertOption;
+            }
+            else 
+            {
+                var insertOption = `
+                    <div class="unitCode">
+                        <select id="unitCode" name="unitCode" >
+                            <option> Unit Code </option>   
+                        </select>
+                    </div>
+                    <div class="teamID">
+                        <select id="teamID" name="teamID" >
+                            <option> team ID </option>   
+                        </select>
+                    </div>
+                    <div class="teachPer">
+                        <select id="teachPer" name="teachPer">
+                            <option> Teach Period</option>       
+                        </select>
+                    </div>`;
+
+                container.innerHTML = insertOption;
+
+               // console.log(UnitCode);
+                var arrayUnit = converToArray(UnitCode);
+                var arrayTeam = converToArray(teamdID);
+                var arrayTeach = converToArray(teachPeriod);
+
+                console.log(arrayUnit);
+                var filterUnit = filterData(arrayUnit);
+                var filterteam = filterData(arrayTeam);
+                var filterteach = filterData(arrayTeach);
+
+                var unit = document.getElementById('unitCode');
+                var team = document.getElementById('teamID');
+                var teach = document.getElementById('teachPer');
+
+                addOption(unit , filterUnit);
+                addOption(team , filterteam);
+                addOption(teach , filterteach);
+         
+            }
+            datetime();
+        }
+
+
+    //handle same data 
+    function filterData(dataDup)
+    {
+        var data = dataDup.filter((value , index) => dataDup.indexOf(value) === index);
+        return data;
+    }
+
+    // convert to Array 
+    function converToArray(dataString)
+    {
+        var data=[];
+        for(var i = 0 ; i < dataString.split(",").length -1 ; i++)
+        {
+           data.push(dataString.split(",")[i]);
+        }
+       return data;
+    }
+
+    //add option 
+    function addOption(id , data)
+    {
+	    for( var i = 0 ; i < data.length ; i++)
+		{   
+            id.options[id.options.length] = new Option(data[i], data[i]);
+		}
+    
+    }
+
+    // function set datetime
+    function datetime()
+    {
+        var d = new Date();
+        var month = d.getMonth() + 1;
+        var date = d.getDate();
+        if(month < 10)
+        {
+            month = "0" + month;
+        }
+        if(date < 10)
+        {
+            date = "0" + date;
+        }
+        current =  d.getFullYear()+"-"+ month +"-" + date;
+       document.getElementById('submitDay').min = current;
+    }
+
+    </script>
+</head>
+<body onload="insertSelect()"> 
+    <div class="title">
+        <div class="imgIcon">
+            <a href="/"><img src="../image/logo.svg"> </a>
+        </div>
+        <div class="titleWord">
+            <a href="/student">STUDENT </a>
+            <a href="/UC">UC </a>
+            <a href="/ABOUT%20US">ABOUT US </a>
+        </div>
+    </div>
+   
+    <div class="mainBackground">
+        <div id="theLeftBackground">
+            <div class="theOption">
+                <div id="option"> <a href="/UC/upload"> Upload File </a>  </div>
+                <div id="option"> <a href="/UC/CreateForm"> Create form </a> </div>
+                <div id="option"> <a href="/UC/formCreated"> Form have created </a>  </div>
+            </div>
+        </div>
+        <div id="theRightBackground"> 
+            <div class="mainTitle">
+                <label> Create Form </label>
+            </div>  
+            <div class="containerForm">
+                <div class="containerInfor">
+                    <form id="surveyForm"  action="/UC/CreateForm" method="POST"> 
+                    <div class="containBase">
+                        <div class="containTitle">
+                            <div id="title">
+                                 <input type="text" name="title" placeholder="Untitle form .. " />
+                            </div>    
+                        </div>
+                        <div id="optionCode" >
+                            
+                        </div>
+                        <div class="containDes">
+                            <div id="describle">
+                                <input type="date" id="submitDay" name="deadline" >
+                           </div>
+                        </div>
+                    </div>
+                    <!--Question -->
+                    <div class="containBase1">
+                        <div id="containQuestion">
+
+                        </div>
+                    </div>
+                    <!-- end of question -->
+                </div>
+            </div>  
+          
+            <div class="handleButton">
+                <div class="button">
+                    <div id="resetButton"> 
+                        <button type="button" onclick="reset123()"> Reset </button>
+                     </div>
+                     <div id="createButton"> 
+                        <button type="button" onclick="createNewQuestion()">Add New </button> 
+                     </div>
+                     <div id="submitButton"> 
+                        <button type="submit">Submit </button> 
+                     </div>
+                </div>
+            </div>
+        </form>
+        </div>        
+    </div>
+</body>
+</html>

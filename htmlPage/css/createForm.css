@@ -1,0 +1,424 @@
+* {
+    box-sizing: border-box;
+  }
+.title
+{
+    position: sticky;
+	top : 0;
+    width : 100%;   
+    background-color: #333333;
+}
+.imgIcon img
+{
+    float : left;
+    width : 15%;
+    height: 9.8%;
+}
+
+.imgIcon img:hover
+{
+    background-color: red;
+}
+
+.titleWord
+{
+    float : left;
+    width : 85%;
+    height : auto;
+}
+.titleWord a
+{
+   float : left;
+   border-left :1px solid white;
+   padding : 2.1% 0 ;
+   width : 10%;;
+   padding-left:2%;
+   padding-right : 2%;
+   text-align: center;
+   color : #a6a6a6;
+   text-decoration: none;
+}
+
+.titleWord a:hover
+{
+    background-color: #ff1a1a;
+	color: white;
+}
+.title::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+.mainBackground
+{
+    height : 150px;
+    width : 100%;
+}
+
+.mainBackground::after
+{
+    content: "";
+    clear: both;
+    display: table; 
+}
+
+#theLeftBackground
+{
+    float : left;
+    width : 12%; 
+    height : 761px;
+    background-color: #cccccc;
+}
+
+.theOption
+{
+    font-size : 20px;
+    position: sticky;
+    top : 100px;
+}
+
+.theOption a
+{
+    color : #1a1a1a;
+    text-decoration: none;
+}
+
+.theOption a:hover
+{
+    color : #ff1a1a;
+}
+
+#option
+{
+    text-align: center;
+    padding-top: 6%;
+    padding-bottom: 4%;
+    font-style:italic;
+}
+
+
+#theRightBackground
+{
+    background-color : #cccccc;
+    border-left: 2px solid  #404040;
+    width : 88%;
+    height : 761px;
+    float : left;
+    padding-top : 0.5%;
+}
+
+.containerInfor
+{
+    display : block;
+    margin-left : auto;
+    margin-right : auto;
+    width : 100%;
+}
+
+.containerInfor::after
+{
+    content: "";
+    clear: both;
+    display: table; 
+}
+
+.containBase , .containBase1
+{
+    float : left;
+    border-radius: 5px;
+    margin-top : 1%;
+    width : 95%;
+    background-color: White;
+    height : auto;
+    margin-left : 3%;
+    padding-bottom : 3%;
+}
+
+.labTitle
+{
+    height : auto;
+    width : 100%;
+    padding-top : 3%;  
+}
+
+.mainTitle
+{
+    font-size : 70px;
+    font-style : italic;
+    text-align: center;
+}
+
+#rowLeft
+{
+    height : auto;
+    float : left;
+    width : 20%;
+    margin-left : 100px;  
+}
+
+#rowLeft label
+{
+    height : auto;
+    font-size : 25px;
+}
+
+#rowRight
+{
+    float : left;  
+    width : 70%;
+}
+
+#rowRight input
+{
+    width : 80%;
+    font-size : 25px;
+    border-bottom-color: #809fff;
+    border-top-style:none;
+    border-left-style:none;
+    border-right-style:none;
+   
+    outline : none;
+}
+
+.labTitle::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.containTitle ,.containDes
+{
+    margin-top : 30px;
+    width : 100%;
+    margin-left : 40px;
+}
+
+.containTitle input ,.containDes input
+{   
+    margin-top : 8px;   
+    margin-bottom: 8px;
+    margin-bottom: 20px;
+    padding-left : 15px;
+    outline: none;
+    width : 90%;
+    font-size : 25px;
+    border-bottom-color: #809fff;
+    border-top-style:none;
+    border-left-style:none;
+    border-right-style:none;    
+}
+
+.handleButton
+{ 
+    width : 30%;
+    height: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#submitButton, #createButton , #resetButton
+{
+    float : left;
+    text-align: center;
+    font-style:italic;
+    width  : 30%;
+}
+
+.button button
+{
+    width : 80%;
+    font-size : 20px;
+    border-radius: 5px;
+}
+.containBase1
+{
+    background-color: #cccccc;
+}
+
+
+#questionContain
+{
+    border-radius: 5px;
+}
+
+#questionContain
+{
+    
+    margin-bottom: 1%;
+    padding-top : 2%;
+    margin-bottom: 2%;
+}
+
+#questionContain select
+{
+    border-radius: 5px;
+    font-size : 25px;
+    width : 16%;
+    margin-left : 2%;
+    padding-left : 1%;
+}
+
+#questionContain input
+{
+    width : 70%;
+    font-size : 25px;
+    border-bottom-color: #809fff;
+    border-top-style:none;
+    border-left-style:none;
+    border-right-style:none;    
+    padding-left : 1%;
+    margin-left : 2.5%;
+    outline: none;
+}
+
+
+
+#questionContain::after
+{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+#Answer input
+{
+    font-size : 25px;
+    padding-top : 3%;
+    background-color: white;
+}
+
+
+
+#optionWithButton button
+{
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding : 15px 15px 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left : 50px;
+}
+
+.idCode
+{
+    width : 90%;
+    margin-left: 2.5%;
+}
+
+.unitCode, .teamID , .teachPer
+{
+    margin-left: 2.5%;
+    width: 90%;
+    margin-bottom: 1.5%;
+}
+
+.unitCode input[type=text], .teamID input[type=text]  , .teachPer input[type=text] 
+{
+    border-top-style:none;
+    border-left-style:none;
+    border-right-style:none;  
+    border-bottom-color: #809fff; 
+    width : 100%;
+    padding-top: 1%;
+    font-size: 25px;
+    outline: none;
+    padding-left: 1%;
+}
+
+
+.Question
+{
+    padding-top : 2%;
+    margin-top : 2%;
+    background-color: white;
+    margin-bottom: 2%;
+}
+
+.Question::after
+{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.Question input
+{
+    font-size : 30px;
+    border-top-style:none;
+    border-left-style:none;
+    border-right-style:none;  
+    border-bottom-color: #809fff; 
+    outline: none;
+    width : 90%;
+    padding-top : 1%;
+    margin-left : 2%;
+    padding-left: 1%; 
+}
+
+.Question select
+{
+    width : 20%;
+    font-size : 30px;
+    margin-left : 1%;
+    padding-left : 1%;
+    border-radius: 3px;
+}
+
+.removeQuestion button
+{
+    margin-bottom: 2%;
+    font-size : 25px;
+    border-radius: 3px;
+    background-color: #ff4d4d;
+    margin-top : 10px;
+    border-style: none;
+    float : right;
+    margin-right : 15%;
+}
+
+.displayOption 
+{
+   margin-bottom: 4%;
+}
+
+.displayOption input
+{
+    margin-top : 2%;
+}
+
+.displayOption button
+{
+    margin-left : 3%;
+    font-size: 40px;
+    color:red;
+    background-color: white;
+    border : 0px;
+}
+
+.unitCode select, .teamID select  , .teachPer select
+{
+    border-top-style:none;
+    border-left-style:none;
+    border-right-style:none;  
+    border-bottom-color: #809fff; 
+    width : 100%;
+    padding-top: 1%;
+    font-size: 25px;
+    outline: none;
+    padding-left: 1%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
