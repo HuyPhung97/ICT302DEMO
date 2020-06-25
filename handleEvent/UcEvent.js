@@ -42,6 +42,8 @@ Router
     })
     .post( function( req , res)
     {
+       
+        console.log(req.body);
        if(req.files)
        {
            // table database 
