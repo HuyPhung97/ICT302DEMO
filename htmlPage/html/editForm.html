@@ -7,34 +7,29 @@
     <script>
 
          var questionString = "<%= question %>";
-         console.log(questionString);
+         console.log(questionString.split(',')[0]);
 
         //count Question 
         var countQuestion = 0;
 
         var countOption = 0;
+
+        //check count
+        var checkCount = 0;
         function displayOption()
         {
             datetime();
             var insertElement = document.getElementById('containQuestion');
-            var eachData = questionString.split(';');
-            for(var i = 0 ; i < eachData.length-1 ; i++)
-            {
+            var eachQuestion = questionString.split(',');
+            for(var i = 0 ; i < eachQuestion.length ; i++)
+            {   
                 var containQuestionID = "containerOfQuestion" + countQuestion;
-                var question = eachData[i].split(',')[0];  
-                var value ="question" + countQuestion;   
-              
+            
                 var content =
                     `<div id="`+containQuestionID+`">
                         <div class="question">
                             <div id="question`+countQuestion+`">
-                                <input type="text" name="temporary" value="`+value+`" style="display:none"/>
-                                <input type"text" name="question" value="`+question+`"placeholder="Please enter question.." required>
-                                <div class="displayOption"> 
-                                    <div id="containOption`+countQuestion+`"> 
-                                        <input type="text"  name="`+value+`"placeholder="Answer" readonly/>
-                                    </div>
-                                </div>
+                                <input type"text" name="question" value="`+eachQuestion[i]+`"placeholder="Please enter question.." required>
                                 <div class="removeQuestion">
                                      <button type="button" onclick="removeQuestion(\'`+containQuestionID+`\')"> <i class="fa fa-trash"></i> Remove Question </button>
                                 </div>
@@ -44,6 +39,7 @@
 
                 insertElement.insertAdjacentHTML("beforeend", content);
                 countQuestion++;
+                checkCount++;
             }
             applyCss();
         }
@@ -53,18 +49,12 @@
         {
             var insertElement = document.getElementById('containQuestion');
             var containQuestionID = "containerOfQuestion" + countQuestion;
-            var value ="question" + countQuestion;   
+
             var content =
                     `<div id="`+containQuestionID+`">
                         <div class="question">
                             <div id="question`+countQuestion+`">
-                                <input type="text" name="temporary" value="`+value+`" style="display:none"/>
                                 <input type"text" name="question" placeholder="Please enter question.." required>
-                                <div class="displayOption"> 
-                                    <div id="containOption`+countQuestion+`">     
-                                        <input type="text"  name="`+value+`"placeholder="Answer" readonly/>
-                                    </div>
-                                </div>
                                 <div class="removeQuestion">
                                      <button type="button" onclick="removeQuestion(\'`+containQuestionID+`\')" > <i class="fa fa-trash"></i> Remove Question </button>
                                 </div>
@@ -72,6 +62,7 @@
                         </div>
                     </div>`;
             insertElement.insertAdjacentHTML("beforeend" , content);
+            checkCount++;
             countQuestion++;
             applyCss();
         }
@@ -80,6 +71,7 @@
         function removeQuestion(id)
         {
             document.getElementById(id).remove();
+            checkCount--;
             applyCss();
         }
         //change css
@@ -106,6 +98,20 @@
             }
             current =  d.getFullYear()+"-"+ month +"-" + date;
             document.getElementById('submitDay').min = current;
+        }
+
+        function checkQuestion()
+        {
+            if(checkCount == 0)
+            {
+                alert("Your form did not have any question!!!!!!!");
+                return false;
+            }
+            else 
+            {
+                alert("You have updated the form!!!!");
+                return true;
+            }
         }
 
         window.onload = function()
@@ -143,7 +149,7 @@
             
             <div class="containerForm">
                 <div class="containerInfor">
-                    <form id="surveyForm"  action="/UC/EditForm" method="POST"> 
+                    <form id="surveyForm"  action="/UC/EditForm" method="POST" onsubmit=" return checkQuestion()"> 
                         <div class="containTitle">
                             <div id="id" style="display: none;">
                                 <input type="text" name="id" value="<%= id %>" readonly />
@@ -154,14 +160,11 @@
                             <div id="unitCode">
                                 <input type="text" name="unitCode" value="<%= unitCode %>" placeholder="Please enter unit code..." required />
                            </div>    
-                           <div id="teamID">
-                                <input type="text" name="teamID" value="<%= teamID %>" placeholder="Please enter teamID..." required />
-                           </div>
                            <div id="teachPeriod">
                                 <input type="text" name="teachPer" value="<%= teachPer %>" placeholder="Please enter teach period..."  required />
                            </div>
                             <div id="describle">
-                                <input type="date" id="submitDay" value="<%= deadline %>"  name="deadline"  >
+                                <input type="date" id="submitDay" value="<%= deadline %>"  name="deadline" required >
                             </div>
                        </div>     
                     <!--Question -->

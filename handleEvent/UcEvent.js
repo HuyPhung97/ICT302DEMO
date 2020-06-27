@@ -30,7 +30,7 @@ Router
 
 var dataToDisplay = "";
 var stringUnitCode ="";
-var stringTeamID ="";
+// var stringTeamID ="";
 var stringTeachPeriod ="";
 
 // handle upload file in UC site 
@@ -42,8 +42,6 @@ Router
     })
     .post( function( req , res)
     {
-       
-        console.log(req.body);
        if(req.files)
        {
            // table database 
@@ -55,8 +53,9 @@ Router
            // split data to smaller part
            var eachStudentData = dataFromFile.split('\r\n');
 
+          
            // run the loop
-            for(var i = 1 ; i < eachStudentData.length-1 ; i++)
+            for(let i = 1 ; i < eachStudentData.length-1 ; i++)
             {
                 dataToDisplay = dataToDisplay +  eachStudentData[i] +  ";";
                 //split data from each student 
@@ -64,11 +63,11 @@ Router
 
                 //pass data for create form 
                 stringUnitCode =  stringUnitCode + tempRecord[5]  +",";
-                stringTeamID = stringTeamID +  tempRecord[6]+ ",";
+                //stringTeamID = stringTeamID +  tempRecord[6]+ ",";
                 stringTeachPeriod =  stringTeachPeriod + tempRecord[4] + ",";
 
                 //create object for student
-                var studentRecord = 
+                let update = 
                 {
                     PersonId : tempRecord[0],
                     Surname : tempRecord[1],
@@ -78,19 +77,41 @@ Router
                     UnitCode : tempRecord[5],
                     teamdID : tempRecord[6],
                     email : tempRecord[7],
-                    status : "No",
                 }
 
-               // insert data to mongoose 
-                const insertData = new Schema(studentRecord);
-                insertData.save(function(err)
+            
+                Schema.find( update , function(err ,data)
                 {
-                    if(err)
+                    if(data.length != 0)
                     {
-                        console.log("There is something went worng");
+                        Schema.findOneAndUpdate(update , update , function(err ,data)
+                        {
+                            if(!err)
+                            {
+                                data.save(function(err)
+                                {
+                                    if(err)
+                                    {
+                                        console.log("There is something wrong at upload!!!");
+                                    }
+                                })
+                            }
+                        })         
                     }
-                });
-            }         
+                    else if(data.length == 0)
+                    {
+                        //insert data to mongoose 
+                        const insertData = new Schema(update);
+                        insertData.save(function(err)
+                        {
+                            if(err)
+                            {
+                                console.log("There is something wrong at upload!!!");
+                            }
+                        });
+                    }
+                })            
+            }    
        } 
        res.redirect('/UC/StudentDetail');
     });
@@ -109,58 +130,98 @@ Router
     });
 
 
+
 //hande event create form 
 Router
     .route('/CreateForm')
     .get(function (req , res){
-        res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+
+        const dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
+        dataFormMongoDb.find( function(err ,data)
         {
-            UnitCode : stringUnitCode,
-            teamdID : stringTeamID,
-            teachPeriod : stringTeachPeriod
-        } );
-        stringUnitCode = "";
-        stringTeamID = "";
-        stringTeachPeriod  = "";
+            if(err)
+            {
+                console.log("there is something wrong!!!");
+            }
+            else
+            {
+                if(data.length != 0)
+                {
+                    var unitCode = [];
+                    var teachPer = [];
+                    for(var i = 0 ; i < data.length ; i++)
+                    {
+                        
+                        unitCode.push(data[i].UnitCode);
+                        teachPer.push(data[i].teachPeriod);
+                    }
+
+                   var newUnit =  filterData(unitCode);
+                   var newTeach =  filterData(teachPer);
+
+                    res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+                    {
+                        UnitCode : newUnit,
+                        teachPeriod : newTeach
+                    });
+                }
+                else 
+                {
+                    res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+                    {
+                        UnitCode : "nothing",
+                        teachPeriod : "nothing"
+                    });
+                }
+            }
+        })
+
+        // res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+        // {
+        //     UnitCode : stringUnitCode,
+        //     teachPeriod : stringTeachPeriod
+        // });
+        // stringUnitCode = "";
+        // //stringTeamID = "";
+        // stringTeachPeriod  = "";
     })
     .post(function(req ,res){
        
         var dataPack = req.body;
-        console.log(req.body);
         const Schema = mongoose.model('formstudent',  formStudent.Schema);
         var containQuestion = [];
+        //object data
+        var formRecord ;
+
         //console.log(typeof (dataPack.question));
         if( typeof (dataPack.question) == "string")
         {
-            var object = {
-                question : dataPack.question,
-                options : dataPack[dataPack.temporary]
+            formRecord  = 
+            {
+                title : req.body.title,
+                unitCode : req.body.unitCode,
+                teachPer : req.body.teachPer,
+                deadline : req.body.deadline,
+                question : dataPack.question
             }
-
-            containQuestion.push(object);
-        }else if( typeof (dataPack.question) == "object")
+        }
+        else if( typeof (dataPack.question) == "object")
         {
             for(var i = 0 ;  i < dataPack.question.length ; i++)
             {
-                var object = 
-                {
-                     question : dataPack.question[i],
-                     option : dataPack[dataPack.temporary[i]] 
-                }
-                 containQuestion.push(object);
+                 containQuestion.push(dataPack.question[i]);
+            }
+
+            formRecord  = 
+            {
+                title : req.body.title,
+                unitCode : req.body.unitCode,
+                teachPer : req.body.teachPer,
+                deadline : req.body.deadline,
+                question : containQuestion
             }
         }
-        //object data 
-        var formRecord  = 
-        {
-            title : req.body.title,
-            unitCode : req.body.unitCode,
-            teamdID : req.body.teamID,
-            teachPer : req.body.teachPer,
-            deadline : req.body.deadline,
-            question : containQuestion
-        }
-
+        
         const insertData = new Schema(formRecord);
         insertData.save( function(err)
         {
@@ -170,7 +231,7 @@ Router
             }
         });
 
-        res.redirect("/UC/formCreated");
+        res.redirect("/UC");
     })
 
 
@@ -183,7 +244,6 @@ Router
         var id = [];
         var title=[];
         var unitCode = [];
-        var teamdID = [];
         var teachPer =[];
         var deadline = [];
         var dataFormMongoDb = mongoose.model('formstudent',  formStudent.Schema);
@@ -196,7 +256,6 @@ Router
                     id.push(data[i]._id);
                     title.push(data[i].title);
                     unitCode.push(data[i].unitCode);
-                    teamdID.push(data[i].teamdID);
                     teachPer.push(data[i].teachPer);
                     deadline.push(data[i].deadline);
                 }
@@ -206,7 +265,6 @@ Router
                     id : id,
                     title : title,
                     unitCode : unitCode,
-                    teamID : teamdID,
                     teachPer : teachPer,
                     deadline : deadline,                 
                 });
@@ -252,31 +310,15 @@ Router
         {
             var dataFormMongoDb = mongoose.model('formstudent',  formStudent.Schema);
             dataFormMongoDb.find({_id : idFromForm} ,  function(error, data) 
-            {
-                var id = data[0].id;
-                var title = data[0].title;
-                var unitCode = data[0].unitCode;
-                var teamID = data[0].teamdID;
-                var teachPer = data[0].teachPer;
-                var deadline = data[0].deadline;
-                var tempoQuestion = data[0].question;
-
-                var wholeQuestion = "";
-                //console.log(tempoQuestion.length);
-                for(var i = 0 ; i < tempoQuestion.length ; i++)
-                {
-                    wholeQuestion = wholeQuestion + tempoQuestion[i].question+','+ tempoQuestion[i].option  +";";
-                }
-            
+            { 
                 res.render(path.join(__dirname , "../htmlPage/html/editForm.html"),
                 {
-                    id : id , 
-                    title : title,
-                    unitCode : unitCode ,
-                    teachPer : teachPer,
-                    teamID : teamID,
-                    deadline : deadline,
-                    question : wholeQuestion
+                    id : data[0].id , 
+                    title : data[0].title,
+                    unitCode : data[0].unitCode ,
+                    teachPer : data[0].teachPer,
+                    deadline : data[0].deadline,
+                    question : data[0].question
                 });
              })  
 
@@ -292,36 +334,34 @@ Router
     {
         var dataPack = req.body;
         var containQuestion = [];
+        var update;
         if( typeof (dataPack.question) == "string")
         {
-            var object = {
-                question : dataPack.question,
-                options : dataPack[dataPack.temporary]
-            }
-
-            containQuestion.push(object);
-        }else if( typeof (dataPack.question) == "object")
+            update = { 
+                title : dataPack.title,
+                unitCode : dataPack.unitCode,   
+                teachPer : dataPack.teachPer,
+                deadline : dataPack.deadline,
+                question : dataPack.question
+            };
+        }
+        else if( typeof (dataPack.question) == "object")
         {
             for(var i = 0 ;  i < dataPack.question.length ; i++)
             {
-                //console.log(dataPack[dataPack.temporary[i]] + "\r\n");
-                 var object = {
-                     question : dataPack.question[i],
-                     option : dataPack[dataPack.temporary[i]]
-                 }
-                 containQuestion.push(object);
+                 containQuestion.push(dataPack.question[i]);
             }
+            update = { 
+                title : req.body.title,
+                unitCode : req.body.unitCode,   
+                teachPer : req.body.teachPer,
+                deadline : req.body.deadline,
+                question : containQuestion
+            };
         }
-
+        
+        console.log(update);
         var dataFormMongoDb = mongoose.model('formstudent',  formStudent.Schema);
-
-        var update = { 
-            title : req.body.title,
-            unitCode : req.body.unitCode,   
-            teamdID : req.body.teamID,
-            deadline : req.body.deadline,
-            question : containQuestion
-        };
 
         dataFormMongoDb.findByIdAndUpdate({_id : req.body.id}, update ,  function(error, data) 
         {
@@ -343,6 +383,93 @@ Router
                  
         res.redirect("/UC/formCreated");
     })
+
+
+
+// function sendEmail()
+// {
+//     var transporter = nodemailer.createTransport({
+//         service: 'gmail',
+//         auth: {
+//           user: 'demoICT302@gmail.com',
+//           pass: 'passExam'
+//         }
+//       });
+
+//     var dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
+
+//     dataFormMongoDb.find(function(err , data )
+//     {
+//         for(let i = 0 ; i < data.length ; i++)
+//         {
+//             if(data[i].status == "No")
+//             {
+//                 var fromFromMongoDb = mongoose.model('formstudent', formStudent.Schema);
+
+//                 fromFromMongoDb.find({unitCode : data[i].UnitCode , teamdID : data[i].teamdID , teachPer : data[i].teachPeriod  } , function (err , form)
+//                 {
+//                     var current = getDate();
+//                     for(var j = 0  ; j < form.length ; j++)
+//                     {
+//                         var deadline = Date.parse(form[j].deadline);
+//                         var currentDate = Date.parse(current);   
+                        
+//                         var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
+                        
+//                         if(diffDays < 7)
+//                         {
+//                             var content = `<a href="http://`+link+"student/id="+data[i].PersonId+`"> Click here to complete the form </a>`;
+//                             var mailOptions = {
+//                                 from: 'demoICT302@gmail.com',
+//                                 to: data[i].email,
+//                                 subject: 'Sending Email to complete form!!!!',
+//                                 text: "Please fill up the form",
+//                                 html: content
+//                             };
+
+//                             transporter.sendMail(mailOptions, function(error, info){
+//                                 if (error) {
+//                                   console.log(error);
+//                                 } else {
+//                                   console.log('Email sent: ' + info.response);
+//                                 }
+//                               });
+//                         }
+//                     }
+//                 })
+//             }
+//         }
+//     })
+// }
+
+
+//function remove duplicate data 
+function filterData(dataDup)
+{
+    var data = dataDup.filter((value , index) => dataDup.indexOf(value) === index);
+    return data;
+}
+
+function getDate()
+{
+    var d = new Date();
+    var month = d.getMonth();
+    var day = d.getDate();
+    var year = d.getFullYear();
+    month = parseInt(month) + 1;
+    if(month < 10)
+    {
+        month = "0" + month;
+    }
+    if(day < 10)
+    {
+        day = "0" + day;
+    }
+    var fulldate = year+"-"+month+"-"+day;
+
+    return fulldate;
+}
+
 
 module.exports = Router;
 

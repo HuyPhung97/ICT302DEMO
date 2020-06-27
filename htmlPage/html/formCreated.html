@@ -6,20 +6,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script>
-         var idString = "<%= id %>";
-         var titleString = "<%= title %>";
-         var unitCodeString = "<%= unitCode %>";
-         var teamIDString = "<%= teamID %>";
-         var teachPerString = "<%= teachPer %>";
-         var deadlineString = "<%= deadline %>";
 
-        //  console.log(idString);
-        //  console.log(titleString);
-        //  console.log(unitCodeString);
-        //  console.log(teamIDString);
-        //  console.log(teachPerString);
-        //  console.log(deadlineString);
+    var idString = "<%= id %>";
+    var titleString = "<%= title %>";
+    var unitCodeString = "<%= unitCode %>";
+    var teachPerString = "<%= teachPer %>";
+    var deadlineString = "<%= deadline %>";
 
+     
     function displayForm()
     {
         var table = document.getElementById('tableDetail');
@@ -33,7 +27,6 @@
                     <tr> 
                         <td>`+ titleString.split(',')[i] +`</td>
                         <td>`+ unitCodeString.split(',')[i] +`</td>
-                        <td>`+ teamIDString.split(',')[i] +`</td>
                         <td>`+ teachPerString.split(',')[i] +`</td>
                         <td>`+ deadlineString.split(',')[i] +`</td>  
                         <td> 
@@ -90,7 +83,6 @@
                     <tr>
                         <th>Title</th> 
                         <th>Unit Code</th> 
-                        <th>TeamID</th> 
                         <th>Teaching Period</th> 
                         <th>Deadline</th> 
                         <th>Action</th> 

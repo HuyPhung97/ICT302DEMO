@@ -34,7 +34,9 @@ function createURLStudent()
 {
     var dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
 
-    var fromFromMongoDb = mongoose.model('formstudent', formStudent.Schema)
+    var fromFromMongoDb = mongoose.model('formstudent', formStudent.Schema);
+
+    var checkAnswer = mongoose.model('recordAnswer', recordAnswer.Schema)
 
     dataFormMongoDb.find(function(error, data) 
     {
@@ -51,8 +53,8 @@ function createURLStudent()
 
                         for(let j = 0 ; j < data.length ; j++)
                         {
-                            if(data[i].PersonId != data[j].PersonId && data[i].teamdID == data[j].teamdID 
-                            && data[i].UnitCode == data[j].UnitCode && data[i].teachPeriod == data[j].teachPeriod)
+                            if(data[i].PersonId != data[j].PersonId && data[i].UnitCode == data[j].UnitCode && 
+                            data[i].teachPeriod == data[j].teachPeriod && data[i].teamdID == data[j].teamdID)
                             {
                                 otherName.push(data[j].Surname);
                             } 
@@ -60,36 +62,70 @@ function createURLStudent()
 
                         var findData = {
                             unitCode : data[i].UnitCode,
-                            teamdID : data[i].teamdID,
                             teachPer : data[i].teachPeriod
                         }
-
-                    fromFromMongoDb.find( findData , function(err, value)
-                    {
-                        if(!err)
+                    
+                        var checkData = 
                         {
-                            for(let j = 0 ; j < value[0].question.length ; j++)
+                            PersonId : data[i].PersonId,
+                            Surname : data[i].Surname,
+                            UnitCode : data[i].UnitCode,
+                            teamdID : data[i].teamdID
+                        }
+
+                        checkAnswer.find( checkData, function (err,  checkData)
+                        {
+                            if(checkData.length != 0 )
                             {
-                                 question.push(value[0].question[j].question);
+                                res.sendFile(path.join(__dirname , "../htmlPage/student/displaySubmit.html"))
+                            }
+                            else 
+                            {
+                                fromFromMongoDb.find( findData , function(err, event)
+                                {
+                                    if(!err)
+                                    {
+                                        console.log(event.length);
+                                        if(event.length == 0)
+                                        {
+                                            // no question case 
+                                            res.sendFile(path.join(__dirname , "../htmlPage/student/caseNotQuestion.html"))
+                                        }
+                                        else if(event.length != 0)
+                                        {
+                                            console.log(typeof event[0].question);
+                                            if(typeof event[0].question == "string")
+                                            {
+                                                question.push(event[0].question);
+                                            }
+                                            else if(typeof event[0].question == "object")
+                                            {
+                                                for(let j = 0 ; j < event[0].question.length ; j++)
+                                                {
+                                                    //console.log(event[0].question[j]);
+                                                    question.push(event[0].question[j]);
+                                                }   
+                                            }
+                                            //console.log( data[i]);
+                                            res.render(path.join(__dirname , "../htmlPage/student/studentSite.html"),
+                                            {
+                                                id  : data[i].id,
+                                                PersonId  : data[i].PersonId,
+                                                SurName : data[i].Surname,
+                                                Givename : data[i].Givenames,
+                                                teamID : data[i].teamdID,
+                                                UnitCode : data[i].UnitCode,
+                                                otherName : otherName,
+                                                question : question
+                                            });
+                                        }    
+                                        question=[];
+                                    }             
+                                });
                             }   
-
-                            res.render(path.join(__dirname , "../htmlPage/student/studentSite.html"),
-                            {
-                                id : data[i].id,
-                                PersonId  : data[i].PersonId,
-                                SurName : data[i].Surname,
-                                Givename : data[i].Givenames,
-                                teamID : data[i].teamdID,
-                                UnitCode : data[i].UnitCode,
-                                otherName : otherName,
-                                question : question
-                            });
-
-                            question=[];
-                        }             
-                    });
-
+                        })
                     })
+
                     .post(function(req , res) {
 
                         var insertData = mongoose.model('recordAnswer', recordAnswer.Schema);
@@ -117,11 +153,12 @@ function createURLStudent()
                             contaiWhole.push(obj);
                             personAnswer = 
                             {
-                            PersonId : req.body.PersonId,
-                            Surname : req.body.SurName,
-                            UnitCode : req.body.UnitCode,
-                            teamdID : req.body.teamID,
-                            Answer : contaiWhole,
+                                PersonId : req.body.PersonId,
+                                Surname : req.body.SurName,
+                                UnitCode : req.body.UnitCode,
+                                teachPer : req.body.teachPeriod,
+                                teamdID : req.body.teamID,
+                                Answer : contaiWhole,
                             }
                         }
                         else 

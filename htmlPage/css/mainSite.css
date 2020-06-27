@@ -52,12 +52,12 @@
 
 .background
 {
-      border : 1px solid white;
+      border : 1px solid;
       height: 100%;
       width: 100%;
       background: url(/image/background1.jpg) no-repeat;
-      background-size: 100% 100%;
-    opacity: 1;
+      background-size: 100% auto;
+      opacity: 1;
 }
 
 

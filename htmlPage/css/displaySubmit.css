@@ -1,0 +1,65 @@
+* {
+    box-sizing: border-box;
+  }
+.title
+{
+    position: sticky;
+	top : 0px;
+    width : 100%;   
+    background-color: #333333;
+}
+.imgIcon img
+{
+    float : left;
+    width : 15%;
+    height: 9.8%;
+}
+
+.imgIcon img:hover
+{
+    background-color: red;
+}
+
+.titleWord
+{
+    float : left;
+    width : 85%;
+    height : auto;
+}
+.titleWord a
+{
+   float : left;
+   border-left :1px solid white;
+   padding : 2.1% 0 ;
+   width : 10%;;
+   padding-left:2%;
+   padding-right : 2%;
+   text-align: center;
+   color : #a6a6a6;
+   text-decoration: none;
+}
+
+.titleWord a:hover
+{
+    background-color: #ff1a1a;
+	color: white;
+}
+.title::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+.background
+{
+    width: 100%;
+    background-color: #e6e6e6;
+    height : 100%;
+    border: 1px solid ;
+}
+
+.background p
+{
+    font-size : 50px;
+    text-align: center;
+}

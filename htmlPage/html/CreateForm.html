@@ -8,99 +8,57 @@
     <script> 
        
        var UnitCode = "<%= UnitCode %>";
-       var teamdID = "<%= teamdID %>";
        var teachPeriod = "<%= teachPeriod %>";
-
-    //    console.log(UnitCode);
-    //    console.log(teamdID);
-    //    console.log(teachPeriod);
+    
         function insertSelect()
         {
             var container = document.getElementById('optionCode');
 
-            if(teamdID =="" && UnitCode =="" && teachPeriod =="")
+            if(UnitCode =="nothing" && teachPeriod =="nothing")
             {
                 var insertOption = `
                     <div class="unitCode">
-                        <input type="text" placeholder="Enter Unit Code" name="unitCode" />
-                    </div>
-                    <div class="teamID">
-                        <input type="text" placeholder="Enter teamID"name="teamID" />
+                        <input type="text" placeholder="Enter Unit Code" name="unitCode" required />
                     </div>
                     <div class="teachPer">
-                        <input type="text" placeholder="Enter teach period"name="teachPer"  />
+                        <input type="text" placeholder="Enter teach period"name="teachPer" required />
                     </div>`;
 
                 container.innerHTML = insertOption;
             }
             else 
             {
+           
                 var insertOption = `
                     <div class="unitCode">
-                        <select id="unitCode" name="unitCode" >
-                            <option> Unit Code </option>   
-                        </select>
-                    </div>
-                    <div class="teamID">
-                        <select id="teamID" name="teamID" >
-                            <option> team ID </option>   
+                        <select id="unitCode" name="unitCode" required >
+                            <option value=""> Unit Code </option>   
                         </select>
                     </div>
                     <div class="teachPer">
-                        <select id="teachPer" name="teachPer">
-                            <option> Teach Period</option>       
+                        <select id="teachPer" name="teachPer" required>
+                            <option value=""> Teach Period</option>       
                         </select>
                     </div>`;
 
                 container.innerHTML = insertOption;
 
-               // console.log(UnitCode);
-                var arrayUnit = converToArray(UnitCode);
-                var arrayTeam = converToArray(teamdID);
-                var arrayTeach = converToArray(teachPeriod);
-
-                console.log(arrayUnit);
-                var filterUnit = filterData(arrayUnit);
-                var filterteam = filterData(arrayTeam);
-                var filterteach = filterData(arrayTeach);
-
                 var unit = document.getElementById('unitCode');
-                var team = document.getElementById('teamID');
                 var teach = document.getElementById('teachPer');
 
-                addOption(unit , filterUnit);
-                addOption(team , filterteam);
-                addOption(teach , filterteach);
-         
+                addOption(unit , UnitCode);
+                addOption(teach , teachPeriod); 
             }
             datetime();
         }
 
-
-    //handle same data 
-    function filterData(dataDup)
-    {
-        var data = dataDup.filter((value , index) => dataDup.indexOf(value) === index);
-        return data;
-    }
-
-    // convert to Array 
-    function converToArray(dataString)
-    {
-        var data=[];
-        for(var i = 0 ; i < dataString.split(",").length -1 ; i++)
-        {
-           data.push(dataString.split(",")[i]);
-        }
-       return data;
-    }
-
     //add option 
     function addOption(id , data)
     {
-	    for( var i = 0 ; i < data.length ; i++)
+        console.log(data.split(","))
+	    for( var i = 0 ; i < data.split(",").length ; i++)
 		{   
-            id.options[id.options.length] = new Option(data[i], data[i]);
+            id.options[id.options.length] = new Option(data.split(",")[i], data.split(",")[i]);
 		}
     
     }
@@ -150,11 +108,11 @@
             </div>  
             <div class="containerForm">
                 <div class="containerInfor">
-                    <form id="surveyForm"  action="/UC/CreateForm" method="POST"> 
+                    <form id="surveyForm"  action="/UC/CreateForm" method="POST" onsubmit="return checkQuestion()"> 
                     <div class="containBase">
                         <div class="containTitle">
                             <div id="title">
-                                 <input type="text" name="title" placeholder="Untitle form .. " />
+                                 <input type="text" name="title" placeholder="Untitle form .. " required/>
                             </div>    
                         </div>
                         <div id="optionCode" >
@@ -162,7 +120,7 @@
                         </div>
                         <div class="containDes">
                             <div id="describle">
-                                <input type="date" id="submitDay" name="deadline" >
+                                <input type="date" id="submitDay" name="deadline" required>
                            </div>
                         </div>
                     </div>
