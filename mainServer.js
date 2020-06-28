@@ -67,59 +67,65 @@ function sendEmail()
 
     dataFormMongoDb.find(function(err , data )
     {
-        for(let i = 0 ; i < data.length ; i++)
+        if(data.length > 0)
         {
-            if(data[i].status == "No")
+            for(let i = 0 ; i < data.length ; i++)
             {
-                var fromFromMongoDb = mongoose.model('formstudent', formStudent.Schema);
-
-                fromFromMongoDb.find( { unitCode : data[i].UnitCode , teachPer : data[i].teachPeriod }, function (err , form)
+                if(data[i].status == "No")
                 {
-                    var current = getDate();
-                    for(var j = 0  ; j < form.length ; j++)
-                    {
-                        var deadline = Date.parse(form[j].deadline);
-                        var currentDate = Date.parse(current);   
-                        
-                        var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
-                        
-                        if(diffDays < 7 && data[i].sendEmail == "No")
-                        {
-                             var content = `<a href="http://`+ICT302-TMA-FT04.ad.murdoch.edu.au+":"+port+"/student/id="+data[i].PersonId+`"> Click here to complete the form </a>`;
-                            var mailOptions = {
-                                from: 'demoICT302@gmail.com',
-                                to: data[i].email,
-                                subject: 'Sending Email to complete form!!!!',
-                                text: "Please fill up the form",
-                                html : content
-                                
-                            };
+                    var fromFromMongoDb = mongoose.model('formstudent', formStudent.Schema);
 
-                            transporter.sendMail(mailOptions, function(error, info){
-                                if (error) {
-                                  console.log(error);
-                                } else {
-                                  console.log('Email sent: ' + info.response);
-                                  dataFormMongoDb.findOneAndUpdate({PersonId : data[i].PersonId}, { sendEmail : "Yes"} , function(err ,newData)
-                                  {
-                                        if(!err)
-                                        {
-                                            newData.save(function (err)
+                    fromFromMongoDb.find( { unitCode : data[i].UnitCode , teachPer : data[i].teachPeriod }, function (err , form)
+                    {
+                        var current = getDate();
+                        for(var j = 0  ; j < form.length ; j++)
+                        {
+                            var deadline = Date.parse(form[j].deadline);
+                            var currentDate = Date.parse(current);   
+                            
+                            var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
+                            
+                            if(diffDays < 7 && data[i].sendEmail == "No")
+                            {
+                                var content = `<a href="http://+ICT302-TMA-FT04.ad.murdoch.edu.au":"`+port+`"/student/id="`+data[i].PersonId+`"> Click here to complete the form </a>`;
+                                var mailOptions = {
+                                    from: 'demoICT302@gmail.com',
+                                    to: data[i].email,
+                                    subject: 'Sending Email to complete form!!!!',
+                                    text: "Please fill up the form",
+                                    html : content
+                                    
+                                };
+
+                                transporter.sendMail(mailOptions, function(error, info){
+                                    if (error) {
+                                    console.log(error);
+                                    } else {
+                                    console.log('Email sent: ' + info.response);
+                                    dataFormMongoDb.findOneAndUpdate({PersonId : data[i].PersonId}, { sendEmail : "Yes"} , function(err ,newData)
+                                    {
+                                            if(!err)
                                             {
-                                                if(err)
+                                                newData.save(function (err)
                                                 {
-                                                    console.log("Error at send email update status!!!!");
-                                                }
-                                            })
-                                        }
-                                  })
-                                }
-                              });
+                                                    if(err)
+                                                    {
+                                                        console.log("Error at send email update status!!!!");
+                                                    }
+                                                })
+                                            }
+                                    })
+                                    }
+                                });
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
-        }
+        } else 
+        {
+            console.log("Nothing to send!!!! ");
+        }   
     })
 
     email = setTimeout(function()
