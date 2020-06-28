@@ -100,6 +100,9 @@ Router
                     }
                     else if(data.length == 0)
                     {
+    
+                        update.status ="No";
+                        update.sendEmail ="No";
                         //insert data to mongoose 
                         const insertData = new Schema(update);
                         insertData.save(function(err)
@@ -129,13 +132,10 @@ Router
         res.redirect('/UC/CreateForm');
     });
 
-
-
-//hande event create form 
+//handle create form
 Router
     .route('/CreateForm')
     .get(function (req , res){
-
         const dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
         dataFormMongoDb.find( function(err ,data)
         {
@@ -150,14 +150,13 @@ Router
                     var unitCode = [];
                     var teachPer = [];
                     for(var i = 0 ; i < data.length ; i++)
-                    {
-                        
+                    {         
                         unitCode.push(data[i].UnitCode);
                         teachPer.push(data[i].teachPeriod);
                     }
 
-                   var newUnit =  filterData(unitCode);
-                   var newTeach =  filterData(teachPer);
+                    var newUnit =  filterData(unitCode);
+                    var newTeach =  filterData(teachPer);
 
                     res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
                     {
@@ -178,15 +177,15 @@ Router
 
         // res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
         // {
-        //     UnitCode : stringUnitCode,
+                //     UnitCode : stringUnitCode,
         //     teachPeriod : stringTeachPeriod
         // });
         // stringUnitCode = "";
         // //stringTeamID = "";
-        // stringTeachPeriod  = "";
+        // stringTeachPeriod  = ""; 
     })
-    .post(function(req ,res){
-       
+    .post(function(req ,res)
+    {   
         var dataPack = req.body;
         const Schema = mongoose.model('formstudent',  formStudent.Schema);
         var containQuestion = [];
@@ -209,7 +208,7 @@ Router
         {
             for(var i = 0 ;  i < dataPack.question.length ; i++)
             {
-                 containQuestion.push(dataPack.question[i]);
+                containQuestion.push(dataPack.question[i]);
             }
 
             formRecord  = 
@@ -221,7 +220,7 @@ Router
                 question : containQuestion
             }
         }
-        
+            
         const insertData = new Schema(formRecord);
         insertData.save( function(err)
         {
@@ -231,13 +230,13 @@ Router
             }
         });
 
-        res.redirect("/UC");
+        res.redirect("/UC/formCreated");
     })
-
 
 //Router handle display form 
 var idFromForm = "";
-Router
+
+    Router
     .route("/formCreated")
     .get(function (req ,res)
     {

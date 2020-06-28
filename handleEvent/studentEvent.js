@@ -30,6 +30,7 @@ mongoose.connection.on('connected' , function(err)
 //     });
    
 //create URL for student 
+var myVar;
 function createURLStudent()
 {
     var dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
@@ -85,7 +86,6 @@ function createURLStudent()
                                 {
                                     if(!err)
                                     {
-                                        console.log(event.length);
                                         if(event.length == 0)
                                         {
                                             // no question case 
@@ -93,7 +93,7 @@ function createURLStudent()
                                         }
                                         else if(event.length != 0)
                                         {
-                                            console.log(typeof event[0].question);
+                                            //console.log(typeof event[0].question);
                                             if(typeof event[0].question == "string")
                                             {
                                                 question.push(event[0].question);
@@ -229,8 +229,11 @@ function createURLStudent()
             }
         }
     })
+
+
+    myVar = setTimeout(function()
+    { createURLStudent(); }, 3000);
 }
 createURLStudent();
-
 
 module.exports = Router;

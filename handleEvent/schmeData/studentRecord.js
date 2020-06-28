@@ -11,7 +11,8 @@ const student = new Schema({
     UnitCode : String,
     teamdID : String,
     email : String,
-    status : String
+    status : String,
+    sendEmail : String
 });
 
 module.exports = mongoose.model("students", student);
