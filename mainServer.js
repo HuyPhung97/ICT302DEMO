@@ -55,7 +55,6 @@ app.get('/ABOUT%20US', function(req, res )
 var email ;
 function sendEmail()
 {
-    console.log(req);
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
