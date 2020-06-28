@@ -42,7 +42,7 @@ const formStudent = require('./handleEvent/schmeData/formSurvey');
 app.get('/', function(req, res )
 {
     res.sendFile(path.join(__dirname , "htmlPage/html/mainSite.html")); 
-    sendEmail(req.host);
+    sendEmail();
 })
 
 //about US site
@@ -53,8 +53,9 @@ app.get('/ABOUT%20US', function(req, res )
 
 //handle send email 
 var email ;
-function sendEmail(req )
+function sendEmail()
 {
+    console.log(req);
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -85,7 +86,7 @@ function sendEmail(req )
                         
                         if(diffDays < 7 && data[i].sendEmail == "No")
                         {
-                             var content = `<a href="http://`+req+":"+port+"/student/id="+data[i].PersonId+`"> Click here to complete the form </a>`;
+                             var content = `<a href="http://`+ICT302-TMA-FT04.ad.murdoch.edu.au+":"+port+"/student/id="+data[i].PersonId+`"> Click here to complete the form </a>`;
                             var mailOptions = {
                                 from: 'demoICT302@gmail.com',
                                 to: data[i].email,
