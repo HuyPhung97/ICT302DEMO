@@ -87,7 +87,7 @@ function sendEmail()
                             
                             if(diffDays < 7 && data[i].sendEmail == "No")
                             {
-                                var content = `<a href="http://+ICT302-TMA-FT04.ad.murdoch.edu.au":"`+port+`"/student/id="`+data[i].PersonId+`"> Click here to complete the form </a>`;
+                                var content = `<a href="http://ICT302-TMA-FT04.ad.murdoch.edu.au:`+port+`/student/id=`+data[i].PersonId+`"> Click here to complete the form </a>`;
                                 var mailOptions = {
                                     from: 'demoICT302@gmail.com',
                                     to: data[i].email,
