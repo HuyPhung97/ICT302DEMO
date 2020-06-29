@@ -94,7 +94,7 @@
 #linkToForm
 {
     text-align: center;
-    padding-top : 5%;
+    padding-top: 5%;
     font-style:italic;
 }
 
@@ -104,27 +104,31 @@
     float : left;
 }
 
-.theRightBackground p
+.decor
 {
-    text-align: center;
-    font-size: 50px;
-    margin-top : 1%;
-    font-style: italic;
-}
-
-.containDetailForm
-{
-    display: block;
-    margin-left: auto;
+    width : 80%;
+    margin-top : 5%;
+    display : block;
+    margin-left : auto;
     margin-right: auto;
-    width : 90%;
 }
 
-table {
+table 
+{
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
     background-color: white;
+}
+
+table td 
+{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    font-size: 18px;
+    text-align: left;
+    padding-left: 1%;
+    border-top: 2px solid #b3b3ff;
 }
 
 table th
@@ -134,17 +138,9 @@ table th
     padding-bottom: 1%;
     background-color: #b3b3ff;
     text-align: left;
-    padding-left: 2%;
+    padding-left: 1%;
 }
 
-table td 
-{
-
-    font-size: 25px;
-    text-align: left;
-    padding-left: 2%;
-    border-top: 2px solid #b3b3ff;
-}
 
 table  button
 {
@@ -162,25 +158,13 @@ table  button:hover
     
 }
 
-#demo
+#upload
 {
-    border-right : 5px solid black;
-    padding-right : 20px;
-}
-table form
-{
-    padding-top : 8%;
+   padding-left : 10%;
 }
 
-#info
+.decor p
 {
-    padding-top: 8%;
+    font-size: 35px;
+    text-align: center;
 }
-
-
-
-
-
-
-
-

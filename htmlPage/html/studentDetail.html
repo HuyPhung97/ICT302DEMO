@@ -7,20 +7,21 @@
         <script>
             var dataPack = "<%= data %>";         
             
+            var tempoUnit =[];
+            var tempoTeach =[];
             function displayInformation()
-             {
-                 var row = document.getElementById('containData');
-                 console.log(row);
-                 if(dataPack == "")
-                 {
-                     var infor = `<p> There is no student record </p>`;
-                     row.insertAdjacentHTML("beforeend", infor);
+            {
+                var row = document.getElementById('containData');
+                console.log(row);
+                if(dataPack == "")
+                {
+                    var infor = `<p> There is no student record </p>`;
+                    row.insertAdjacentHTML("beforeend", infor);
  
-                 }
-                 else 
-                 {
-                     document.getElementById('submit').style.display ="block";
-                     var table = `<table id="test"> 
+                }
+                else 
+                {
+                    var table = `<table id="test"> 
                                  <tr> 
                                      <th> Student ID </th>
                                      <th> Surname </th>
@@ -32,21 +33,33 @@
                                      <th> Email </th>
                                  </tr>` ;
  
-                     row.insertAdjacentHTML("beforeend", table);
+                    row.insertAdjacentHTML("beforeend", table);
  
-                     for( var i = 0 ; i  < dataPack.split(';').length -1 ; i++)
-                      {  
+                    for( var i = 0 ; i  < dataPack.split(';').length -1 ; i++)
+                    {  
                            var content ="<tr>";
-                            var length = dataPack.split(';')[i];
-                          for( var j = 0 ; j < length.split(',').length  ; j++)
-                          {
-                              content  = content.concat('<td>' + length.split(',')[j]+ '</td>');
-                          }
-                              content = content + '</tr>';
-                              document.getElementById('test').insertAdjacentHTML("beforeend", content);
-                          }
-                     document.getElementById('test').insertAdjacentHTML("beforeend", '</table>');       
-                 }           
+                           var length = dataPack.split(';')[i];
+                        for( var j = 0 ; j < length.split(',').length  ; j++)
+                        {
+                            content  = content.concat('<td>' + length.split(',')[j]+ '</td>');
+                        }
+                          tempoUnit.push(length.split(',')[5]);
+                          tempoTeach.push(length.split(',')[4]);
+                          content = content + '</tr>';
+                          document.getElementById('test').insertAdjacentHTML("beforeend", content);
+                      }
+
+                    document.getElementById('test').insertAdjacentHTML("beforeend", '</table>');   
+                     
+                    var contentForm = `
+                    <form action="/UC/StudentDetail" method="POST">
+                        <input type="text" name="UnitCode" value="`+tempoUnit+`" style="display : none">
+                        <input type="text" name="teach" value="`+tempoTeach+`" style="display : none">
+                        <button id="submit" type="Submit"> Create Form </button>
+                    </form>`;
+
+                    row.insertAdjacentHTML('beforeend', contentForm);
+                }           
              }
              window.onload = function()
              {
@@ -71,19 +84,17 @@
                 <div class="theOption">
                     <div id="option"> <a href="/UC/upload"> Upload File </a>  </div>
                     <div id="option"> <a href="/UC/CreateForm"> Create form </a> </div>
+                    <div id="option"> <a href="/UC/fileUploaded"> File Uploaded </a> </div>
                     <div id="option"> <a href="/UC/formCreated"> Form have created </a>  </div>
                 </div>
             </div>
     
             <div class="theRightBackground">
                 <h1>  Information  </h1>  
-                <div id="containData">
+                <div id="containData"> </div>
+
+                <div id="buttonForm"> </div>
     
-                </div>
-    
-                <form action="/UC/StudentDetail" method="POST">
-                    <button id="submit" type="Submit"> Create Form</button>
-                </form>
             </div>
         </div>
     </body>

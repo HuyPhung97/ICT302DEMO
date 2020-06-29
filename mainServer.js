@@ -42,7 +42,7 @@ const formStudent = require('./handleEvent/schmeData/formSurvey');
 app.get('/', function(req, res )
 {
     res.sendFile(path.join(__dirname , "htmlPage/html/mainSite.html")); 
-    sendEmail();
+   // sendEmail();
 })
 
 //about US site
@@ -122,10 +122,7 @@ function sendEmail()
                     })
                 }
             }
-        } else 
-        {
-            console.log("Nothing to send!!!! ");
-        }   
+        }
     })
 
     email = setTimeout(function()

@@ -41,6 +41,13 @@
                 table.insertAdjacentHTML("beforeend" , "</form>");      
             }
         }
+        else 
+        {
+            table.style.display ="none";
+            document.getElementById('title1').style.display = 'none';
+            document.getElementById('info').innerHTML = "<p> There is no form created!!!!!";
+
+        }
     }
 
     function check()
@@ -73,11 +80,12 @@
             <div class="theOption">
                 <div id="option"> <a href="/UC/upload"> Upload File </a>  </div>
                 <div id="option"> <a href="/UC/CreateForm"> Create form </a> </div>
+                <div id="option"> <a href="/UC/fileUploaded"> File Uploaded </a> </div>
                 <div id="option"> <a href="/UC/formCreated"> Form have created </a>  </div>
             </div>        
         </div>
         <div class="theRightBackground">
-            <p> Form created </p>
+            <p id="title1"> Form created </p>
             <div class="containDetailForm">
                 <table id="tableDetail">
                     <tr>
@@ -88,6 +96,7 @@
                         <th>Action</th> 
                     </tr>                 
                 </table> 
+                <div id="info"> </div>
             </div>
         </div>
     </div>

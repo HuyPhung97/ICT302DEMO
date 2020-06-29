@@ -1,0 +1,99 @@
+<html>
+<head>
+    <title> Murdoch University </title>
+    <link rel="stylesheet" href="../css/DetailFile.css" />
+    <link rel="icon" href="../image/logo.png"/>
+    <script> 
+         var PersonID = "<%= PersonID %>";
+         var Surname = "<%= Surname %>";
+         var Title = "<%= Title %>";
+         var Givenames = "<%= Givenames %>";
+         var teachPeriod = "<%= teachPeriod %>";
+         var UnitCode = "<%= UnitCode %>";
+         var teamdID = "<%= teamdID %>";
+         var email = "<%= email %>";
+
+         console.log(PersonID);
+         function display()
+         {
+            if(PersonID =="nothing" && Surname == "nothing" && Title == "nothing" && Givenames =="nothing"
+            &&teachPeriod == "nothing" && UnitCode =="nothing" && teamdID == "nothing" && email == "nothing")
+            {
+                var contain = document.getElementById('detail');
+                contain.innerHTML = "<p> There is no record </p> "
+            }
+            else 
+            {
+                var contain = document.getElementById('detail');
+                var table = `<table id="insertDetail"> 
+                        <tr> 
+                            <th> Student ID </th>
+                            <th> Surname </th>
+                            <th> Titile </th>
+                            <th> Give names </th>
+                            <th> Teach Period </th>
+                            <th> Unit Code </th>
+                            <th> Team ID </th>
+                            <th> Email </th>
+                        </tr>` ;
+
+                contain.insertAdjacentHTML("beforeend", table);
+
+                for(var i = 0 ; i < PersonID.split(',').length ;i++)
+                {
+                    var content = `<tr> 
+                            <td> `+PersonID.split(',')[i]+`</td>
+                            <td> `+Surname.split(',')[i]+`</td>
+                            <td> `+Title.split(',')[i]+`</td>
+                            <td class="giveName"> `+Givenames.split(',')[i]+`</td>
+                            <td> `+teachPeriod.split(',')[i]+`</td>
+                            <td> `+UnitCode.split(',')[i]+`</td>
+                            <td> `+teamdID.split(',')[i]+`</td>
+                            <td class="email"> `+email.split(',')[i]+`</td>
+                        </tr>`;
+                    document.getElementById('insertDetail').insertAdjacentHTML("beforeend", content);
+                }
+                contain.insertAdjacentHTML("beforeend", "</table>");
+            }
+         }
+
+         window.onload = function()
+         {
+            display();
+         }
+    </script>
+</head>
+
+<body>
+    <div class="title">
+        <div class="imgIcon">
+            <a href="/"><img src="../image/logo.svg"> </a>
+        </div>
+        <div class="titleWord">
+            <a href="/UC">UC </a>
+            <a href="/ABOUT%20US">ABOUT US </a>
+        </div>
+    </div>
+   
+    <div class="mainBackground">
+        <div class="theLeftBackground">
+            <div class="theOption">
+                <div id="option"> <a href="/UC/upload"> Upload File </a>  </div>
+                <div id="option"> <a href="/UC/CreateForm"> Create form </a> </div>
+                <div id="option"> <a href="/UC/fileUploaded"> File Uploaded </a> </div>
+                <div id="option"> <a href="/UC/formCreated"> Form have created </a> </div>
+            </div>        
+        </div>
+        <div class="theRightBackground"> 
+            <div class="decor">
+                <div id="detail"> </div>
+            </div>
+            <form action="/UC/DetailFile" method="POST">
+                <input type="text" name="UnitCode" value="<%= UnitCode %>" style="display : none">
+                <input type="text" name="teachPeriod" value="<%= teachPeriod %>" style="display : none">
+                 <button type="submit"> Create form </button> 
+            </form>
+        </div>
+    </div>
+</body>
+</html>

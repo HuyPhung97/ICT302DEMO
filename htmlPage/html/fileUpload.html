@@ -1,0 +1,76 @@
+<html>
+<head>
+    <title> Murdoch University </title>
+    <link rel="stylesheet" href="../css/fileUpload.css" />
+    <link rel="icon" href="../image/logo.png"/>
+    <script>
+        var id = "<%= id %>";
+        var date = "<%= date %>";
+        var title = "<%= title %>";
+
+        function display()
+        {
+            var contain = document.getElementById('contain');
+            if(id =="nothing" && date =="nothing" && title =="nothing")
+            {
+                contain.innerHTML = `<p> There is not file uploaded!!!! </p>`;
+            }
+            else 
+            {
+                var content = `<table id="detail">
+                        <tr> 
+                            <th> Title </th>
+                            <th id="upload"> Date upload </th>
+                            <th> Action <th>
+                        </tr>`;
+                contain.innerHTML = content;
+                for(var i = 0 ; i < id.split(',').length ; i++)
+                {
+                    var detail = `<tr> 
+                        <td>   `+title.split(',')[i]+` </td> 
+                        <td id="upload">`+date.split(',')[i]+`</td> 
+                        <td> <form action="/UC/fileUploaded" method="POST"><input type="text" name="id" value="`+id.split(',')[i]+`" style="display : none"> <button type="submit"> Detail </button> </form> </td>
+                        </tr>`;
+                     document.getElementById('detail').insertAdjacentHTML("beforeend", detail);   
+                }
+
+                document.getElementById('detail').insertAdjacentHTML("beforeend", `</table>`);
+            }
+        }
+        
+
+        window.onload = function()
+        {
+            display();
+        }
+    </script>
+</head>
+
+<body>
+    <div class="title">
+        <div class="imgIcon">
+            <a href="/"><img src="../image/logo.svg"> </a>
+        </div>
+        <div class="titleWord">
+            <a href="/UC">UC </a>
+            <a href="/ABOUT%20US">ABOUT US </a>
+        </div>
+    </div>
+   
+    <div class="mainBackground">
+        <div class="theLeftBackground">
+            <div class="theOption">
+                <div id="option"> <a href="/UC/upload"> Upload File </a>  </div>
+                <div id="option"> <a href="/UC/CreateForm"> Create form </a> </div>
+                <div id="option"> <a href="/UC/fileUploaded"> File Uploaded </a> </div>
+                <div id="option"> <a href="/UC/formCreated"> Form have created </a> </div>
+            </div>        
+        </div>
+        <div class="theRightBackground"> 
+            <div class="decor">
+                <div id="contain"> </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

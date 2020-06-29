@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const studentTable = require('./schmeData/studentRecord');
 const formStudent = require('./schmeData/formSurvey');
+const groupStudent = require('./schmeData/studentGroup');
 // const { red } = require('color-name');
 // const { doesNotMatch } = require('assert');
 // const { findByIdAndUpdate } = require('./schmeData/studentRecord');
@@ -47,6 +48,9 @@ Router
            // table database 
            const Schema = mongoose.model('students', studentTable.Schema);
 
+           // group student 
+           const eachGroup = mongoose.model('studentGroups', groupStudent.Schema);
+
            //get whole data 
            var dataFromFile = req.files.file.data.toString();
            
@@ -54,6 +58,7 @@ Router
            var eachStudentData = dataFromFile.split('\r\n');
 
           
+           var tempoEachID = [];
            // run the loop
             for(let i = 1 ; i < eachStudentData.length-1 ; i++)
             {
@@ -78,8 +83,7 @@ Router
                     teamdID : tempRecord[6],
                     email : tempRecord[7],
                 }
-
-            
+                tempoEachID.push(tempRecord[0]);
                 Schema.find( update , function(err ,data)
                 {
                     if(data.length != 0)
@@ -115,12 +119,215 @@ Router
                     }
                 })            
             }    
-       } 
-       res.redirect('/UC/StudentDetail');
+    
+            eachGroup.find(function(err , packData)
+            {
+                if(packData.length == 0)
+                {
+                    var object = 
+                    {
+                        name : req.files.file.name.replace('.csv', ''),
+                        date : getDate(),
+                        groupStudentID : tempoEachID
+                    }
+
+                    const insertData = new eachGroup(object);
+                    insertData.save(function(err ,data)
+                    {
+                        if(err)
+                        {
+                            console.log("Error at each group!!!");
+                        }
+                    })
+                }
+                else 
+                {
+                    var check = packData.length;
+                    for( var i = 0 ; i < packData.length ; i++)
+                    {
+                        if(JSON.stringify(packData[i].groupStudentID) == JSON.stringify(tempoEachID))
+                        {
+                            eachGroup.findOneAndUpdate({_id : packData[i].id } , {groupStudentID : tempoEachID , date : getDate()} , function(err ,data)
+                           {
+                               if(!err)
+                               {
+                                    data.save(function(err)
+                                    {
+                                        if(err)
+                                        {
+                                            console.log("error at group student duplicate!!!!!");
+                                        }
+                                    })
+                               }
+                           })
+                           check--;
+                        }          
+                    }
+                    if(check == packData.length)
+                    {
+                        var object = 
+                        {
+                            name : req.files.file.name.replace('.csv', ''),
+                            date : getDate(),
+                            groupStudentID : tempoEachID
+                        }
+                      
+                        const insertData = new eachGroup(object);
+                        insertData.save(function(err ,data)
+                        {
+                            if(err)
+                            {
+                                console.log("Error at each group!!!");
+                            }
+                        })
+                    }
+                }
+            })
+        } 
+         res.redirect('/UC/StudentDetail');
     });
+
+//handle file have upload 
+
+var tempoID ="";
+Router
+    .route("/fileUploaded")
+    .get( function (req ,res)
+    {   
+        const eachGroup = mongoose.model('studentGroups', groupStudent.Schema);
+
+        eachGroup.find( function(err , data)
+        {
+            if(data.length == 0 )
+            {
+                res.render(path.join(__dirname , "../htmlPage/html/fileUpload.html"),
+                {
+                    id : "nothing",
+                    date : "nothing",
+                    title  : "nothing",              
+                });
+            }
+            else 
+            {
+                var id = [];
+                var title = [];
+                var date =[];
+                for(var i = 0 ; i < data.length ; i++)
+                {
+                    id.push(data[i].id);
+                    date.push(data[i].date);
+                    title.push(data[i].name);
+                }
+                res.render(path.join(__dirname , "../htmlPage/html/fileUpload.html"),
+                {
+                    id : id,
+                    date : date,
+                    title  : title,              
+                });
+            }
+        })
+    })
+    .post(function (req ,res)
+    {
+        tempoID = req.body.id;
+        res.redirect('/UC/DetailFile');
+    })
+
+
+var tempUnit = [];
+var tempoTeach = [];
+Router
+    .route("/DetailFile")
+    .get(function(req , res)
+    {
+        const eachGroup = mongoose.model('studentGroups', groupStudent.Schema);
+
+        // table database 
+        const Schema = mongoose.model('students', studentTable.Schema);
+        if(tempoID == "")
+        {
+            res.end("404 PAGE NOT FOUND");
+        }
+        else 
+        {
+            eachGroup.find({ _id : tempoID} , function(err ,data)
+            {
+                var PersonID = [];
+                var Surname = [];
+                var Title = [];
+                var Givenames = [];
+                var teachPeriod = [];
+                var UnitCode = [];
+                var teamdID = [];
+                var email = [];
+            
+                Schema.find(function(err , pack)
+                {
+                    if(pack.length == 0)
+                    {
+                        res.render(path.join(__dirname , "../htmlPage/html/DetailFile.html"),
+                        {
+                            PersonID : "nothing",
+                            Surname : "nothing",
+                            Title  : "nothing",   
+                            Givenames : "nothing",
+                            teachPeriod : "nothing",
+                            UnitCode  : "nothing",  
+                            teamdID : "nothing",
+                            email  : "nothing"      
+                        });
+                    }
+                    else 
+                    {
+                        for(var i = 0 ; i < data[0].groupStudentID.length ; i++)
+                        {
+                            for(var j = 0 ; j < pack.length ; j++)
+                            {
+                                if(data[0].groupStudentID[i] == pack[j].PersonId)
+                                {
+                                    PersonID.push(pack[j].toObject().PersonId);
+                                    Surname.push(pack[j].toObject().Surname);
+                                    Title.push(pack[j].toObject().Title);
+                                    Givenames.push(pack[j].toObject().Givenames);
+                                    teachPeriod.push(pack[j].toObject().teachPeriod);
+                                    UnitCode.push(pack[j].toObject().UnitCode);
+                                    teamdID.push(pack[j].toObject().teamdID);
+                                    email.push(pack[j].toObject().email);
+                                }
+                            }
+                        }
+                        
+                        res.render(path.join(__dirname , "../htmlPage/html/DetailFile.html"),
+                        {
+                            PersonID : PersonID,
+                            Surname : Surname,
+                            Title  : Title,   
+                            Givenames : Givenames,
+                            teachPeriod : teachPeriod,
+                            UnitCode  : UnitCode,  
+                            teamdID : teamdID,
+                            email  : email      
+                        });
+                    }
+                })
+            })
+        }
+       
+       tempoID="";
+    })
+    .post(function(req , res)
+    {
+        
+        tempUnit =  req.body.UnitCode.split(',');
+        tempoTeach = req.body.teachPeriod.split(',');  
+
+        res.redirect("/UC/CreateForm");
+    })
 
   
 //handle detail event 
+var studentUnit = [];
+var studentTeach =[];
 Router
     .route('/StudentDetail')
     .get( function(req , res )
@@ -129,6 +336,8 @@ Router
         dataToDisplay="";
     })
     .post( function( req , res ){
+        studentUnit = req.body.UnitCode.split(',');
+        studentTeach = req.body.teach.split(',');
         res.redirect('/UC/CreateForm');
     });
 
@@ -136,44 +345,76 @@ Router
 Router
     .route('/CreateForm')
     .get(function (req , res){
-        const dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
-        dataFormMongoDb.find( function(err ,data)
+
+        if(tempUnit != "" &&  tempoTeach != "" )
         {
-            if(err)
+            var newUnit =  filterData(tempUnit);
+            var newTeach =  filterData(tempoTeach);
+
+            res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
             {
-                console.log("there is something wrong!!!");
-            }
-            else
+                UnitCode : newUnit,
+                teachPeriod : newTeach
+            });
+
+            tempUnit ="";
+            tempoTeach="";
+        }
+        else if(studentUnit != "" && studentTeach != "")
+        {
+            var newUnit =  filterData(studentUnit);
+            var newTeach =  filterData(studentTeach);
+
+            res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
             {
-                if(data.length != 0)
+                UnitCode : newUnit,
+                teachPeriod : newTeach
+            });
+
+            studentUnit ="";
+            studentTeach="";
+        }
+        else 
+        {
+            const dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
+            dataFormMongoDb.find( function(err ,data)
+            {
+                if(err)
                 {
-                    var unitCode = [];
-                    var teachPer = [];
-                    for(var i = 0 ; i < data.length ; i++)
-                    {         
-                        unitCode.push(data[i].UnitCode);
-                        teachPer.push(data[i].teachPeriod);
+                    console.log("there is something wrong!!!");
+                }
+                else
+                {
+                    if(data.length != 0)
+                    {
+                        var unitCode = [];
+                        var teachPer = [];
+                        for(var i = 0 ; i < data.length ; i++)
+                        {         
+                            unitCode.push(data[i].UnitCode);
+                            teachPer.push(data[i].teachPeriod);
+                        }
+
+                        var newUnit =  filterData(unitCode);
+                        var newTeach =  filterData(teachPer);
+
+                        res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+                        {
+                            UnitCode : newUnit,
+                            teachPeriod : newTeach
+                        });
                     }
-
-                    var newUnit =  filterData(unitCode);
-                    var newTeach =  filterData(teachPer);
-
-                    res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+                    else 
                     {
-                        UnitCode : newUnit,
-                        teachPeriod : newTeach
-                    });
+                        res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+                        {
+                            UnitCode : "nothing",
+                            teachPeriod : "nothing"
+                        });
+                    }
                 }
-                else 
-                {
-                    res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
-                    {
-                        UnitCode : "nothing",
-                        teachPeriod : "nothing"
-                    });
-                }
-            }
-        })
+            })
+        }
 
         // res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
         // {
