@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const studentTable = require('./schmeData/studentRecord');
 const formStudent = require('./schmeData/formSurvey');
 const groupStudent = require('./schmeData/studentGroup');
+const { title } = require('process');
 // const { red } = require('color-name');
 // const { doesNotMatch } = require('assert');
 // const { findByIdAndUpdate } = require('./schmeData/studentRecord');
@@ -104,9 +105,6 @@ Router
                     }
                     else if(data.length == 0)
                     {
-    
-                        update.status ="No";
-                        update.sendEmail ="No";
                         //insert data to mongoose 
                         const insertData = new Schema(update);
                         insertData.save(function(err)
@@ -427,6 +425,7 @@ Router
     })
     .post(function(req ,res)
     {   
+        console.log(req.body);
         var dataPack = req.body;
         const Schema = mongoose.model('formstudent',  formStudent.Schema);
         var containQuestion = [];
@@ -461,7 +460,40 @@ Router
                 question : containQuestion
             }
         }
-            
+
+        const dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
+        dataFormMongoDb.find({UnitCode : req.body.unitCode , teachPeriod : req.body.teachPer}, function(err ,data)
+        {
+            for(var i = 0 ; i < data.length ; i++)
+            {
+                // var status = { title : data[i].status.title.push("eh") , status : ["No"]};
+                data[i].formName.push(req.body.title)
+                data[i].status.push("No");
+                data[i].sendMail.push("No");
+             
+                var update = 
+                {
+                    formName :  data[i].formName,
+                    status : data[i].status,
+                    sendMail : data[i].sendMail
+                }
+
+                dataFormMongoDb.findOneAndUpdate({_id : data[i].id} , update , function(err ,event)
+                {
+                    if(!err)
+                    {
+                        event.save(function(err)
+                        {
+                            if(err)
+                            {
+                                console.log("Error at status!!!");
+                            }
+                        })
+                    }
+                })
+               
+            }
+        })
         const insertData = new Schema(formRecord);
         insertData.save( function(err)
         {

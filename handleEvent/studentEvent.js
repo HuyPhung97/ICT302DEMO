@@ -1,5 +1,6 @@
 "use strict"
 const express = require('express');
+const app = express();
 const path = require('path');
 const Router = express.Router();
 const mongoose = require('mongoose');
@@ -7,6 +8,10 @@ const mongoose = require('mongoose');
 const studentTable = require('./schmeData/studentRecord');
 const formStudent = require('./schmeData/formSurvey');
 const recordAnswer  = require('./schmeData/recordAnswer');
+
+//app.use(express.static(path.join(__dirname , 'htmlPage')));
+app.use(express.static(__dirname + '/htmlPage'));
+// app.use(express.static('/htmlPage'));
 
 mongoose.connection.on('connected' , function(err)
 {
@@ -33,124 +38,99 @@ mongoose.connection.on('connected' , function(err)
 var myVar;
 function createURLStudent()
 {
-    var dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
+    var studentFromDatabase = mongoose.model('students',  studentTable.Schema);
 
-    var fromFromMongoDb = mongoose.model('formstudent', formStudent.Schema);
+    var formFromMongoDb = mongoose.model('formstudent', formStudent.Schema);
 
     var checkAnswer = mongoose.model('recordAnswer', recordAnswer.Schema)
 
-    dataFormMongoDb.find(function(error, data) 
+    studentFromDatabase.find(function(err , data )
     {
-        if(!error)
+        for(let i = 0 ; i < data.length ; i++)
         {
-            for(let i = 0 ; i < data.length ; i++)
+            var titleForm = data[i].formName;
+            let status = data[i].status;
+
+            if(titleForm.length != 0)
             {
-                Router 
-                    .route("/id="+data[i].PersonId)
+                for(let j = 0 ; j < titleForm.length ; j++)
+                {
+                  // console.log(status.formName[j]);
+                  // console.log(status[j]);
+                    Router
+                    .route('/id='+data[i].PersonId+'/form='+titleForm[j])
                     .get(function(req ,res)
                     {
-                        var otherName =[];
-                        var question = [];
-
-                        for(let j = 0 ; j < data.length ; j++)
+                        console.log(status[j]);
+                        if(status[j] == "Yes")
                         {
-                            if(data[i].PersonId != data[j].PersonId && data[i].UnitCode == data[j].UnitCode && 
-                            data[i].teachPeriod == data[j].teachPeriod && data[i].teamdID == data[j].teamdID)
-                            {
-                                otherName.push(data[j].Surname);
-                            } 
+                            //res.end("Hello world");
+                            res.render(path.join(__dirname , "../htmlPage/student/displaySubmit.html"));
                         }
-
-                        var findData = {
-                            unitCode : data[i].UnitCode,
-                            teachPer : data[i].teachPeriod
-                        }
-                    
-                        var checkData = 
+                        else 
                         {
-                            PersonId : data[i].PersonId,
-                            Surname : data[i].Surname,
-                            UnitCode : data[i].UnitCode,
-                            teamdID : data[i].teamdID
-                        }
-
-                        checkAnswer.find( checkData, function (err,  checkData)
-                        {
-                            if(checkData.length != 0 )
+                            //find teammate 
+                            var nameTeammate = [];
+                            for(var e = 0 ; e < data.length ; e++)
                             {
-                                res.sendFile(path.join(__dirname , "../htmlPage/student/displaySubmit.html"))
-                            }
-                            else 
-                            {
-                                fromFromMongoDb.find( findData , function(err, event)
+                                if(data[i].teamdID == data[e].teamdID && data[i].unitCode == data[e].unitCode 
+                                && data[i].teachPeriod == data[e].teachPeriod && data[i].PersonId && data[e].PersonId)
                                 {
-                                    if(!err)
-                                    {
-                                        if(event.length == 0)
-                                        {
-                                            // no question case 
-                                            res.sendFile(path.join(__dirname , "../htmlPage/student/caseNotQuestion.html"))
-                                        }
-                                        else if(event.length != 0)
-                                        {
-                                            //console.log(typeof event[0].question);
-                                            if(typeof event[0].question == "string")
-                                            {
-                                                question.push(event[0].question);
-                                            }
-                                            else if(typeof event[0].question == "object")
-                                            {
-                                                for(let j = 0 ; j < event[0].question.length ; j++)
-                                                {
-                                                    //console.log(event[0].question[j]);
-                                                    question.push(event[0].question[j]);
-                                                }   
-                                            }
-                                            //console.log( data[i]);
-                                            res.render(path.join(__dirname , "../htmlPage/student/studentSite.html"),
-                                            {
-                                                id  : data[i].id,
-                                                PersonId  : data[i].PersonId,
-                                                SurName : data[i].Surname,
-                                                Givename : data[i].Givenames,
-                                                teamID : data[i].teamdID,
-                                                UnitCode : data[i].UnitCode,
-                                                otherName : otherName,
-                                                question : question
-                                            });
-                                        }    
-                                        question=[];
-                                    }             
+                                    nameTeammate.push(data[e].Surname);
+                                }
+                            } 
+                            
+                            //find question
+                            var findData = 
+                            {
+                                title : titleForm[j],
+                                unitCode : data[i].UnitCode,
+                                teachPer : data[i].teachPeriod
+                            }
+                          
+
+                            formFromMongoDb.find(findData , function(err , form)
+                            {
+                                res.render(path.join(__dirname , "../htmlPage/student/StudentSite.html"),
+                                {
+                                    PersonId : data[i].PersonId,
+                                    SurName : data[i].Surname,
+                                    UnitCode : data[i].UnitCode,
+                                    teachPer : data[i].teachPeriod,
+                                    teamdID : data[i].teamdID,
+                                    otherName : nameTeammate,
+                                    question : form[0].question,
+                                    title : form[0].title
                                 });
-                            }   
-                        })
+                           })
+                        }
                     })
 
-                    .post(function(req , res) {
-
+                    .post(function(req ,res)
+                    {
+                        console.log(req.body);
                         var insertData = mongoose.model('recordAnswer', recordAnswer.Schema);
-                        var eachPerson = req.body.SurName;
-                        var eachQuestion = req.body.question.split(',');
-
+                        var dataAnswer = req.body;
+                        var eachPerson = dataAnswer.SurName;
+                        var eachQuestion = dataAnswer.question.split(',');
                         var personAnswer;
                         var contaiWhole = [];
-                        if(typeof eachPerson =="string")
+                        if(typeof eachPerson =="string" )
                         {
                             var tempAns = [];
                             var tempQues =[];
-                            for(var j = 0 ;  j < eachQuestion.length ; j++)
+                            for(var i = 0 ;  i < eachQuestion.length ; i++)
                             {
-                                    var eachAnswer = req.body[eachPerson+j];
-                                    tempAns.push(eachAnswer);
-                                    tempQues.push(eachQuestion[j]);
+                                var eachAnswer = req.body[eachPerson+i];
+                                tempAns.push(eachAnswer);
+                                tempQues.push(eachQuestion[i]);
                             }
                             var obj = 
-                                {
-                                    name : eachPerson,
-                                    question : tempQues,
-                                    answer : tempAns,
-                                }
-                            contaiWhole.push(obj);
+                            {
+                                name : eachPerson,
+                                question : tempQues,
+                                answer : tempAns,
+                            }
                             personAnswer = 
                             {
                                 PersonId : req.body.PersonId,
@@ -161,7 +141,7 @@ function createURLStudent()
                                 Answer : contaiWhole,
                             }
                         }
-                        else 
+                        else
                         {
                             for(var i = 0 ; i  < eachPerson.length ; i++)
                             {
@@ -184,14 +164,16 @@ function createURLStudent()
 
                             personAnswer = 
                             {
-                            PersonId : req.body.PersonId,
-                            Surname : req.body.SurName[0],
-                            UnitCode : req.body.UnitCode,
-                            teamdID : req.body.teamID,
-                            Answer : contaiWhole,
+                                PersonId : req.body.PersonId,
+                                Surname : req.body.SurName[0],
+                                UnitCode : req.body.UnitCode,
+                                teachPeriod : req.body.teachPer,
+                                teamdID : req.body.teamID,
+                                Answer : contaiWhole,
                             }
                         }
-  
+
+                        // insert answer from student
                         const tempo = new insertData(personAnswer);
                         tempo.save(function(err)
                         {
@@ -204,36 +186,46 @@ function createURLStudent()
                                 console.log("Insert successful");
                             }
                         });
-                        
+
                         var dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
-                        var update = { status : "Yes"};
-                        dataFormMongoDb.findOneAndUpdate({PersonId : req.body.PersonId}, update ,  function(err , data)
+                        var findData = 
                         {
-                            if(!err)
+                            PersonId : req.body.PersonId,
+                            UnitCode :req.body.UnitCode,
+                            teachPeriod : req.body.teachPer,
+                            teamdID : req.body.teamID
+                        }
+                        dataFormMongoDb.find( findData  , function(err , data)
+                        {
+                            for(var j = 0 ; j < data[0].formName.length ; j++)
                             {
-                                data.save(function(err)
+                                if(data[0].formName[j] == req.body.title)
                                 {
-                                    if(err)
+                                    data[0].status[j] = "Yes";
+                                    dataFormMongoDb.findOneAndUpdate({_id : data[0]._id} , {status : data[0].status}, function(err , event )
                                     {
-                                        console.log("Something wrong at update status!!!!!");
-                                    }else 
-                                    {
-                                        console.log("Updated status successful!!");
-                                    }
-                                });
-                               
-                            }
-                        })
-                        res.redirect("/");
-                    });
+                                        if(!err)
+                                        {
+                                            event.save(function(err)
+                                            {
+                                                if(!err)
+                                                {
+                                                    console.log("OK");
+                                                }
+                                            })
+                                        }
+                                    });
+                                }
+                            }                
+                        });
+                        res.end();
+                    })
+                }
             }
         }
     })
+}   
 
-
-    myVar = setTimeout(function()
-    { createURLStudent(); }, 3000);
-}
 createURLStudent();
-
 module.exports = Router;
+

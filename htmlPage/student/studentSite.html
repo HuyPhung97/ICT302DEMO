@@ -1,19 +1,21 @@
 <html>
 <head>
     <title> Murdoch University </title>
-    <link rel="stylesheet" href="../css/student.css" />
-    <link rel="icon" href="../image/logo.png"/>
+    <link rel="stylesheet" href="../../css/student.css" />
+    <link rel="icon" href="../../image/logo.png"/>
     <script>
         // var id = "<%= PersonId %>";
         // var id = "<%= SurName %>";
-        // var id = "<%= Givename %>";
+       
         var teammate = "<%= otherName %>";
         var question = "<%= question %>";
-        var id = "<%= id %>";
-        console.log(id);
+        var UnitCode = "<%= UnitCode %>";
+        
+
         var Surname = "<%= SurName %>" +','+ teammate;
 
-        console.log(teammate);
+        console.log(UnitCode);
+        console.log(Surname);
         // console.log(question);
         function displayQuestion()
         {
@@ -27,6 +29,7 @@
      
                 var eachQuestion = question.split(",");
                 var instructor ="";
+                
                 if(i == 0)
                 {
                     instructor = "On the scale 1-5 above, rate your contribution to the group on each of the criteria below : ";
@@ -34,7 +37,7 @@
                 {
                     instructor = "On the scale 1-5 above, rate this person's contribution to the group on each of the criteria below : ";
                 }   
-                eachDiv.insertAdjacentHTML("beforeend" , "<p>"+instructor+"</p>");
+                eachDiv.insertAdjacentHTML("beforeend" , "<p>"+instructor+"</p>" );
                 for( var j = 0 ; j < eachQuestion.length; j ++)
                 {
                      var count = parseInt(j)+1;
@@ -184,7 +187,7 @@
 <body>
     <div class="title">
         <div class="imgIcon">
-            <a href="/"><img src="../image/logo.svg"> </a>
+            <a href="/"><img src="../../image/logo.svg"> </a>
         </div>
         <div class="titleWord">
             <a href="/UC">UC </a>
@@ -194,32 +197,32 @@
    
     <div class="mainBackground">
         <div id="theLeftBackground">
-            <form action="/student/id=<%= PersonId %>" method="POST"  onsubmit="return checkRadius()" >
+            <form action='/student/id=<%= PersonId %>/form=<%= title %>'   method="POST"  onsubmit="return checkRadius()" >
             <div class="containInFor">
                 <fieldset>
                     <legend>Student Infor</legend>
                         <div id="infor">
                             <input type="text" name="PersonId" value="<%= PersonId %>" readonly/>
                             <input type="text" name="question" value="<%= question %>" style="display:none"/>
-                            <input type="text" name="id" value="<%= id %>" style="display:none"/>
                         </div>
                         <div id="infor">
                             <input type="text" name="SurName" value="<%= SurName %>" readonly/>
                         </div>
                         <div id="infor">
-                            <input type="text" name="Givename" value="<%= Givename %>" readonly/>
-                        </div>
-                        <div id="infor">
-                            <input type="text" name="teamID" value="<%= teamID %>" readonly/>
+                            <input type="text" name="teamID" value="<%= teamdID %>" readonly/>
                         </div>
                         <div id="infor">
                             <input type="text" name="UnitCode" value="<%= UnitCode %>" readonly/>
                         </div>
-                </fieldset>
-
-                <div id="question"> 
-                     
-                </div> 
+                        <div id="infor">
+                            <input type="text" name="teachPer" value="<%= teachPer %>" readonly/>
+                        </div>
+                        <div id="infor">
+                            <input id="title" type="text" name="title" value="<%= title %>" Readonly>  
+                        </div>
+                </fieldset>   
+              
+                <div id="question">  </div> 
             </div>
             <div id="test"> </div>
             <button type="submit" id="submit"style="display: none;"> submit</button>
