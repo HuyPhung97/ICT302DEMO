@@ -97,7 +97,7 @@ function sendEmail()
                                                                  
                                     if(diffDays < 7)
                                     {
-                                        var content = `<a href="youtube.com"> Click here to complete the form </a>`;
+                                        var content = `<a href="ICT302-TMA-FT04.ad.murdoch.edu.au/id=`+data[i].PersonId+`/form=`+data[i].formName[j]+`"> Click here to complete the form </a>`;
                                        
                                         var mailOptions = 
                                         {
@@ -108,7 +108,6 @@ function sendEmail()
                                             html : content
                                         }
 
-                                        console.log(tempo);
                                         transporter.sendMail(mailOptions, function(error, info)
                                         {
                                             if (error)
