@@ -71,8 +71,8 @@ function createURLStudent()
                         var nameTeammate = [];
                         for(var e = 0 ; e < data.length ; e++)
                         {
-                            if(eachStudent.teamdID != data[e].teamdID && eachStudent.unitCode == data[e].unitCode 
-                            && eachStudent.teachPeriod == data[e].teachPeriod && eachStudent.PersonId && data[e].PersonId)
+                            if(eachStudent.teamdID == data[e].teamdID && eachStudent.unitCode == data[e].unitCode 
+                            && eachStudent.teachPeriod == data[e].teachPeriod && eachStudent.PersonId != data[e].PersonId)
                             {
                                 nameTeammate.push(data[e].Surname);
                             }
