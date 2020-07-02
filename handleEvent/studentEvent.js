@@ -99,7 +99,7 @@ function createURLStudent()
                             }
                             else 
                             {
-                                res.render(path.join(__dirname , "../htmlPage/student/StudentSite.html"),
+                                res.sendFile(path.join(__dirname , "../htmlPage/student/StudentSite.html"),
                                 {
                                     PersonId : data[i].PersonId,
                                     SurName : data[i].Surname,
