@@ -8,9 +8,12 @@ const mongoose = require('mongoose');
 const studentTable = require('./schmeData/studentRecord');
 const formStudent = require('./schmeData/formSurvey');
 const recordAnswer  = require('./schmeData/recordAnswer');
+app.set('views', path.join(__dirname, 'views'));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 //app.use(express.static(path.join(__dirname , 'htmlPage')));
-app.use(express.static(__dirname + '/htmlPage'));
+//app.use(express.static(__dirname , 'htmlPage'));
 // app.use(express.static('/htmlPage'));
 
 // email ID : demoICT302 , pwd: passExam
