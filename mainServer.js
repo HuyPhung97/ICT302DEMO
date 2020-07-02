@@ -160,11 +160,11 @@ function sendEmail()
             }
         }
     }) 
-    // email = setTimeout( function() 
-    // {
-    //     sendEmail();
-    //     console.log("Refesh");
-    // } , 3000);
+    email = setTimeout( function() 
+    {
+        sendEmail();
+        console.log("Refesh");
+    } , 3000);
 }
 
 sendEmail();
