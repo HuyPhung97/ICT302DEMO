@@ -99,7 +99,7 @@ function createURLStudent()
                             }
                             else 
                             {
-                                res.sendFile(path.join(__dirname , "../htmlPage/student/StudentSite.html"));
+                                res.sendFile(path.join(__dirname , "../htmlPage/student/studentSite.html"));
                                 // res.render(path.join(__dirname , "../htmlPage/student/StudentSite.html"),
                                 // {
                                 //     // PersonId : "Hello wolrd",
