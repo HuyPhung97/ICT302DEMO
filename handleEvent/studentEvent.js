@@ -19,7 +19,7 @@ Router
     .route("/")
     .get(function(req , res)
     {
-        res.render(path.join(__dirname + "../htmlPage/student/studentSite.html"  ));
+        res.render(path.join(__dirname , "../htmlPage/student/studentSite.html"  ));
     });
    
 //create URL for student 

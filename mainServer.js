@@ -11,7 +11,9 @@ var bodyParser = require("body-parser");
 app.use(bodyParser());
 const ejs = require('ejs');
 app.engine('html', require('ejs').renderFile);
-app.set('views', 'htmlPage');
+//app.set('views', 'htmlPage');
+
+// app.set('views', path.join(__dirname, 'dsfsf'));
 //Connection to database
 const  URLdatabase = "mongodb+srv://ICT302_UC:passexam@cluster0-zbjzo.mongodb.net/account_UC?retryWrites=true&w=majority";
 
