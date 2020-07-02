@@ -63,7 +63,7 @@ function createURLStudent()
                     // console.log(newStatus);
                     if(newStatus == "Yes")
                     {
-                        res.render(path.join(__dirname , "/displaySubmit.html"));
+                        res.render(path.join(__dirname , "../htmlPage/student/displaySubmit.html"));
                     }
                     else 
                     {
