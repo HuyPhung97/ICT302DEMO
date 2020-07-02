@@ -15,12 +15,12 @@ const recordAnswer  = require('./schmeData/recordAnswer');
 
 // email ID : demoICT302 , pwd: passExam
 // Route student
-// Router 
-//     .route("/")
-//     .get(function(req , res)
-//     {
-//         res.sendFile(path.join(__dirname , "../htmlPage/student/studentSite.html"  ));
-//     });
+Router 
+    .route("/")
+    .get(function(req , res)
+    {
+        res.sendFile(path.join(__dirname , "../htmlPage/student/studentSite.html"  ));
+    });
    
 //create URL for student 
 
