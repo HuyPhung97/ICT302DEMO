@@ -99,7 +99,6 @@ function createURLStudent()
                             }
                             else 
                             {
-                                res.end("Hello world");
                                 res.sendFile(path.join(__dirname , "../htmlPage/student/StudentSite.html"));
                                 // res.render(path.join(__dirname , "../htmlPage/student/StudentSite.html"),
                                 // {
