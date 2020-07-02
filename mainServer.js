@@ -13,9 +13,12 @@ const ejs = require('ejs');
 app.engine('html', require('ejs').renderFile);
 //app.set('views', 'htmlPage');
 
+
  //app.set('views', path.join(__dirname , 'htmlPage'));
 //Connection to database
-const  URLdatabase = "mongodb+srv://ICT302_UC:passexam@cluster0-zbjzo.mongodb.net/account_UC?retryWrites=true&w=majority";
+const localhost = 'mongodb://localhost:27017/Data_Server';
+const  URLdatabase = "mongodb+srv://ICT302_UC:passexam@cluster0-zbjzo.mongodb.net/account_UC?retryWrites=true&w=majority" || localhost;
+
 
 mongoose.connect(URLdatabase, {
     useNewUrlParser : true,
