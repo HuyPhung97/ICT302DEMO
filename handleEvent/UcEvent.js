@@ -1,6 +1,7 @@
 "use strict"
 const express = require('express');
 const path = require('path');
+const app = express();
 const Router = express.Router();
 const mongoose = require('mongoose');
 
@@ -11,6 +12,7 @@ const groupStudent = require('./schmeData/studentGroup');
 // const { red } = require('color-name');
 // const { doesNotMatch } = require('assert');
 // const { findByIdAndUpdate } = require('./schmeData/studentRecord');
+
 
 mongoose.connection.on('connected' , function(err)
 {

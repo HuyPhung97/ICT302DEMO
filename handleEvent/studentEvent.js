@@ -8,9 +8,7 @@ const mongoose = require('mongoose');
 const studentTable = require('./schmeData/studentRecord');
 const formStudent = require('./schmeData/formSurvey');
 const recordAnswer  = require('./schmeData/recordAnswer');
-app.set('views', path.join(__dirname, 'views'));
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+
 
 //app.use(express.static(path.join(__dirname , 'htmlPage')));
 //app.use(express.static(__dirname , 'htmlPage'));
@@ -66,7 +64,7 @@ function createURLStudent()
                     // console.log(newStatus);
                     if(newStatus == "Yes")
                     {
-                        res.render(path.join(__dirname , "../htmlPage/html/displaySubmit.html"));
+                        res.render(path.join(__dirname , "../htmlPage/student/displaySubmit.html"));
                     }
                     else 
                     {
@@ -102,7 +100,7 @@ function createURLStudent()
                             }
                             else 
                             {
-                                res.render(path.join(__dirname , "../htmlPage/html/StudentSite.html"),
+                                res.render(path.join(__dirname , "../htmlPage/student/StudentSite.html"),
                                 {
                                     PersonId : data[i].PersonId,
                                     SurName : data[i].Surname,

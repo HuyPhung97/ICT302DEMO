@@ -7,11 +7,11 @@ const port = process.env.port || 3000;
 const upload = require('express-fileupload');
 const mongoose = require('mongoose');
 var nodemailer = require('nodemailer');
-const ejs = require('ejs');
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
 var bodyParser = require("body-parser");
 app.use(bodyParser());
+const ejs = require('ejs');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'htmlPage');
 
 //Connection to database
 const  URLdatabase = "mongodb+srv://ICT302_UC:passexam@cluster0-zbjzo.mongodb.net/account_UC?retryWrites=true&w=majority";
