@@ -10,11 +10,6 @@ const formStudent = require('./schmeData/formSurvey');
 const recordAnswer  = require('./schmeData/recordAnswer');
 
 
-// const ejs = require('ejs');
-// app.engine('html', require('ejs').renderFile);
-// app.set('views', 'htmlPage');
-
-app.use(express.static(path.join(__dirname , '../htmlPage')));
 //app.use(express.static(__dirname , 'htmlPage'));
 // app.use(express.static('/htmlPage'));
 
@@ -68,7 +63,7 @@ function createURLStudent()
                     // console.log(newStatus);
                     if(newStatus == "Yes")
                     {
-                        res.render(path.join(__dirname , "/student/displaySubmit.html"));
+                        res.render(path.join(__dirname , "/displaySubmit.html"));
                     }
                     else 
                     {
