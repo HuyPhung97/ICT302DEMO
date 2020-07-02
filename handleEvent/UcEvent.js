@@ -18,6 +18,10 @@ mongoose.connection.on('connected' , function(err)
     {
         console.log("Fail to connect mongodb");
     }
+    else 
+    {
+        console.log("UC site connected !!!");
+    }
 })
 
 // main UC site 

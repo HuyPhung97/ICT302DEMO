@@ -21,6 +21,18 @@ mongoose.connect(URLdatabase, {
     useUnifiedTopology : true
 });
 
+mongoose.connection.on('connected' , function(err)
+{
+    if(err)
+    {
+        console.log("Fail to connect mongodb");
+    }
+    else 
+    {
+        console.log("Send email site have connect successful!!!");
+    }
+})
+
 app.use(upload());
 //call handle UC event 
 const event = require("./handleEvent/UcEvent");
@@ -42,7 +54,6 @@ const formStudent = require('./handleEvent/schmeData/formSurvey');
 app.get('/', function(req, res )
 {
     res.sendFile(path.join(__dirname , "htmlPage/html/mainSite.html")); 
-    sendEmail();
 })
 
 //about US site
@@ -87,17 +98,19 @@ function sendEmail()
                                     teachPer : data[i].teachPeriod
                                 }
                                 
-                               let tempo = j;
+                                let tempo = j;
+                                let formName = data[i].formName[j];
                                 formFromMongoDb.find( findData , function (err , form)
                                 {
                                     var current = getDate();
                                     var deadline = Date.parse(form[0].deadline);
                                     var currentDate = Date.parse(current);   
                                     var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
-                                                                 
-                                    if(diffDays < 7)
+                                                   
+                                   
+                                    if(diffDays < 18)
                                     {
-                                        var content = `<a href="ICT302-TMA-FT04.ad.murdoch.edu.au/id=`+data[i].PersonId+`/form=`+data[i].formName[j]+`"> Click here to complete the form </a>`;
+                                        var content = `<a href="http://ICT302-TMA-FT04.ad.murdoch.edu.au:`+port+`/id=`+data[i].PersonId+`/form=`+formName+`"> Click here to complete the form </a>`;
                                        
                                         var mailOptions = 
                                         {
@@ -139,12 +152,21 @@ function sendEmail()
                         }
                     }
                 }
-               
+                else 
+                {
+                    console.log("There is no form !!!");
+                }          
             }
         }
-    })
-   
+    }) 
+    // email = setTimeout( function() 
+    // {
+    //     sendEmail();
+    //     console.log("Refesh");
+    // } , 3000);
 }
+
+sendEmail();
 
 function getDate()
 {
