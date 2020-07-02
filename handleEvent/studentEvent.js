@@ -10,11 +10,11 @@ const formStudent = require('./schmeData/formSurvey');
 const recordAnswer  = require('./schmeData/recordAnswer');
 
 
-const ejs = require('ejs');
-app.engine('html', require('ejs').renderFile);
-app.set('views', 'htmlPage');
+// const ejs = require('ejs');
+// app.engine('html', require('ejs').renderFile);
+// app.set('views', 'htmlPage');
 
-//app.use(express.static(path.join(__dirname , 'htmlPage')));
+app.use(express.static(path.join(__dirname , '../htmlPage')));
 //app.use(express.static(__dirname , 'htmlPage'));
 // app.use(express.static('/htmlPage'));
 
@@ -68,7 +68,7 @@ function createURLStudent()
                     // console.log(newStatus);
                     if(newStatus == "Yes")
                     {
-                        res.render(path.join(__dirname , "../htmlPage/html/displaySubmit.html"));
+                        res.render(path.join(__dirname , "/student/displaySubmit.html"));
                     }
                     else 
                     {
@@ -104,7 +104,7 @@ function createURLStudent()
                             }
                             else 
                             {
-                                res.render(path.join(__dirname , "../htmlPage/html/StudentSite.html"),
+                                res.render(path.join(__dirname , "../htmlPage/student/StudentSite.html"),
                                 {
                                     PersonId : data[i].PersonId,
                                     SurName : data[i].Surname,
