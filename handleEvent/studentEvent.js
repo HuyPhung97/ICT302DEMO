@@ -102,14 +102,6 @@ function createURLStudent()
                                 // res.sendFile(path.join(__dirname , "../htmlPage/student/studentSite.html"));
                                 res.render(path.join(__dirname , "../htmlPage/student/studentSite.html"),
                                 {
-                                    // PersonId : "Hello wolrd",
-                                    // SurName : "Hello wolrd",
-                                    // UnitCode : "Hello wolrd",
-                                    // teachPer : "Hello wolrd",
-                                    // teamdID : "Hello wolrd",
-                                    // otherName : "Hello wolrd",
-                                    // question : "Hello wolrd",
-                                    // title : "Hello wolrd"
                                     PersonId : data[i].PersonId,
                                     SurName : data[i].Surname,
                                     UnitCode : data[i].UnitCode,
