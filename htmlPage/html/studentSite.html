@@ -1,0 +1,235 @@
+<html>
+<head>
+    <title> Murdoch University </title>
+    <link rel="stylesheet" href="../../css/student.css" />
+    <link rel="icon" href="../../image/logo.png"/>
+    <script>
+        // var id = "<%= PersonId %>";
+        // var id = "<%= SurName %>";
+       
+        var teammate = "<%= otherName %>";
+        var question = "<%= question %>";
+        var UnitCode = "<%= UnitCode %>";
+        
+
+        var Surname = "<%= SurName %>" +','+ teammate;
+
+        console.log(UnitCode);
+        console.log(Surname);
+        // console.log(question);
+        function displayQuestion()
+        {
+            var contain = document.getElementsByClassName('containInFor');
+            for(var i = 0 ; i < contain. length; i++)
+            {
+            
+                var eachContain = contain[i].querySelectorAll('div');
+
+                var eachDiv = eachContain[eachContain.length-1];
+     
+                var eachQuestion = question.split(",");
+                var instructor ="";
+                
+                if(i == 0)
+                {
+                    instructor = "On the scale 1-5 above, rate your contribution to the group on each of the criteria below : ";
+                }else 
+                {
+                    instructor = "On the scale 1-5 above, rate this person's contribution to the group on each of the criteria below : ";
+                }   
+                eachDiv.insertAdjacentHTML("beforeend" , "<p>"+instructor+"</p>" );
+                for( var j = 0 ; j < eachQuestion.length; j ++)
+                {
+                     var count = parseInt(j)+1;
+                    var content =`
+                        <div class="question">
+                            <label>`+count+`) `+eachQuestion[j]+`</label>
+                            <div id="option">
+                                <table> 
+                                    <tr>
+                                        <td> 1 </td>
+                                        <td> 2 </td>
+                                        <td> 3 </td>
+                                        <td> 4 </td>
+                                        <td> 5 </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="radio" id="question`+j+`" name="`+Surname.split(',')[i]+ j+`" value="1"  ></td>
+                                        <td><input type="radio" id="question`+j+`" name="`+Surname.split(',')[i]+ j+`" value="2"  ></td>
+                                        <td><input type="radio" id="question`+j+`" name="`+Surname.split(',')[i]+ j+ `" value="3"  ></td>
+                                        <td><input type="radio" id="question`+j+`" name="`+Surname.split(',')[i]+ j+`" value="4"  ></td>
+                                        <td><input type="radio" id="question`+j+`" name="`+Surname.split(',')[i]+ j+ `" value="5"  ></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>`;
+                    eachDiv.insertAdjacentHTML("beforeend" , content);
+                }
+            }        
+        }
+
+        function displayClassmate()
+        {
+            var newOther = document.getElementById("test");
+
+            if(teammate == "")
+            {
+
+            }else 
+            {
+                for(var i = 0 ; i < teammate.split(',').length ; i++)
+                {
+                var newI = i + 1;
+                var teammateContain = `
+                    <div class="containInFor">
+                        <fieldset>
+                            <legend>Teammate Infor</legend>
+                            <div id="infor">
+                                <input type="text" name="SurName" value="`+teammate.split(',')[i]+`" readonly/>
+                            </div>
+                        </fieldset>
+                        <div id="question">  </div> 
+                    </div>`;
+                    newOther.insertAdjacentHTML("beforeend" ,teammateContain );
+                document.getElementsByClassName('containInFor')[parseInt(i)+1].style.display = "none";
+                }
+            }
+        }
+
+        var currentTab = 0;
+        function nextTab()
+        {
+            var currentStudent = document.getElementsByClassName('containInFor')[currentTab];
+            if(checkRadius(currentTab))
+            {
+                currentStudent.style.display = "none";
+                currentTab++;
+                document.getElementsByClassName('containInFor')[currentTab].style.display = "block";
+                window.scrollTo(0, 0);
+                displayButton();
+            }        
+        }
+
+        function previousTab()
+        {
+            document.getElementsByClassName('containInFor')[currentTab].style.display = "none";
+            currentTab--;
+            document.getElementsByClassName('containInFor')[currentTab].style.display = "block";
+            window.scrollTo(0, 0);
+            displayButton();
+        }
+
+        function displayButton()
+        {
+           if(currentTab == document.getElementsByClassName('containInFor').length-1)
+           {
+                document.getElementById('next').style.display ="none";
+                document.getElementById('submit').style.display ="block";
+
+           }else if(currentTab < document.getElementsByClassName('containInFor').length-1)
+           {
+                document.getElementById('next').style.display ="block";
+                document.getElementById('submit').style.display ="none";
+           }
+           
+           if(currentTab == 0)
+           {
+                document.getElementById('preivous').style.display ="none";
+           }
+           else if(currentTab > 0)
+           {
+                document.getElementById('preivous').style.display ="block";
+           }
+           
+        }
+
+        //check select 
+        function checkRadius(n)
+        {
+            var checked = 0;
+            var containID = document.getElementsByClassName('containInFor')[currentTab];
+            var eachQuestion = question.split(",");
+            for( var i = 0 ; i < eachQuestion.length; i ++)
+            {
+                var each = "#question"+i;
+                var eachQuestionID = containID.querySelectorAll(each);
+                
+                for(var j = 0 ; j < eachQuestionID.length ; j++)
+                {
+                    if(eachQuestionID[j].checked == true)
+                    {
+                        checked++;
+                    }
+                }
+            }
+           
+            if( checked == eachQuestion.length)
+            {
+                return true;
+            }
+            else 
+            {
+                alert("Please select the contribution!!!!!!");
+                return false;
+            }
+
+        }
+       
+        window.onload = function()
+        {
+            displayClassmate(); 
+            displayQuestion();   
+            displayButton(currentTab);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="title">
+        <div class="imgIcon">
+            <a href="/"><img src="../../image/logo.svg"> </a>
+        </div>
+        <div class="titleWord">
+            <a href="/UC">UC </a>
+            <a href="/ABOUT%20US">ABOUT US </a>
+        </div>
+    </div>
+   
+    <div class="mainBackground">
+        <div id="theLeftBackground">
+            <form action='/student/id=<%= PersonId %>/form=<%= title %>'   method="POST"  onsubmit="return checkRadius()" >
+            <div class="containInFor">
+                <fieldset>
+                    <legend>Student Infor</legend>
+                        <div id="infor">
+                            <input type="text" name="PersonId" value="<%= PersonId %>" readonly/>
+                            <input type="text" name="question" value="<%= question %>" style="display:none"/>
+                        </div>
+                        <div id="infor">
+                            <input type="text" name="SurName" value="<%= SurName %>" readonly/>
+                        </div>
+                        <div id="infor">
+                            <input type="text" name="teamID" value="<%= teamdID %>" readonly/>
+                        </div>
+                        <div id="infor">
+                            <input type="text" name="UnitCode" value="<%= UnitCode %>" readonly/>
+                        </div>
+                        <div id="infor">
+                            <input type="text" name="teachPer" value="<%= teachPer %>" readonly/>
+                        </div>
+                        <div id="infor">
+                            <input id="title" type="text" name="title" value="<%= title %>" Readonly>  
+                        </div>
+                </fieldset>   
+              
+                <div id="question">  </div> 
+            </div>
+            <div id="test"> </div>
+            <button type="submit" id="submit"style="display: none;"> submit</button>
+            <button type="button" id="next" onclick="nextTab()"> Next </button>
+            <button type="button" id="preivous" onclick="previousTab()"> Preivous </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

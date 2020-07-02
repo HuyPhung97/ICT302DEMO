@@ -66,7 +66,7 @@ function createURLStudent()
                     // console.log(newStatus);
                     if(newStatus == "Yes")
                     {
-                        res.render(path.join(__dirname , "../htmlPage/student/displaySubmit.html"));
+                        res.render(path.join(__dirname , "../htmlPage/html/displaySubmit.html"));
                     }
                     else 
                     {
@@ -102,7 +102,7 @@ function createURLStudent()
                             }
                             else 
                             {
-                                res.render(path.join(__dirname , "../htmlPage/student/StudentSite.html"),
+                                res.render(path.join(__dirname , "../htmlPage/html/StudentSite.html"),
                                 {
                                     PersonId : data[i].PersonId,
                                     SurName : data[i].Surname,
