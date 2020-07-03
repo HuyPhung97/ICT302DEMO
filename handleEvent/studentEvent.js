@@ -228,7 +228,7 @@ function createURLStudent()
                                 });
                             }
                         }      
-                        res.sendFile(path.join(__dirname , "../htmlPage/html/CreateForm.html"));       
+                        res.sendFile(path.join(__dirname , "../htmlPage/student/displaySubmit.html"));       
                      });
                 })
             }
