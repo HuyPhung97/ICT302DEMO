@@ -166,7 +166,6 @@ function sendEmail()
     email = setTimeout( function() 
     {
         sendEmail();
-        console.log("Refesh");
     } , 3000);
 }
 
