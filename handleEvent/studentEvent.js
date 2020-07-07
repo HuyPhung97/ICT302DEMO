@@ -24,14 +24,16 @@ Router
    
 //create URL for student 
 
+var refesh;
+
 mongoose.connection.on('connected' , function(err)
-{
+{   
     if(err)
     {
         console.log("Fail to connect mongodb");
     }
 });
-
+  
 var myVar;
 function createURLStudent()
 {
@@ -54,66 +56,70 @@ function createURLStudent()
                 let newTitle = titleForm[j];
                 let newStatus = status[j];
                 let eachStudent = data[i];
-                
+                let num = j;
+                let encodebinary = Buffer.from(data[i].PersonId, "binary").toString("base64");
+                //console.log(encodebinary);
                 Router
-                .route('/id='+data[i].PersonId+'/form='+titleForm[j])
+                .route('/id='+encodebinary+'/form='+titleForm[j])
                 .get(function(req ,res)
                 {
-                    // console.log(newTitle);
-                    // console.log(newStatus);
-                    if(newStatus == "Yes")
+                    studentFromDatabase.findOne({PersonId : data[i].PersonId} , function(err , check)
                     {
-                        res.render(path.join(__dirname , "../htmlPage/student/displaySubmit.html"));
-                    }
-                    else 
-                    {
-                        //find teammate 
-                        var nameTeammate = [];
-                        for(var e = 0 ; e < data.length ; e++)
+                        if(check.toObject().status[num] == "Yes")
                         {
-                            if(eachStudent.teamdID == data[e].teamdID && eachStudent.unitCode == data[e].unitCode 
-                            && eachStudent.teachPeriod == data[e].teachPeriod && eachStudent.PersonId != data[e].PersonId)
-                            {
-                                nameTeammate.push(data[e].Surname);
-                            }
-                        } 
-
-                        //find question
-                        var findData = 
-                        {
-                            title : newTitle,
-                            unitCode : data[i].UnitCode,
-                            teachPer : data[i].teachPeriod
+                            res.sendFile(path.join(__dirname , "../htmlPage/student/displaySubmit.html"));
                         }
-                            
-                        formFromMongoDb.find(findData , function(err , form)
+                        else 
                         {
-                            var current = getDate();
-                            var deadline = Date.parse(form[0].deadline);
-                            var currentDate = Date.parse(current);   
-                            var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
-
-                            if(diffDays == 0)
+                            //find teammate 
+                            var nameTeammate = [];
+                            for(var e = 0 ; e < data.length ; e++)
                             {
-                                res.end("<p> Form had expired !!!! </p> ");
-                            }
-                            else 
-                            {
-                                // res.sendFile(path.join(__dirname , "../htmlPage/student/studentSite.html"));
-                                res.render(path.join(__dirname , "../htmlPage/student/studentSite.html"),
+                                if(eachStudent.teamdID == data[e].teamdID && eachStudent.unitCode == data[e].unitCode 
+                                && eachStudent.teachPeriod == data[e].teachPeriod && eachStudent.PersonId != data[e].PersonId)
                                 {
-                                    PersonId : data[i].PersonId,
-                                    SurName : data[i].Surname,
-                                    UnitCode : data[i].UnitCode,
-                                    teachPer : data[i].teachPeriod,
-                                    teamdID : data[i].teamdID,
-                                    otherName : nameTeammate,
-                                    question : form[0].question,
-                                    title : form[0].title
-                                });
-                            }                     
-                       })
-                    }
+                                    nameTeammate.push(data[e].Surname);
+                                }
+                            } 
+    
+                            //find question
+                            var findData = 
+                            {
+                                title : newTitle,
+                                unitCode : data[i].UnitCode,
+                                teachPer : data[i].teachPeriod
+                            }
+                                
+                            formFromMongoDb.find(findData , function(err , form)
+                            {
+                                var current = getDate();
+                                var deadline = Date.parse(form[0].deadline);
+                                var currentDate = Date.parse(current);   
+                                var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
+    
+                                if(diffDays == 0)
+                                {
+                                    res.end("<p> Form had expired !!!! </p> ");
+                                }
+                                else 
+                                {
+                                    // res.sendFile(path.join(__dirname , "../htmlPage/student/studentSite.html"));
+                                    res.render(path.join(__dirname , "../htmlPage/student/studentSite.html"),
+                                    {
+                                        PersonId : data[i].PersonId,
+                                        SurName : data[i].Surname,
+                                        UnitCode : data[i].UnitCode,
+                                        teachPer : data[i].teachPeriod,
+                                        teamdID : data[i].teamdID,
+                                        otherName : nameTeammate,
+                                        question : form[0].question,
+                                        title : form[0].title,
+                                        encodebinary : encodebinary
+                                    });
+                                }                     
+                           })
+                        }
+                    })      
                 })
 
                 .post(function(req ,res)
@@ -190,11 +196,7 @@ function createURLStudent()
                     {
                         if(err)
                         {
-                            console.log("There is something went wrong!!!!!!");
-                        }
-                        else
-                        {
-                            console.log("Insert successful");
+                            console.log("There is something went wrong at new record POST!!!!!!");
                         }
                     });
 
@@ -219,26 +221,25 @@ function createURLStudent()
                                     {
                                         event.save(function(err)
                                         {
-                                            if(!err)
+                                            if(err)
                                             {
-                                                console.log("OK");
+                                                console.log("There is something went wrong at Update status in POST !!!!");
                                             }
                                         })
                                     }
                                 });
                             }
-                        }      
-                        res.sendFile(path.join(__dirname , "../htmlPage/student/displaySubmit.html"));       
-                     });
+                        }   
+                        res.sendFile(path.join(__dirname , "../htmlPage/student/displaySubmit.html"));   
+                    });
                 })
             }
         }
     })
-
     myVar = setTimeout(function()
     {
         createURLStudent();
-    }, 3000);
+    }, 1000);    
 }   
 
 function getDate()

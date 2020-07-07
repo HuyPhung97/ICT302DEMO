@@ -166,7 +166,7 @@ function sendEmail()
     email = setTimeout( function() 
     {
         sendEmail();
-    } , 3000);
+    } , 1000);
 }
 
 sendEmail();
