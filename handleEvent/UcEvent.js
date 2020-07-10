@@ -2,12 +2,18 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const  fs = require('fs');
 const Router = express.Router();
 const mongoose = require('mongoose');
 
 const studentTable = require('./schmeData/studentRecord');
 const formStudent = require('./schmeData/formSurvey');
 const groupStudent = require('./schmeData/studentGroup');
+const recordAnswer  = require('./schmeData/recordAnswer');
+const { dirname } = require('path');
+const { RSA_NO_PADDING } = require('constants');
+const { count } = require('console');
+const { find } = require('./schmeData/studentRecord');
 
 
 // const { red } = require('color-name');
@@ -347,6 +353,7 @@ Router
     });
 
 //handle create form
+var titleForm, unitCode, teachPer;
 Router
     .route('/CreateForm')
     .get(function (req , res){
@@ -394,6 +401,7 @@ Router
                     {
                         var unitCode = [];
                         var teachPer = [];
+
                         for(var i = 0 ; i < data.length ; i++)
                         {         
                             unitCode.push(data[i].UnitCode);
@@ -438,7 +446,9 @@ Router
         var containQuestion = [];
         //object data
         var formRecord ;
-
+        titleForm = req.body.title;
+        unitCode =  req.body.unitCode;
+        teachPer =req.body.teachPer;
         //console.log(typeof (dataPack.question));
         if( typeof (dataPack.question) == "string")
         {
@@ -553,6 +563,7 @@ var idFromForm = "";
             }
         });
     })
+
     .post(function (req , res) {
         
         var eventDoing = req.body.event;
@@ -561,19 +572,288 @@ var idFromForm = "";
 
         if(eventDoing == "detele" )
         {
+            //remove form from student.
+            const studentRecord = mongoose.model('students',  studentTable.Schema);
+            studentRecord.find(function(err , eachStudent)
+            {
+                //console.log(eachStudent.length);
+                for(var i = 0 ;  i < eachStudent.length ; i++)
+                {
+                    var check = eachStudent[i].formName.indexOf(req.body.title);
+                    if( check > -1)
+                    {
+                        eachStudent[i].formName.splice(check, 1);
+                        eachStudent[i].status.splice(check, 1);
+                        eachStudent[i].sendMail.splice(check, 1);
+                    }
+
+                    var update = 
+                    {
+                        formName :  eachStudent[i].formName,
+                        status : eachStudent[i].status,
+                        sendMail : eachStudent[i].sendMail
+                    }
+
+                    studentRecord.findOneAndUpdate({PersonId : eachStudent[i].PersonId} , update , function(err ,data)
+                    {
+                        if(!err)
+                        {
+                            data.save(function(err)
+                            {
+                                if(err)
+                                {
+                                    console.log("Fail to update");
+                                }
+                            })
+                        }
+                    })   
+                }    
+            })
+
+            //remove the form from database
             var dataFormMongoDb = mongoose.model('formstudent',  formStudent.Schema);
             dataFormMongoDb.findByIdAndRemove({_id : req.body.id} ,  function(error, data) 
             {
-                if(error)
-                {
-                    console.log("there is something went worng!!!!")
-                }
-                   
+               if(error)
+               {
+                   console.log("error at delete data");
+               }
             })
             
+          
         res.redirect('/UC/formCreated');
 
-        }else if(eventDoing =="edit")
+        }
+        else if(eventDoing =="download")
+        {
+            var dataFormMongoDb = mongoose.model('formstudent',  formStudent.Schema);
+            const studentRecord = mongoose.model('students',  studentTable.Schema);
+            var recordResult = mongoose.model('recordAnswer',  recordAnswer.Schema);
+
+            //find data from formStudent
+            var findData = 
+            {
+                title  : req.body.title,
+                unitCode : req.body.unitCode,
+                teachPer : req.body.teachPer
+            }
+
+            // find data from record Result
+            var findStudent =
+            {
+                UnitCode :  req.body.unitCode,
+                teachPeriod :req.body.teachPer,
+            }
+
+
+            dataFormMongoDb.findOne(findData , function(err , formStudent)
+            {
+                let numberQuestion = formStudent.question.length;
+                
+                var total = "";
+                var titleForm = ["Title Form\t " , req.body.title , "\r\n"];
+                total = total + titleForm;
+                   
+                studentRecord.find(findStudent , function (err , eachStudent)
+                {
+                    recordResult.find( function(err , recordAnswer)
+                    {   
+                        var answer = [];
+                        // for(var m = 0 ; m < recordAnswer.length ; m++)
+                        // {
+                            // if(recordAnswer[m].formName == req.body.title)
+                            // {
+                                // loop check teamID
+                                var numberTeam = [];
+                                var numberOfEachTeam = [];
+                                for(var i = 0 ; i < eachStudent.length ; i++)
+                                {
+                                    numberTeam.push(eachStudent[i].teamdID);
+                                }    
+                                // remove duplicate teamID
+                                var sortNumberTeam = filterData(numberTeam);  
+
+                                //cacluate number of each team 
+                                for(var i = 0 ; i < sortNumberTeam.length ; i++)
+                                {
+                                    var countEachTeam = 0;
+                                    for(var j = 0 ; j < eachStudent.length ; j++)
+                                    {
+                                        if(sortNumberTeam[i] == eachStudent[j].teamdID)
+                                        {
+                                            countEachTeam++;
+                                        }
+                                    }
+                                    numberOfEachTeam.push(countEachTeam);
+                                }
+
+                                //get the diff between 
+                                var PersonIdHave = [];
+                                for(var i = 0 ; i < recordAnswer.length ; i++)
+                                {
+                                    if(recordAnswer[i].formName == req.body.title)
+                                    {
+                                        PersonIdHave.push(recordAnswer[i].PersonId);
+                                    }
+                                }
+
+                                var totalPerson = [];
+                                for(var i = 0 ; i < eachStudent.length ; i++)
+                                {
+                                    totalPerson.push(eachStudent[i].PersonId);
+                                }
+                            
+                                var diff = difference(totalPerson ,PersonIdHave );
+
+                                // get data 
+                                for(var i = 0 ; i < sortNumberTeam.length ; i++)
+                                {
+                                    var groupStudent = [ "TeamID " , sortNumberTeam[i]+"\r\n" , "Student being assssed" ," " , " " ," ", " ", " "];
+                                    var assCriteria = [ " " ,   "Assessment Criteria " , " " , " " ," ", " " , " "];
+                                    var title = ["TEAM #" , "StudentID" , "Surname", "Title" , "Give Name"];
+                                    var arvage =  [ " " ,   "Average of  Criteria " , " " , " " ," ", " " , " "];
+                                    var eachDetail = "" ;
+                                    for(var j = 0 ; j < eachStudent.length ;j++)
+                                    {       
+                                        if(sortNumberTeam[i] == eachStudent[j].teamdID)
+                                        {  
+                                            var detailStudent = [eachStudent[j].teamdID , eachStudent[j].PersonId, eachStudent[j].Surname, eachStudent[j].Title , eachStudent[j].Givenames ];
+                                            var eachMem = [];
+                                            var eachQuestion = [];
+                                            for(var e = 0 ; e < numberQuestion ; e++)
+                                            {
+                                                if(e/2 == 1|| e/2 == 0)
+                                                {
+                                                    eachMem.push(" ");
+                                                    eachMem.push(eachStudent[j].PersonId);
+                                                }else 
+                                                {
+                                                    eachMem.push(" ");
+                                                    eachMem.push(" ");
+                                                    eachMem.push(" ");
+                                                }
+                                            }
+                                            groupStudent = groupStudent + eachMem;
+
+                                            // get question 
+                                            for( var e = 0 ; e < formStudent.question.length ; e++)
+                                            {
+                                                eachQuestion.push(formStudent.question[e]);
+                                            }
+                                            eachQuestion.push("Average from each");
+                                            eachQuestion.push(" ");
+                                            eachQuestion.push(" ");
+                                            assCriteria = assCriteria + eachQuestion ;  
+
+                                            //get answer 
+                                            var numberAns = 0;
+                                            var check = false;
+                                            for(var z = 0 ; z < diff.length ; z++)
+                                            {
+                                                if(eachStudent[j].PersonId == diff[z])
+                                                {
+                                                    check = true; 
+                                                }  
+                                            }
+
+                                            for(var e = 0  ; e <  recordAnswer.length ; e++)
+                                            {
+                                                var eachAnswer = [];
+                                                eachAnswer.push(" ");
+                                                if(eachStudent[j].PersonId == recordAnswer[e].PersonId && recordAnswer[e].formName == req.body.title)
+                                                {
+                                                    var answer = recordAnswer[e].Answer;
+                                                    for(var h = 0 ; h < answer.length ; h++)
+                                                    {
+                                                        eachAnswer.push(" ");
+                                                        var numberAnswer = answer[h].question;
+                                                        var aveEach = 0 ;
+                                                        numberAns = numberAnswer.length;
+                                                        for(var t = 0 ; t < numberAnswer.length ; t++)
+                                                        {
+                                                            eachAnswer.push(answer[h].answer[t]);
+                                                            aveEach = parseInt(answer[h].answer[t]) + aveEach;                                              
+                                                        }
+                                                        eachAnswer.push(aveEach/numberQuestion);   
+                                                    }
+                                                }
+                                                else if( check )
+                                                {
+                                                    eachAnswer.push(" ");
+                                                    for(var g = 0 ; g < numberOfEachTeam[i] ; g++ )
+                                                    {
+                                                        for(var h = 0 ; h < numberQuestion ; h++)
+                                                        {
+                                                            eachAnswer.push(" 0 ");
+                                                        }
+                                                        eachAnswer.push(" 0 ");     
+                                                        eachAnswer.push(" ");              
+                                                    }   
+                                                    check = false;
+                                                }
+                                            
+                                                detailStudent = detailStudent + eachAnswer;
+                                            }
+
+                                            eachDetail = eachDetail + detailStudent +"\r\n";
+                                        }
+                                    }
+
+                                    //caculate ave from each row
+                                    for(var g = 0 ; g < numberOfEachTeam[i] ; g++ )
+                                    {
+                                        var aveOfEach =[];
+                                        var aveTotal = 0;
+                                        for(var h = 0 ; h < numberQuestion ; h++)
+                                        {
+                                            var ave= 0;
+                                            for(var e = 0 ; e < recordAnswer.length ; e++)
+                                            {
+                                                if(sortNumberTeam[i] == recordAnswer[e].teamdID && recordAnswer[e].formName == req.body.title)
+                                                { 
+                                                    ave = ave + parseInt(recordAnswer[e].Answer[g].answer[h]);  
+                                                }           
+                                            }
+                                            var each = ave/numberOfEachTeam[i];
+                                            aveOfEach.push((ave/numberOfEachTeam[i]).toFixed(3));
+                                            aveTotal = aveTotal + each;
+                                        }   
+                                
+                                        aveOfEach.push( (aveTotal/numberQuestion).toFixed(3));
+                                        aveOfEach.push(" ");
+                                        aveOfEach.push(" ");
+                                        arvage = arvage + aveOfEach;   
+                                    }         
+                        
+                                    total = total + groupStudent+"\r\n" + assCriteria + "\r\n"+title+ "\r\n"+ eachDetail + arvage + "\r\n\r\n" ;
+                                }                     
+                            // }
+                        // }
+
+                        fs.writeFile(path.join(__dirname , "../csvData/data.csv") ,total  , function(err)
+                        {
+                            if(err)
+                            {
+                                console.log("Error");
+                            }
+                            else 
+                            {
+                                res.download(path.join(__dirname , '../csvData/data.csv') , function(err)
+                                {
+                                    if(err)
+                                    {
+                                        console.log("Err");
+                                    }
+                                })
+                            }
+                        }) // fs write file
+
+
+                    })//recordResult                 
+                }) //studentRecord  
+            }) // dataFormMongoDb
+        }
+        else if(eventDoing =="edit")
         {
             res.redirect("/UC/EditForm");
         }
@@ -663,65 +943,6 @@ Router
         res.redirect("/UC/formCreated");
     })
 
-
-
-// function sendEmail()
-// {
-//     var transporter = nodemailer.createTransport({
-//         service: 'gmail',
-//         auth: {
-//           user: 'demoICT302@gmail.com',
-//           pass: 'passExam'
-//         }
-//       });
-
-//     var dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
-
-//     dataFormMongoDb.find(function(err , data )
-//     {
-//         for(let i = 0 ; i < data.length ; i++)
-//         {
-//             if(data[i].status == "No")
-//             {
-//                 var fromFromMongoDb = mongoose.model('formstudent', formStudent.Schema);
-
-//                 fromFromMongoDb.find({unitCode : data[i].UnitCode , teamdID : data[i].teamdID , teachPer : data[i].teachPeriod  } , function (err , form)
-//                 {
-//                     var current = getDate();
-//                     for(var j = 0  ; j < form.length ; j++)
-//                     {
-//                         var deadline = Date.parse(form[j].deadline);
-//                         var currentDate = Date.parse(current);   
-                        
-//                         var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
-                        
-//                         if(diffDays < 7)
-//                         {
-//                             var content = `<a href="http://`+link+"student/id="+data[i].PersonId+`"> Click here to complete the form </a>`;
-//                             var mailOptions = {
-//                                 from: 'demoICT302@gmail.com',
-//                                 to: data[i].email,
-//                                 subject: 'Sending Email to complete form!!!!',
-//                                 text: "Please fill up the form",
-//                                 html: content
-//                             };
-
-//                             transporter.sendMail(mailOptions, function(error, info){
-//                                 if (error) {
-//                                   console.log(error);
-//                                 } else {
-//                                   console.log('Email sent: ' + info.response);
-//                                 }
-//                               });
-//                         }
-//                     }
-//                 })
-//             }
-//         }
-//     })
-// }
-
-
 //function remove duplicate data 
 function filterData(dataDup)
 {
@@ -748,6 +969,27 @@ function getDate()
 
     return fulldate;
 }
+
+function difference(a1, a2) 
+{
+    var result = [];
+    for (var i = 0; i < a1.length; i++) {
+      if (a2.indexOf(a1[i]) === -1) {
+        result.push(a1[i]);
+      }
+    }
+    return result;
+}
+
+// function transfer( a)
+// {
+//     var student = [];
+//     for(var i= 0 ; i < a.length ; i++)
+//     {
+//         student.push(a[i].PersonId);
+//     }
+//     return student;
+// }
 
 
 module.exports = Router;

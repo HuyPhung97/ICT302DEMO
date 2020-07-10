@@ -41,8 +41,6 @@ function createURLStudent()
 
     var formFromMongoDb = mongoose.model('formstudent', formStudent.Schema);
 
-    var checkAnswer = mongoose.model('recordAnswer', recordAnswer.Schema)
-
     studentFromDatabase.find(function(err , data )
     {
         for(let i = 0 ; i < data.length ; i++)
@@ -125,7 +123,7 @@ function createURLStudent()
                 .post(function(req ,res)
                 {
                     console.log(req.body);
-                    var insertData = mongoose.model('recordAnswer', recordAnswer.Schema);
+
                     var dataAnswer = req.body;
                     var eachPerson = dataAnswer.SurName;
                     var eachQuestion = dataAnswer.question.split(',');
@@ -154,6 +152,7 @@ function createURLStudent()
                             UnitCode : req.body.UnitCode,
                             teachPer : req.body.teachPeriod,
                             teamdID : req.body.teamID,
+                            formName : req.body.title,
                             Answer : contaiWhole,
                         }
                     }
@@ -178,7 +177,6 @@ function createURLStudent()
                             contaiWhole.push(obj);
                         }
 
-                       
                         personAnswer = 
                         {
                             PersonId : req.body.PersonId,
@@ -186,12 +184,14 @@ function createURLStudent()
                             UnitCode : req.body.UnitCode,
                             teachPeriod : req.body.teachPer,
                             teamdID : req.body.teamID,
+                            formName : req.body.title,
                             Answer : contaiWhole,
                         }
                     }
 
                     //insert answer from student
-                    const tempo = new insertData(personAnswer);
+                    var checkAnswer = mongoose.model('recordAnswer', recordAnswer.Schema)
+                    const tempo = new checkAnswer(personAnswer);
                     tempo.save(function(err)
                     {
                         if(err)
@@ -199,7 +199,7 @@ function createURLStudent()
                             console.log("There is something went wrong at new record POST!!!!!!");
                         }
                     });
-
+                
                     var dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
                     var findData = 
                     {

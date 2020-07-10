@@ -7,60 +7,91 @@
 
     <script>
 
-    var idString = "<%= id %>";
-    var titleString = "<%= title %>";
-    var unitCodeString = "<%= unitCode %>";
-    var teachPerString = "<%= teachPer %>";
-    var deadlineString = "<%= deadline %>";
+        var idString = "<%= id %>";
+        var titleString = "<%= title %>";
+        var unitCodeString = "<%= unitCode %>";
+        var teachPerString = "<%= teachPer %>";
+        var deadlineString = "<%= deadline %>";
 
-     
-    function displayForm()
-    {
-        var table = document.getElementById('tableDetail');
-        //var tableOption = document.getElementById('optionForData');
-
-        if(!idString =="")
+        
+        function displayForm()
         {
-            for(var i = 0 ; i < idString.split(',').length ; i++ )
-             {
-                var detailForm = `
-                    <tr> 
-                        <td>`+ titleString.split(',')[i] +`</td>
-                        <td>`+ unitCodeString.split(',')[i] +`</td>
-                        <td>`+ teachPerString.split(',')[i] +`</td>
-                        <td>`+ deadlineString.split(',')[i] +`</td>  
-                        <td> 
-                        <form action="/UC/formCreated" method="POST" >
-                            <input type="text" name="id" value="`+idString.split(',')[i]+`" style="display:none">
-                            <button id="demo" type="submit" name="event" value="edit" > Edit </button>  <button type="submit" name="event" value="detele" onsubmit="return check()"> Delete </button>  
-                        </form>
-                        </td>
-                    </tr>`;
+            var table = document.getElementById('tableDetail');
+            //var tableOption = document.getElementById('optionForData');
 
-                table.insertAdjacentHTML("beforeend" , detailForm); 
-                table.insertAdjacentHTML("beforeend" , "</form>");      
+            if(!idString =="")
+            {
+                for(var i = 0 ; i < idString.split(',').length ; i++ )
+                {
+                    var current = getDate();
+                    var deadline = Date.parse(deadlineString.split(',')[i]);
+                    var currentDate = Date.parse(current);   
+                    var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10);
+
+                    var buttonDown;
+                    if(diffDays <= 0 )
+                    {
+                        buttonDown =  `
+                            <button id="demo" type="submit" name="event" value="detele" onsubmit="return check()"> Delete </button>
+                            <button  type="submit" name="event" value="download" > Download </button>`
+                    }
+                    else 
+                    {
+                        buttonDown =`
+                        <button type="submit" name="event" value="detele" onsubmit="return check()"> Delete </button>
+                        `;
+                    }
+
+                    var detailForm = `
+                        <tr> 
+                            <td>`+ titleString.split(',')[i] +`</td>
+                            <td>`+ unitCodeString.split(',')[i] +`</td>
+                            <td>`+ teachPerString.split(',')[i] +`</td>
+                            <td>`+ deadlineString.split(',')[i] +`</td>  
+                            <td> 
+                            <form action="/UC/formCreated" method="POST" >
+                                <input type="text" name="id" value="`+idString.split(',')[i]+`" style="display:none">
+                                <input type="text" name="title" value="`+titleString.split(',')[i]+`" style="display:none">
+                                <input type="text" name="unitCode" value="`+unitCodeString.split(',')[i]+`" style="display:none">
+                                <input type="text" name="teachPer" value="`+teachPerString.split(',')[i]+`" style="display:none">
+                                <button id="demo" type="submit" name="event" value="edit" > Edit </button>  
+                                `+buttonDown+`
+                            </form>
+                            </td>
+                        </tr>`;
+
+                    table.insertAdjacentHTML("beforeend" , detailForm); 
+                    table.insertAdjacentHTML("beforeend" , "</form>");      
+                }
+            }
+            else 
+            {
+                table.style.display ="none";
+                document.getElementById('title1').style.display = 'none';
+                document.getElementById('info').innerHTML = "<p> There is no form created!!!!!";
+
             }
         }
-        else 
-        {
-            table.style.display ="none";
-            document.getElementById('title1').style.display = 'none';
-            document.getElementById('info').innerHTML = "<p> There is no form created!!!!!";
 
-        }
-    }
+        function getDate()
+        {
+            var d = new Date();
+            var month = d.getMonth();
+            var day = d.getDate();
+            var year = d.getFullYear();
+            month = parseInt(month) + 1;
+            if(month < 10)
+            {
+                month = "0" + month;
+            }
+            if(day < 10)
+            {
+                day = "0" + day;
+            }
+            var fulldate = year+"-"+month+"-"+day;
 
-    function check()
-    {
-        if (confirm("Are you sure to delete !!!!!!"))
-        {
-            return true;
-        } 
-        else 
-        {
-            return false;
+            return fulldate;
         }
-    }
 
     </script>
 </head>

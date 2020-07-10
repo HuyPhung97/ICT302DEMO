@@ -6,7 +6,9 @@ const answer = new Schema({
     PersonId : String,
     Surname : String,
     UnitCode : String,
+    teachPeriod : String,
     teamdID : String,
+    formName : String,
     Answer : Object
 });
 

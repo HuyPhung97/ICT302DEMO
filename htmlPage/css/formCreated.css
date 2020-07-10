@@ -159,7 +159,16 @@ table  button
 table  button:hover
 {
     color : red;
-    
+}
+
+#download
+{
+    padding-left : 1%;
+}
+
+#download:hover
+{
+    color : red;
 }
 
 #demo

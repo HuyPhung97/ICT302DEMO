@@ -112,7 +112,7 @@ function sendEmail()
                                     var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
                                                    
                                    
-                                    if(diffDays < 18)
+                                    if(diffDays < 7)
                                     {
                                         var hashValue =  Buffer.from(data[i].PersonId, "binary").toString("base64") 
                                         var content = `<a href="http://ICT302-TMA-FT04.ad.murdoch.edu.au:`+port+`/student/id=`+hashValue+`/form=`+formName+`"> Click here to complete the form </a>`;
@@ -170,7 +170,7 @@ function sendEmail()
     } , 1000);
 }
 
-sendEmail();
+//sendEmail();
 
 function getDate()
 {
