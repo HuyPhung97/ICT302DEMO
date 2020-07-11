@@ -75,8 +75,8 @@ function sendEmail()
         pool: true, 
         service: 'gmail',
         auth: {
-          user: 'tuthaiphu1@gmail.com',
-          pass: 'Minhhuy1!'
+          user: '',
+          pass: ''
         }
       });
 
