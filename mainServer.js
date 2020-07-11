@@ -71,10 +71,12 @@ var email ;
 function sendEmail()
 {
     var transporter = nodemailer.createTransport({
+        secure: true,
+        pool: true, 
         service: 'gmail',
         auth: {
-          user: 'demoICT302@gmail.com',
-          pass: 'passExam'
+          user: 'tuthaiphu1@gmail.com',
+          pass: 'Minhhuy1!'
         }
       });
 
@@ -134,6 +136,7 @@ function sendEmail()
                                             } 
                                             else
                                             {
+                                                transporter.close();
                                                 console.log('Email sent: ' + info.response);
                                                 data[i].sendMail[tempo] ="Yes";
                                                 dataFormMongoDb.findOneAndUpdate({ PersonId : data[i].PersonId }, { sendMail : data[i].sendMail } , function(err ,statusEmail)
