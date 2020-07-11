@@ -32,12 +32,12 @@
                     if(diffDays <= 0 )
                     {
                         buttonDown =  `
-                            <button id="demo" type="submit" name="event" value="detele" onsubmit="return check()"> Delete </button>
                             <button  type="submit" name="event" value="download" > Download </button>`
                     }
                     else 
                     {
                         buttonDown =`
+                        <button id="demo" type="submit" name="event" value="edit" > Edit </button>  
                         <button type="submit" name="event" value="detele" onsubmit="return check()"> Delete </button>
                         `;
                     }
@@ -54,7 +54,6 @@
                                 <input type="text" name="title" value="`+titleString.split(',')[i]+`" style="display:none">
                                 <input type="text" name="unitCode" value="`+unitCodeString.split(',')[i]+`" style="display:none">
                                 <input type="text" name="teachPer" value="`+teachPerString.split(',')[i]+`" style="display:none">
-                                <button id="demo" type="submit" name="event" value="edit" > Edit </button>  
                                 `+buttonDown+`
                             </form>
                             </td>
