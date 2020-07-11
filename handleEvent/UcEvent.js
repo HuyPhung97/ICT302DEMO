@@ -591,7 +591,7 @@ var idFromForm = "";
                     {
                         formName :  eachStudent[i].formName,
                         status : eachStudent[i].status,
-                        sendMail : eachStudent[i].sendMail
+                        sendMail : eachStudent[i].sendMail,
                     }
 
                     studentRecord.findOneAndUpdate({PersonId : eachStudent[i].PersonId} , update , function(err ,data)

@@ -167,10 +167,10 @@ function sendEmail()
     email = setTimeout( function() 
     {
         sendEmail();
-    } , 1000);
+    } , 5000);
 }
 
-//sendEmail();
+sendEmail();
 
 function getDate()
 {
