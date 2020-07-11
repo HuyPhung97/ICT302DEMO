@@ -645,7 +645,6 @@ var idFromForm = "";
                 teachPeriod :req.body.teachPer,
             }
 
-
             dataFormMongoDb.findOne(findData , function(err , formStudent)
             {
                 let numberQuestion = formStudent.question.length;
@@ -722,17 +721,16 @@ var idFromForm = "";
                                             var eachQuestion = [];
                                             for(var e = 0 ; e < numberQuestion ; e++)
                                             {
-                                                if(e/2 == 1|| e/2 == 0)
+                                                if(e/2 == 1)
                                                 {
-                                                    eachMem.push(" ");
                                                     eachMem.push(eachStudent[j].PersonId);
-                                                }else 
-                                                {
-                                                    eachMem.push(" ");
-                                                    eachMem.push(" ");
-                                                    eachMem.push(" ");
                                                 }
+                                               
+                                                    eachMem.push(" ");
+                                                                      
                                             }
+                                            eachMem.push(" ");
+                                            eachMem.push(" ");
                                             groupStudent = groupStudent + eachMem;
 
                                             // get question 
