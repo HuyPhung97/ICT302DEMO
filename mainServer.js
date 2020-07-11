@@ -75,8 +75,8 @@ function sendEmail()
         pool: true, 
         service: 'gmail',
         auth: {
-          user: '',
-          pass: ''
+          user: 'demoict302@gmail.com',
+          pass: 'passExam'
         }
       });
 
@@ -170,7 +170,7 @@ function sendEmail()
     email = setTimeout( function() 
     {
         sendEmail();
-    } , 5000);
+    } , 6000);
 }
 
 sendEmail();
