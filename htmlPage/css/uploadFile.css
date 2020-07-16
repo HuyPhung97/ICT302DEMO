@@ -6,7 +6,7 @@
     position: sticky;
 	top : 0px;
     width : 100%;   
-    background-color: #333333;
+    background-color: #1a1a1a;
 }
 .imgIcon img
 {
@@ -18,25 +18,6 @@
 .imgIcon img:hover
 {
     background-color: red;
-}
-
-.titleWord
-{
-    float : left;
-    width : 85%;
-    height : auto;
-}
-.titleWord a
-{
-   float : left;
-   border-left :1px solid white;
-   padding : 2.1% 0 ;
-   width : 10%;;
-   padding-left:2%;
-   padding-right : 2%;
-   text-align: center;
-   color : #a6a6a6;
-   text-decoration: none;
 }
 
 .titleWord a:hover
@@ -87,7 +68,6 @@
     text-align: center;
     padding-top: 6%;
     padding-bottom: 4%;
-    font-style:italic;
 }
 
 .theRightBackground
@@ -98,10 +78,9 @@
 
 .theRightBackground h1
 {
-    font-size : 55px;
+    font-size : 50px;
     text-align: center;
     width: 100%;
-    font-style: italic;
 }
 
 .titleUpload {
@@ -189,28 +168,32 @@ button[type=submit]:hover
 
 .containerUpload1 input[type=submit]
 {
-    font-size : 35px;
-    width : 90%;
+    font-size : 25px;
     display : block;
     margin-left: auto;
     margin-right: auto;
-    background-color: #66ff66;
-    color : #262626;
+    background-color: #1a1a1a;
+    color: #e6e6e6;
     border-radius: 5px;
     padding-top: 0.5%;
     padding-bottom: 0.5%;
 }
 
-.inputUploadFile input[type=file]
+input[type=submit]:hover 
 {
-   
+    background-color: white;
+    color: #1a1a1a;
+}
+
+.inputUploadFile input[type=file]
+{  
     font-size: 35px;
     
 }
 
 .containerForm 
 {
-    border : 1px solid red;
+    border : 1px solid;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -220,11 +203,3 @@ button[type=submit]:hover
     width : 90%;
     border-radius: 5px;
 }
-
-
-
-
-
-
-
-

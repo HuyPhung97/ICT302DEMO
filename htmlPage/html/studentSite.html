@@ -1,5 +1,6 @@
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> Murdoch University </title>
     <link rel="stylesheet" href="../htmlPage/css/student.css" />
     <link rel="icon" href="../../image/logo.png"/>
@@ -169,7 +170,7 @@
             }
             else 
             {
-                alert("Please select the contribution!!!!!!");
+                alert("Please select a score.");
                 return false;
             }
 
@@ -189,10 +190,6 @@
         <div class="imgIcon">
             <a href="/"><img src="../../image/logo.svg"> </a>
         </div>
-        <div class="titleWord">
-            <a href="/UC">UC </a>
-            <a href="/ABOUT%20US">ABOUT US </a>
-        </div>
     </div>
    
     <div class="mainBackground">
@@ -200,34 +197,34 @@
             <form action='/student/id=<%= PersonId %>/form=<%= title %>'   method="POST"  onsubmit="return checkRadius()" >
             <div class="containInFor">
                 <fieldset>
-                    <legend>Student Infor</legend>
+                    <legend>Student Information</legend>
                         <div id="infor">
                             <input type="text" name="PersonId" value="<%= PersonId %>" readonly/>
                             <input type="text" name="question" value="<%= question %>" style="display:none"/>
                         </div>
                         <div id="infor">
-                            <input type="text" name="SurName" value="<%= SurName %>" readonly/>
+                            <input type="text" name="Surname" value="<%= SurName %>" readonly/>
                         </div>
                         <div id="infor">
-                            <input type="text" name="teamID" value="<%= teamdID %>" readonly/>
+                            <input type="text" name="TeamID" value="<%= teamdID %>" readonly/>
                         </div>
                         <div id="infor">
                             <input type="text" name="UnitCode" value="<%= UnitCode %>" readonly/>
                         </div>
                         <div id="infor">
-                            <input type="text" name="teachPer" value="<%= teachPer %>" readonly/>
+                            <input type="text" name="Teach Period" value="<%= teachPer %>" readonly/>
                         </div>
                         <div id="infor">
-                            <input id="title" type="text" name="title" value="<%= title %>" Readonly>  
+                            <input id="title" type="text" name="Title" value="<%= title %>" readonly>  
                         </div>
                 </fieldset>   
               
                 <div id="question">  </div> 
             </div>
             <div id="test"> </div>
-            <button type="submit" id="submit"style="display: none;"> submit</button>
+            <button type="submit" id="submit"style="display: none;"> Submit</button>
             <button type="button" id="next" onclick="nextTab()"> Next </button>
-            <button type="button" id="preivous" onclick="previousTab()"> Preivous </button>
+            <button type="button" id="preivous" onclick="previousTab()"> Previous </button>
             </form>
         </div>
     </div>

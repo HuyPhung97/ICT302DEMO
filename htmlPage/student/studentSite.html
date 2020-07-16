@@ -83,7 +83,7 @@
                 var teammateContain = `
                     <div class="containInFor">
                         <fieldset>
-                            <legend>Teammate Infor</legend>
+                            <legend>Teammate Information</legend>
                             <div id="infor">
                                 <input type="text" name="SurName" value="`+teammate.split(',')[i]+`" readonly/>
                             </div>
@@ -169,7 +169,7 @@
             }
             else 
             {
-                alert("Please select the contribution!!!!!!");
+                alert("Please answer all questions.");
                 return false;
             }
 
@@ -196,7 +196,7 @@
             <form action='/student/id=<%= encodebinary %>/form=<%= title %>'   method="POST"  onsubmit="return checkRadius()" >
             <div class="containInFor">
                 <fieldset>
-                    <legend>Student Infor</legend>
+                    <legend>Student Information</legend>
                         <div id="infor">
                             <input type="text" name="PersonId" value="<%= PersonId %>" readonly/>
                             <input type="text" name="question" value="<%= question %>" style="display:none"/>

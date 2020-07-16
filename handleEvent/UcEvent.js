@@ -10,6 +10,7 @@ const studentTable = require('./schmeData/studentRecord');
 const formStudent = require('./schmeData/formSurvey');
 const groupStudent = require('./schmeData/studentGroup');
 const recordAnswer  = require('./schmeData/recordAnswer');
+const UCrecord = require('./schmeData/UCAccount');
 const { dirname } = require('path');
 const { RSA_NO_PADDING } = require('constants');
 const { count } = require('console');

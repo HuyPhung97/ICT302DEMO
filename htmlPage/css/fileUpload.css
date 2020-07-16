@@ -6,7 +6,7 @@
     position: sticky;
 	top : 0px;
     width : 100%;   
-    background-color: #333333;
+    background-color: #1a1a1a;
 }
 .imgIcon img
 {
@@ -19,25 +19,6 @@
 .imgIcon img:hover
 {
     background-color: red;
-}
-
-.titleWord
-{
-    float : left;
-    width : 85%;
-    height : auto;
-}
-.titleWord a
-{
-   float : left;
-   border-left :1px solid white;
-   padding : 2.1% 0 ;
-   width : 10%;;
-   padding-left:2%;
-   padding-right : 2%;
-   text-align: center;
-   color : #a6a6a6;
-   text-decoration: none;
 }
 
 .titleWord a:hover
@@ -88,7 +69,6 @@
     text-align: center;
     padding-top: 6%;
     padding-bottom: 4%;
-    font-style:italic;
 }
 
 #linkToForm
@@ -100,6 +80,9 @@
 
 .theRightBackground
 {
+    font-size : 50px;
+    font-weight: bold;
+    text-align: center;
     width : 88%;
     float : left;
 }
@@ -128,34 +111,34 @@ table td
     font-size: 18px;
     text-align: left;
     padding-left: 1%;
-    border-top: 2px solid #b3b3ff;
+    border-top: 2px solid #1a1919;
 }
 
 table th
 {
-    font-size: 30px;
+    font-size: 25px;
     padding-top: 1%;
     padding-bottom: 1%;
-    background-color: #b3b3ff;
+    background-color: #1a1919;
     text-align: left;
     padding-left: 1%;
+    color: white;
 }
 
 
-table  button
+table button
 {
     background-color: white;
-    font-size: 25px ;
-    border : none;
-    color : blue;
+    font-size: 18px ;
+    border : 2px dashed;
+    color : red;
     outline : none;
     text-decoration: underline;
 }
 
-table  button:hover
+table button:hover
 {
-    color : red;
-    
+    color : grey;    
 }
 
 #upload

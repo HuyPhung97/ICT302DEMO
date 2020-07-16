@@ -6,14 +6,13 @@
     position: sticky;
 	top : 0px;
     width : 100%;   
-    background-color: #333333;
+    background-color: #1a1a1a;
 }
 .imgIcon img
 {
     float : left;
     width : 15%;
     height: 9.8%;
-
 }
 
 .imgIcon img:hover
@@ -21,30 +20,6 @@
     background-color: red;
 }
 
-.titleWord
-{
-    float : left;
-    width : 85%;
-    height : auto;
-}
-.titleWord a
-{
-   float : left;
-   border-left :1px solid white;
-   padding : 2.1% 0 ;
-   width : 10%;;
-   padding-left:2%;
-   padding-right : 2%;
-   text-align: center;
-   color : #a6a6a6;
-   text-decoration: none;
-}
-
-.titleWord a:hover
-{
-    background-color: #ff1a1a;
-	color: white;
-}
 .title::after {
     content: "";
     clear: both;
@@ -63,6 +38,7 @@
     width : 12%;
     height: 900px;
     border-right: 2px solid  #404040;
+    background-color: #e6e6e6;
 }
 
 .theOption
@@ -88,7 +64,6 @@
     text-align: center;
     padding-top: 6%;
     padding-bottom: 4%;
-    font-style:italic;
 }
 
 #linkToForm
@@ -109,7 +84,7 @@
 .mainTitle
 {
     font-size : 50px;
-    font-style: italic;
+    font-weight: bold;
     text-align: center;
     margin-top : 2%;
 }
@@ -132,7 +107,7 @@
 .containTitle input[type=text], .containTitle input[type=date]
 {
     font-size: 25px;
-    border-bottom-color: #809fff;
+    border-bottom-color: #e6e6e6;
     border-top-style:none;
     border-left-style:none;
     border-right-style:none;   
@@ -164,12 +139,14 @@
     font-size: 25px;
     margin-left: 15%;
     border-radius: 3px;
+    background-color: #1a1a1a;
+    color: #e6e6e6;
 }
 
 .handleButton button:hover
 {
-    background-color: red;
-    color : black;
+    background-color: white;
+    color: #1a1a1a;
 }
 
 .containQuestion
@@ -199,11 +176,11 @@
 
 .Question input
 {
-    font-size : 28px;
+    font-size : 25px;
     border-top-style:none;
     border-left-style:none;
     border-right-style:none;  
-    border-bottom-color: #809fff; 
+    border-bottom-color: #e6e6e6; 
     outline: none;
     width : 95%;
     padding-top : 1%;
@@ -248,7 +225,7 @@
 {
     margin-left : 3%;
     font-size: 40px;
-    color:red;
-    background-color: white;
+    background-color: #1a1a1a;
+    color: #e6e6e6;
     border : 0px;
 }

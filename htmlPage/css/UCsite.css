@@ -6,7 +6,7 @@
     position: sticky;
 	top : 0px;
     width : 100%;   
-    background-color: #333333;
+    background-color: #1a1a1a;
 }
 .imgIcon img
 {
@@ -21,35 +21,11 @@
     background-color: red;
 }
 
-.titleWord
-{
-    float : left;
-    width : 85%;
-    height : auto;
-}
-.titleWord a
-{
-   float : left;
-   border-left :1px solid white;
-   padding : 2.1% 0 ;
-   width : 10%;;
-   padding-left:2%;
-   padding-right : 2%;
-   text-align: center;
-   color : #a6a6a6;
-   text-decoration: none;
-}
-
-.titleWord a:hover
-{
-    background-color: #ff1a1a;
-	color: white;
-}
 .title::after {
     content: "";
     clear: both;
     display: table;
-  }
+}
 
 .mainBackground
 {
@@ -88,7 +64,8 @@
     text-align: center;
     padding-top: 6%;
     padding-bottom: 4%;
-    font-style:italic;
+    /*font-family:courier,arial,helvetica;
+    /*font-style:italic;*/
 }
 
 #linkToForm

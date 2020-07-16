@@ -11,6 +11,7 @@ var bodyParser = require("body-parser");
 app.use(bodyParser());
 const ejs = require('ejs');
 app.engine('html', require('ejs').renderFile);
+
 //app.set('views', 'htmlPage');
 
 
@@ -52,13 +53,38 @@ app.use(express.static(path.join(__dirname , 'htmlPage')));
 // test send email??
 const studentTable = require('./handleEvent/schmeData/studentRecord');
 const formStudent = require('./handleEvent/schmeData/formSurvey');
-
+const UCrecord = require('./handleEvent/schmeData/UCAccount');
 
 //main site 
 app.get('/', function(req, res )
 {
     res.sendFile(path.join(__dirname , "htmlPage/html/mainSite.html")); 
 })
+
+
+app.post('/', function(req, res )
+{
+    var UCAccount =  mongoose.model('accountucs', UCrecord.Schema);
+    var find = 
+    {
+        id : req.body.uname,
+        pwd : req.body.psw,
+    }
+   
+    UCAccount.find(find , function(err ,data)
+    {
+        if(data.length == 0)
+        {
+            res.sendFile(path.join(__dirname , "htmlPage/html/mainSite.html")); 
+            res.render(path.join(__dirname , "htmlPage/html/mainSite.html"), { invalid : "none"});
+        }
+        else 
+        {
+            res.redirect("/UC");
+        }
+    })
+})
+
 
 //about US site
 app.get('/ABOUT%20US', function(req, res )
@@ -117,13 +143,16 @@ function sendEmail()
                                     if(diffDays < 7)
                                     {
                                         var hashValue =  Buffer.from(data[i].PersonId, "binary").toString("base64") 
-                                        var content = `<a href="http://ICT302-TMA-FT04.ad.murdoch.edu.au:`+port+`/student/id=`+hashValue+`/form=`+formName+`"> Click here to complete the form </a>`;
+                                        var content = `
+                                        <p> Dear Student, please click the link below to access and complete your personal Self and Peer Evaluation form.</p> 
+                                        <br> <a href="http://ICT302-TMA-FT04.ad.murdoch.edu.au:`+port+`/student/id=`+hashValue+`/form=`+formName+`"> Click here to complete the form </a>`;
                                        
+                                      
                                         var mailOptions = 
                                         {
                                             from: 'demoICT302@gmail.com',
                                             to: data[i].email,
-                                            subject: 'Sending Email to complete form!!!!',
+                                            subject: 'Murdoch SPE Form',
                                             text: "Please fill up the form",
                                             html : content
                                         }
@@ -136,8 +165,7 @@ function sendEmail()
                                             } 
                                             else
                                             {
-                                                transporter.close();
-                                                console.log('Email sent: ' + info.response);
+                                                console.log('Email sent to : ' + data[i].email);
                                                 data[i].sendMail[tempo] ="Yes";
                                                 dataFormMongoDb.findOneAndUpdate({ PersonId : data[i].PersonId }, { sendMail : data[i].sendMail } , function(err ,statusEmail)
                                                 {

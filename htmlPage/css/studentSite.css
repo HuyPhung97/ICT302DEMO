@@ -6,7 +6,7 @@
     position: sticky;
 	top : 0px;
     width : 100%;   
-    background-color: #333333;
+    background-color: #1a1a1a;
 }
 .imgIcon img
 {
@@ -20,30 +20,6 @@
     background-color: red;
 }
 
-.titleWord
-{
-    float : left;
-    width : 85%;
-    height : auto;
-}
-.titleWord a
-{
-   float : left;
-   border-left :1px solid white;
-   padding : 2.1% 0 ;
-   width : 10%;;
-   padding-left:2%;
-   padding-right : 2%;
-   text-align: center;
-   color : #a6a6a6;
-   text-decoration: none;
-}
-
-.titleWord a:hover
-{
-    background-color: #ff1a1a;
-	color: white;
-}
 .title::after {
     content: "";
     clear: both;
@@ -90,7 +66,7 @@
 {
     width : 100%;
     font-size : 25px;
-    border-bottom-color: #809fff;
+    border-bottom-color: #e6e6e6;
     border-top-style:none;
     border-left-style:none;
     border-right-style:none;

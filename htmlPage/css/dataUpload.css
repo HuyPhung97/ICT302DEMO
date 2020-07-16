@@ -6,7 +6,7 @@
     position: sticky;
 	top : 0px;
     width : 100%;   
-    background-color: #333333;
+    background-color: #1a1a1a;
 }
 .imgIcon img
 {
@@ -19,25 +19,6 @@
 .imgIcon img:hover
 {
     background-color: red;
-}
-
-.titleWord
-{
-    float : left;
-    width : 85%;
-    height : auto;
-}
-.titleWord a
-{
-   float : left;
-   border-left :1px solid white;
-   padding : 2.1% 0 ;
-   width : 10%;;
-   padding-left:2%;
-   padding-right : 2%;
-   text-align: center;
-   color : #a6a6a6;
-   text-decoration: none;
 }
 
 .titleWord a:hover
@@ -88,7 +69,6 @@
     text-align: center;
     padding-top: 6%;
     padding-bottom: 4%;
-    font-style:italic;
 }
 
 .theRightBackground
@@ -100,7 +80,6 @@
 .theRightBackground h1
 {
     font-size: 50px;
-    font-style: italic;
     text-align: center;
 }
 
@@ -127,10 +106,11 @@ table th
     font-size: 25px;
     padding-top: 1%;
     padding-bottom: 1%;
-    background-color: #b3b3ff;
+    background-color: #1a1a1a;
     text-align: center;
     padding-left: 1%;
-    text-align: center
+    color: white;
+    text-align: center;
 }
 
 #containData 
@@ -149,14 +129,13 @@ table th
     margin-right: auto;
     font-size: 25px;
     border-radius: 5px;
-    font-style: italic;
     background-color: #1a1a1a;
     color: #e6e6e6;
 }
 
 #submit:hover
 {
-    background-color: #66ff66;
+    background-color: #e6e6e6;
     color: #1a1a1a;
 }
 

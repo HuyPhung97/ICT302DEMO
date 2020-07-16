@@ -6,7 +6,7 @@
     position: sticky;
 	top : 0;
     width : 100%;   
-    background-color: #333333;
+    background-color: #1a1a1a;
 }
 .imgIcon img
 {
@@ -20,30 +20,6 @@
     background-color: red;
 }
 
-.titleWord
-{
-    float : left;
-    width : 85%;
-    height : auto;
-}
-.titleWord a
-{
-   float : left;
-   border-left :1px solid white;
-   padding : 2.1% 0 ;
-   width : 10%;;
-   padding-left:2%;
-   padding-right : 2%;
-   text-align: center;
-   color : #a6a6a6;
-   text-decoration: none;
-}
-
-.titleWord a:hover
-{
-    background-color: #ff1a1a;
-	color: white;
-}
 .title::after {
     content: "";
     clear: both;
@@ -68,7 +44,7 @@
     float : left;
     width : 12%; 
     height : 761px;
-    background-color: #cccccc;
+    background-color: #e6e6e6;
 }
 
 .theOption
@@ -94,13 +70,12 @@
     text-align: center;
     padding-top: 6%;
     padding-bottom: 4%;
-    font-style:italic;
 }
 
 
 #theRightBackground
 {
-    background-color : #cccccc;
+    background-color: #e6e6e6;
     border-left: 2px solid  #404040;
     width : 88%;
     height : 761px;
@@ -144,8 +119,8 @@
 
 .mainTitle
 {
-    font-size : 70px;
-    font-style : italic;
+    font-size : 50px;
+    font-weight: bold;
     text-align: center;
 }
 
@@ -173,7 +148,7 @@
 {
     width : 80%;
     font-size : 25px;
-    border-bottom-color: #809fff;
+    border-bottom-color: #e6e6e6;
     border-top-style:none;
     border-left-style:none;
     border-right-style:none;
@@ -203,7 +178,7 @@
     outline: none;
     width : 90%;
     font-size : 25px;
-    border-bottom-color: #809fff;
+    border-bottom-color: #e6e6e6;
     border-top-style:none;
     border-left-style:none;
     border-right-style:none;    
@@ -216,6 +191,22 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.handleButton button
+{
+    float : left;
+    font-size: 25px;
+    margin-left: 15%;
+    border-radius: 3px;
+    background-color: #1a1a1a;
+    color: #e6e6e6;
+}
+
+.handleButton button:hover
+{
+    background-color: white;
+    color: #1a1a1a;
 }
 
 #submitButton, #createButton , #resetButton
@@ -234,7 +225,7 @@
 }
 .containBase1
 {
-    background-color: #cccccc;
+    background-color: #e6e6e6;
 }
 
 
@@ -264,7 +255,7 @@
 {
     width : 70%;
     font-size : 25px;
-    border-bottom-color: #809fff;
+    border-bottom-color: #e6e6e6;
     border-top-style:none;
     border-left-style:none;
     border-right-style:none;    
@@ -293,7 +284,7 @@
 
 #optionWithButton button
 {
-    background-color: DodgerBlue;
+    background-color: #e6e6e6;
     border: none;
     color: white;
     padding : 15px 15px 10px 15px;
@@ -320,7 +311,7 @@
     border-top-style:none;
     border-left-style:none;
     border-right-style:none;  
-    border-bottom-color: #809fff; 
+    border-bottom-color: #e6e6e6;
     width : 100%;
     padding-top: 1%;
     font-size: 25px;
@@ -346,11 +337,11 @@
 
 .Question input
 {
-    font-size : 30px;
+    font-size : 25px;
     border-top-style:none;
     border-left-style:none;
     border-right-style:none;  
-    border-bottom-color: #809fff; 
+    border-bottom-color: #e6e6e6;
     outline: none;
     width : 90%;
     padding-top : 1%;
@@ -393,8 +384,8 @@
 {
     margin-left : 3%;
     font-size: 40px;
-    color:red;
-    background-color: white;
+    background-color: #1a1a1a;
+    color: #e6e6e6;
     border : 0px;
 }
 
@@ -403,22 +394,10 @@
     border-top-style:none;
     border-left-style:none;
     border-right-style:none;  
-    border-bottom-color: #809fff; 
+    border-bottom-color: #e6e6e6;
     width : 100%;
     padding-top: 1%;
     font-size: 25px;
     outline: none;
     padding-left: 1%;
 }
-
-
-
-
-
-
-
-
-
-
-
-

@@ -6,7 +6,7 @@
     position: sticky;
 	top : 0px;
     width : 100%;   
-    background-color: #333333;
+    background-color: #1a1a1a;
 }
 .imgIcon img
 {
@@ -20,117 +20,64 @@
     background-color: red;
 }
 
-.titleWord
-{
-    float : left;
-    width : 85%;
-    height : auto;
-}
-.titleWord a
-{
-   float : left;
-   border-left :1px solid white;
-   padding : 2.1% 0 ;
-   width : 10%;;
-   padding-left:2%;
-   padding-right : 2%;
-   text-align: center;
-   color : #a6a6a6;
-   text-decoration: none;
-}
-
 .titleWord a:hover
 {
     background-color: #ff1a1a;
 	color: white;
 }
+
 .title::after {
     content: "";
     clear: both;
     display: table;
-  }
+}
+
 
 .background
 {
-      border : 1px solid;
-      height: 100%;
-      width: 100%;
-      background: url(/image/background1.jpg) no-repeat;
-      background-size: 100% auto;
-      opacity: 1;
+    height: 100%;
+    width: 100%;
+    background: url(/image/background1.jpg) no-repeat;
+    background-size: 100% auto;
+    opacity: 1;
 }
 
-
-
-
-
-.introUC , .introStudents
+body 
 {
-    font-size : 20px;
-    background-color: rgba(88, 83, 83, 0.5);
-    border-radius: 5px;
-}
-.containUCStudent
-{
-   margin-top : 5%;
-}
-
-.introUC 
-{
-    float : left;
-    width : 35%;
-    margin-left : 5%;
-}
-
-.introStudents 
-{
-    float : right;
-    width : 35%;
-    margin-right: 5%;
-}
-
-
-.introUC , .introStudents h1
-{
+    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    color: white;
-    font-weight: bolder;
 }
 
-.introUC p, .introStudents p
+.box
 {
-    padding-left: 2%;
-    padding-right: 2%;
-    text-indent: 50px;
-    letter-spacing: 4px;
-    text-align: center;
-    color: white;
-    font-weight: bolder;
+    display: inline-block;
 }
 
-.containInfo h1
+input[type=text], input[type=password] 
 {
-    font-size : 40px;
-    text-align: center;
-    color : white;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
-.containInfo 
-{
-    border : 2px solid red;
-    margin-top : 5%;
-    width : 90%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 4%;
+button {
+  background-color: #000000;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
 }
 
-.containInfo p
-{
-    font-size : 25px;
-    color : black;
-    text-indent: 50px;
-    letter-spacing: 3px;
-    padding-left : 4%;
+button:hover {
+  opacity: 0.8;
+}
+
+.container {
+  padding: 16px;
+  text-align: left;
 }
