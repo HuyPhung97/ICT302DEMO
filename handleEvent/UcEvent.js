@@ -649,10 +649,12 @@ var idFromForm = "";
             dataFormMongoDb.findOne(findData , function(err , formStudent)
             {
                 let numberQuestion;
+                let questionTest ;
                 
                 if(typeof formStudent.question == 'string')
                 {
                     numberQuestion = 1;
+                    questionTest = formStudent.question;
                 }
                 else
                 {
@@ -747,18 +749,19 @@ var idFromForm = "";
                                             groupStudent = groupStudent + eachMem;
 
                                             // get question 
-                                            for( var e = 0 ; e < numberQuestion ; e++)
+                                            if(numberQuestion == 1)
                                             {
-                                                if(numberQuestion == 1)
-                                                {
-                                                    eachQuestion.push(formStudent.question);
-                                                }
-                                                else 
-                                                {
+                                                eachQuestion.push(formStudent.question);
+                                                console.log(questionTest);
+                                            }
+                                            else 
+                                            {
+                                                for( var e = 0 ; e < numberQuestion ; e++)
+                                                {                                                   
                                                     eachQuestion.push(formStudent.question[e]);
                                                 }
-                                              
                                             }
+                                            
 
                                             eachQuestion.push("Average from each");
                                             eachQuestion.push(" ");
