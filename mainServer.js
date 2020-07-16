@@ -145,9 +145,9 @@ function sendEmail()
                                         var hashValue =  Buffer.from(data[i].PersonId, "binary").toString("base64") 
                                         var content = `
                                         <p> Dear Student, please click the link below to access and complete your personal Self and Peer Evaluation form.</p> 
-                                        <br> <a href="http://ICT302-TMA-FT04.ad.murdoch.edu.au:`+port+`/student/id=`+hashValue+`/form=`+formName+`"> Click here to complete the form </a>`;
+                                        <br> <a href="http://localhost:`+port+`/student/id=`+hashValue+`/form=`+formName+`"> Click here to complete the form </a>`;
                                        
-                                      
+                                      //http://ICT302-TMA-FT04.ad.murdoch.edu.au
                                         var mailOptions = 
                                         {
                                             from: 'demoICT302@gmail.com',
@@ -187,11 +187,7 @@ function sendEmail()
                             }
                         }
                     }
-                }
-                else 
-                {
-                    console.log("There is no form !!!");
-                }          
+                }       
             }
         }
     }) 
@@ -202,7 +198,7 @@ function sendEmail()
     } , 10000);
 }
 
-sendEmail();
+//sendEmail();
 
 function getDate()
 {

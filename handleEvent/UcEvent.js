@@ -648,7 +648,17 @@ var idFromForm = "";
 
             dataFormMongoDb.findOne(findData , function(err , formStudent)
             {
-                let numberQuestion = formStudent.question.length;
+                let numberQuestion;
+                
+                if(typeof formStudent.question == 'string')
+                {
+                    numberQuestion = 1;
+                }
+                else
+                {
+                    numberQuestion = formStudent.question.length;
+                }
+        
                 
                 var total = "";
                 var titleForm = ["Title Form\t " , req.body.title , "\r\n"];
@@ -713,6 +723,7 @@ var idFromForm = "";
                                     var title = ["TEAM #" , "StudentID" , "Surname", "Title" , "Give Name"];
                                     var arvage =  [ " " ,   "Average of  Criteria " , " " , " " ," ", " " , " "];
                                     var eachDetail = "" ;
+
                                     for(var j = 0 ; j < eachStudent.length ;j++)
                                     {       
                                         if(sortNumberTeam[i] == eachStudent[j].teamdID)
@@ -720,6 +731,7 @@ var idFromForm = "";
                                             var detailStudent = [eachStudent[j].teamdID , eachStudent[j].PersonId, eachStudent[j].Surname, eachStudent[j].Title , eachStudent[j].Givenames ];
                                             var eachMem = [];
                                             var eachQuestion = [];
+
                                             for(var e = 0 ; e < numberQuestion ; e++)
                                             {
                                                 if(e/2 == 1)
@@ -735,10 +747,19 @@ var idFromForm = "";
                                             groupStudent = groupStudent + eachMem;
 
                                             // get question 
-                                            for( var e = 0 ; e < formStudent.question.length ; e++)
+                                            for( var e = 0 ; e < numberQuestion ; e++)
                                             {
-                                                eachQuestion.push(formStudent.question[e]);
+                                                if(numberQuestion == 1)
+                                                {
+                                                    eachQuestion.push(formStudent.question);
+                                                }
+                                                else 
+                                                {
+                                                    eachQuestion.push(formStudent.question[e]);
+                                                }
+                                              
                                             }
+
                                             eachQuestion.push("Average from each");
                                             eachQuestion.push(" ");
                                             eachQuestion.push(" ");

@@ -1,19 +1,15 @@
-Title Form	 ,spe1,
-TeamID ,FT01
-,Student being assssed, , , , ,  , ,12345678, , , , ,  , ,12345686, , , , ,  , ,12345682, , , , , 
- ,Assessment Criteria , , , , , q1,q2,q3,q4,q5,Average from each, , q1,q2,q3,q4,q5,Average from each, , q1,q2,q3,q4,q5,Average from each, , 
+Title Form	 ,SPE1,
+TeamID ,FT04
+,Student being assssed, , , , ,  , , 
+ ,Assessment Criteria , , , , , Q1,Average from each, , 
 TEAM #,StudentID,Surname,Title,Give Name
-FT01,12345678,Khoo,Mr,Ye Rong         , ,5,5,5,5,5,5, ,4,4,4,4,4,4, ,3,3,3,3,3,3  
-FT01,12345686,Sacil,Mr,Lorenz       , ,2,3,2,3,3,2.6, ,2,4,2,4,5,3.4, ,5,3,2,4,1,3    
-FT01,12345682,Chan,Mr,Theodore , , 0 , 0 , 0 , 0 , 0 , 0 , , 0 , 0 , 0 , 0 , 0 , 0 , , 0 , 0 , 0 , 0 , 0 , 0 ,           
- ,Average of  Criteria , , , , , 2.333,2.667,2.333,2.667,2.667,2.533, , 2.000,2.667,2.000,2.667,3.000,2.467, , 2.667,2.000,1.667,2.333,1.333,2.000, , 
+FT04,2258,Phan,Mr,Phuoc , , 0 , 0 , 
+ ,Average of  Criteria , , , , , 0.000,0.000, , 
 
-TeamID ,FT02
-,Student being assssed, , , , ,  , ,12345690, , , , ,  , ,12345694, , , , ,  , ,12345688, , , , , 
- ,Assessment Criteria , , , , , q1,q2,q3,q4,q5,Average from each, , q1,q2,q3,q4,q5,Average from each, , q1,q2,q3,q4,q5,Average from each, , 
+TeamID ,FT03
+,Student being assssed, , , , ,  , , 
+ ,Assessment Criteria , , , , , Q1,Average from each, , 
 TEAM #,StudentID,Surname,Title,Give Name
-FT02,12345690,Phan,Mr,Minh Phuoc        , ,5,5,5,5,5,5, ,4,3,2,1,5,3, ,2,3,5,1,3,2.8   
-FT02,12345694,Choy,Mr,Darren          , ,3,3,3,3,3,3, ,3,3,3,3,3,3, ,3,3,3,3,3,3 
-FT02,12345688,Tu,Mr,Thai Phu , , 0 , 0 , 0 , 0 , 0 , 0 , , 0 , 0 , 0 , 0 , 0 , 0 , , 0 , 0 , 0 , 0 , 0 , 0 ,           
- ,Average of  Criteria , , , , , 2.667,2.667,2.667,2.667,2.667,2.667, , 2.333,2.000,1.667,1.333,2.667,2.000, , 1.667,2.000,2.667,1.333,2.000,1.933, , 
+FT03,3356,Phung,Mr,Huy , ,2,2
+ ,Average of  Criteria , , , , , 2.000,2.000, , 
 

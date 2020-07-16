@@ -129,6 +129,8 @@ function createURLStudent()
                     var eachQuestion = dataAnswer.question.split(',');
                     var personAnswer;
                     var contaiWhole = [];
+
+                    console.log(typeof eachPerson);
                     if(typeof eachPerson =="string" )
                     {
                         var tempAns = [];
@@ -145,6 +147,7 @@ function createURLStudent()
                             question : tempQues,
                             answer : tempAns,
                         }
+                        contaiWhole.push(obj);
                         personAnswer = 
                         {
                             PersonId : req.body.PersonId,
