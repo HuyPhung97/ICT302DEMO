@@ -229,3 +229,9 @@
     color: #e6e6e6;
     border : 0px;
 }
+
+#warning
+{
+    font-size : 25px;
+    color : red;
+}

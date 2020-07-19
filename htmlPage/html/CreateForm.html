@@ -10,7 +10,10 @@
        
        var UnitCode = "<%= UnitCode %>";
        var teachPeriod = "<%= teachPeriod %>";
-    
+       var titleEx = "<%= title %>";
+       var unitEx = "<%= unit %>";
+       var teachEx = "<%= teach %>";
+      
         function insertSelect()
         {
             var container = document.getElementById('optionCode');
@@ -32,12 +35,12 @@
            
                 var insertOption = `
                     <div class="unitCode">
-                        <select id="unitCode" name="unitCode" required >
+                        <select id="unitCode" name="unitCode" oninput="checkSame()" required >
                             <option value=""> Unit Code </option>   
                         </select>
                     </div>
                     <div class="teachPer">
-                        <select id="teachPer" name="teachPer" required>
+                        <select id="teachPer" name="teachPer" oninput="checkSame()" required>
                             <option value=""> Teach Period</option>       
                         </select>
                     </div>`;
@@ -82,6 +85,57 @@
        document.getElementById('submitDay').min = current;
     }
 
+    var check;
+    function checkSame()
+    {
+        var titleTemp = document.getElementById('titleName').value;
+        var unitTemp = document.getElementById('unitCode').value;
+        var teachTemp = document.getElementById('teachPer').value;
+
+        var checkEx = false;
+        if(titleEx != "" &&  unitEx != "" && teachEx != "")
+        {
+            for(var i = 0 ; i < titleEx.split(",").length ; i ++)
+            {
+                if(titleTemp == titleEx.split(",")[i] && unitTemp == unitEx.split(",")[i] &&  teachTemp  == teachEx.split(",")[i])
+                {
+                    checkEx = true;
+                }
+            }
+
+            if(checkEx)
+            {
+                document.getElementById('titleName').style.color ="red";
+                document.getElementById('warning').innerHTML="The title has already existed";
+                document.getElementById('warning').style.paddingTop = "0.5%";
+                document.getElementById('warning').style.paddingBottom = "1%";
+                checkEx = false;
+                check = false;
+            }
+            else 
+            {
+                check = true;
+                document.getElementById('titleName').style.color ="black";
+                document.getElementById('warning').innerHTML ="";
+                document.getElementById('warning').style.paddingTop = "0";
+                document.getElementById('warning').style.paddingBottom = "0";
+            }
+        }
+    }
+
+    function checkQuestion()
+    {
+        if(!check)
+        {
+            alert("Please change the title!!!!");
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
     </script>
 </head>
 <body onload="insertSelect()"> 
@@ -109,7 +163,8 @@
                     <div class="containBase">
                         <div class="containTitle">
                             <div id="title">
-                                 <input type="text" name="title" placeholder="Enter Form Title" required/>
+                                 <input type="text" id="titleName" name="title" placeholder="Enter Form Title" oninput= "checkSame()" required/>
+                                 <div id="warning"> </div>     
                             </div>    
                         </div>
                         <div id="optionCode" >

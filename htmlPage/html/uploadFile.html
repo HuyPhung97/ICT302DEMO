@@ -6,6 +6,19 @@
     <link rel="icon" href="../image/logo.png"/>
     <link rel="stylesheet" href="../css/uploadFile.css" />
     <script>
+
+
+        var message = "<%= message %>";
+
+       function displayWarning()
+       {
+           if(message == "Got")
+           {
+                document.getElementById("Warrning").innerHTML = "The file already uploaded!!!!";
+                document.getElementById("Warrning").style.paddingTop = "5%";
+           }
+       }
+
         function checkTheForm()
         {
             var fileID = document.getElementById('file').value;
@@ -15,11 +28,16 @@
                 alert("Please choose the file");
                 return false;
             }
+            
             else 
             {
-                alert("File has been successfully uploaded.");
                 return true;
             }
+        }
+             
+        window.onload = function()
+        {
+            displayWarning();
         }
     </script>
 </head>
@@ -43,14 +61,17 @@
             <h1> Upload File </h1>
         <form action="/UC/upload" method="POST" enctype="multipart/form-data" onSubmit="return checkTheForm()">
             <div class="containerForm">
+                <center>
                 <div class="containerUpload">
                     <div class="inputUploadFile">
                       <input type="file" id="file" name="file" >
+                      <div id="Warrning"> </div>
                     </div>
-                </div>
+                </div> </center>
                 <div class="containerUpload1">
                     <input type="submit" id="test" value="Upload File">
                 </div>
+                <br>
             </div>
         </form> 
         </div>

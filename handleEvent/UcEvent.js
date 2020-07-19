@@ -60,6 +60,7 @@ Router
     {
        if(req.files)
        {
+        
            // table database 
            const Schema = mongoose.model('students', studentTable.Schema);
 
@@ -258,7 +259,7 @@ Router
         const Schema = mongoose.model('students', studentTable.Schema);
         if(tempoID == "")
         {
-            res.end("404 PAGE NOT FOUND");
+            res.redirect("/UC/fileUploaded");
         }
         else 
         {
@@ -405,11 +406,75 @@ Router
             tempoTeach="";
 
         }
+        // else if(studentUnit != "" && studentTeach != "")
+        // {
+        //     var newUnit =  filterData(studentUnit);
+        //     var newTeach =  filterData(studentTeach);
+
+        //     res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+        //     {
+        //         UnitCode : newUnit,
+        //         teachPeriod : newTeach
+        //     });
+
+        //     studentUnit ="";
+        //     studentTeach="";
+           
+        //     console.log("Here is else if ");
+        // }
         else 
         {
             res.redirect("/UC/fileUploaded");
-            
+            // console.log("here is else ");
+            // const dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
+            // dataFormMongoDb.find( function(err ,data)
+            // {
+            //     if(err)
+            //     {
+            //         console.log("there is something wrong!!!");
+            //     }
+            //     else
+            //     {
+            //         if(data.length != 0)
+            //         {
+            //             var unitCode = [];
+            //             var teachPer = [];
+
+            //             for(var i = 0 ; i < data.length ; i++)
+            //             {         
+            //                 unitCode.push(data[i].UnitCode);
+            //                 teachPer.push(data[i].teachPeriod);
+            //             }
+
+            //             var newUnit =  filterData(unitCode);
+            //             var newTeach =  filterData(teachPer);
+
+            //             res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+            //             {
+            //                 UnitCode : newUnit,
+            //                 teachPeriod : newTeach
+            //             });
+            //         }
+            //         else 
+            //         {
+            //             res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+            //             {
+            //                 UnitCode : "nothing",
+            //                 teachPeriod : "nothing"
+            //             });
+            //         }
+            //     }
+            // })
         }
+
+        // res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+        // {
+                //     UnitCode : stringUnitCode,
+        //     teachPeriod : stringTeachPeriod
+        // });
+        // stringUnitCode = "";
+        // //stringTeamID = "";
+        // stringTeachPeriod  = ""; 
     })
     .post(function(req ,res)
     {   
@@ -422,6 +487,7 @@ Router
         titleForm = req.body.title;
         unitCode =  req.body.unitCode;
         teachPer =req.body.teachPer;
+
         //console.log(typeof (dataPack.question));
         if( typeof (dataPack.question) == "string")
         {
