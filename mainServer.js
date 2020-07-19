@@ -198,7 +198,7 @@ function sendEmail()
     } , 10000);
 }
 
-//sendEmail();
+sendEmail();
 
 function getDate()
 {
