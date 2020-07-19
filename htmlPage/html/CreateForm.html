@@ -13,6 +13,11 @@
        var titleEx = "<%= title %>";
        var unitEx = "<%= unit %>";
        var teachEx = "<%= teach %>";
+
+       console.log(titleEx);
+       console.log(unitEx);
+       console.log(teachEx);
+
       
         function insertSelect()
         {
@@ -120,6 +125,10 @@
                 document.getElementById('warning').style.paddingTop = "0";
                 document.getElementById('warning').style.paddingBottom = "0";
             }
+        }
+        else 
+        {
+            check = true;
         }
     }
 
