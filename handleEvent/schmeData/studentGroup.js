@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const answer = new Schema({
     name : String,
     date : String,
-    groupStudentID : Array,
+    groupStudentID : Object
 });
 
 module.exports = mongoose.model("studentGroups", answer);

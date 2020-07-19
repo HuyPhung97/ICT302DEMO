@@ -51,7 +51,6 @@ function checkQuestion()
     }
     else
     {
-        alert("You have created new form!!!!");
         return true;
     }
 }

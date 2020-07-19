@@ -119,7 +119,7 @@
 .containerUpload
 {
     margin-bottom: 3%;
-    width : 40%;
+    width : 75%;
     display : block;
     margin-left: auto;
     margin-right: auto;
@@ -202,11 +202,4 @@ input[type=submit]:hover
     padding-bottom: 2%;
     width : 90%;
     border-radius: 5px;
-}
-
-#Warrning
-{
-    font-size: 25px;
-    color:  red;
-    text-align: center;
 }

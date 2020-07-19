@@ -151,11 +151,3 @@ table button:hover
     font-size: 35px;
     text-align: center;
 }
-
-#Warrning
-{
-    font-size: 25px;
-    color:  red;
-    padding-top: 2%;
-    margin-left: 2%;
-}

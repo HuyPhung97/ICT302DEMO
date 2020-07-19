@@ -8,16 +8,10 @@
     <script>
 
          var questionString = "<%= question %>";
-        
          var titleEx = "<%= titleEx %>";
         var unitEx = "<%= unitCodeEx %>";
         var teachEx = "<%= teachTeacEx %>";
         
-        console.log(titleEx);
-        console.log(unitEx);
-        console.log(teachEx);
-
-
         //count Question 
         var countQuestion = 0;
 
@@ -120,51 +114,11 @@
             {
                 alert("Please change the title!!!!");
                 return false;
-             }
+            }
             else 
             {
                 alert("You have updated the form!!!!");
                 return true;
-            }
-        }
-
-        var check = false;
-        function checkSame()
-        {
-            var titleTemp = document.getElementById('titleCurr').value;
-            var unitTemp = document.getElementById('unitCodeCur').value;
-            var teachTemp = document.getElementById('teachPerCurr').value;
-
-            var checkEx = false;
-            var titleCurr = "<%= title %>";
-            if(titleEx != "" &&  unitEx != "" && teachEx != "")
-            {
-                for(var i = 0 ; i < titleEx.split(",").length ; i ++)
-                {
-                    if(titleTemp !=  titleCurr && titleTemp == titleEx.split(",")[i] && unitTemp == unitEx.split(",")[i] &&  teachTemp  == teachEx.split(",")[i])
-                    {
-                        checkEx = true;
-                        console.log("Yes");
-                    }
-                }
-
-                if(checkEx)
-                {
-                    document.getElementById('titleCurr').style.color ="red";
-                    document.getElementById('warning').style.fontSize = "150%";
-                    document.getElementById('warning').style.paddingTop = "1.5%";
-                    document.getElementById('warning').style.marginLeft = "3%";
-                    document.getElementById('warning').innerHTML="The title has already existed";
-                    check = false;
-                    checkEx = false;
-                }
-                else 
-                {
-                    document.getElementById('titleCurr').style.color ="black";
-                    document.getElementById('warning').innerHTML ="";
-                    document.getElementById('warning').style.paddingTop = "0";  
-                    check = true;
-                }
             }
         }
 
@@ -173,6 +127,48 @@
            displayOption();
            datetime();
        }
+
+    var check;
+    function checkSame()
+    {
+        var titleTemp = document.getElementById('titleName').value;
+        var unitTemp = '<%= unitCode %>';
+        var teachTemp = '<%= teachPer %>';
+        var current = '<%= title %>';
+       
+        console.log(unitTemp);
+        var checkEx = false;
+        if(titleEx != "" &&  unitEx != "" && teachEx != "")
+        {
+            for(var i = 0 ; i < titleEx.split(",").length ; i ++)
+            {
+                if(titleTemp != current && titleTemp == titleEx.split(",")[i] && unitTemp == unitEx.split(",")[i] &&  teachTemp  == teachEx.split(",")[i])
+                {
+                    console.log("Hello world");
+                    checkEx = true;
+                   
+                }
+            }
+
+            if(checkEx)
+            {
+                document.getElementById('titleName').style.color ="red";
+                document.getElementById('warning').style.paddingTop = "1.5%";
+                    document.getElementById('warning').style.marginLeft = "3%";
+                    document.getElementById('warning').innerHTML="The title has already existed";
+                checkEx = false;
+                check = false;
+            }
+            else 
+            {
+                check = true;
+                document.getElementById('titleName').style.color ="black";
+                document.getElementById('warning').innerHTML ="";
+                document.getElementById('warning').style.paddingTop = "0";
+                document.getElementById('warning').style.paddingBottom = "0";
+            }
+        }
+    }
 
 
     </script>
@@ -205,14 +201,14 @@
                                 <input type="text" name="id" value="<%= id %>" readonly />
                            </div>  
                             <div id="title">
-                                <input type="text" id="titleCurr" name="title" value="<%= title %>" oninput= "checkSame()" placeholder="Please enter title..." required />
-                                <div id="warning"> </div>  
+                                 <input type="text" id="titleName" name="title" value="<%= title %>" oninput="checkSame()" placeholder="Please enter title..." required />
+                                 <div id="warning"> </div>   
                             </div>    
                             <div id="unitCode">
-                                <input type="text" id="unitCodeCur" name="unitCode" value="<%= unitCode %>" readonly placeholder="Please enter unit code..." required />
+                                <input type="text" id="unitCode" name="unitCode" value="<%= unitCode %>"  placeholder="Please enter unit code..." readonly />
                            </div>    
                            <div id="teachPeriod">
-                                <input type="text" id="teachPerCurr" name="teachPer" value="<%= teachPer %>" readonly placeholder="Please enter teach period..."  required />
+                                <input type="text" id="teachPer" name="teachPer" value="<%= teachPer %>"   placeholder="Please enter teach period..."  readonly />
                            </div>
                             <div id="describle">
                                 <input type="date" id="submitDay" value="<%= deadline %>"  name="deadline" required >
