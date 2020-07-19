@@ -468,12 +468,14 @@ Router
                 data[i].formName.push(req.body.title)
                 data[i].status.push("No");
                 data[i].sendMail.push("No");
+                data[i].reminder.push("No");
              
                 var update = 
                 {
                     formName :  data[i].formName,
                     status : data[i].status,
-                    sendMail : data[i].sendMail
+                    sendMail : data[i].sendMail,
+                    reminder : data[i].reminder,
                 }
 
                 dataFormMongoDb.findOneAndUpdate({_id : data[i].id} , update , function(err ,event)
@@ -714,15 +716,13 @@ var idFromForm = "";
                                             var eachMem = [];
                                             var eachQuestion = [];
 
-                                            for(var e = 0 ; e < numberQuestion ; e++)
+                                            eachMem.push(eachStudent[j].Givenames);
+                                            eachMem.push(eachStudent[j].Surname);
+                                            eachMem.push(eachStudent[j].PersonId);
+
+                                            for(var e = 0 ; e < numberQuestion-3 ; e++)
                                             {
-                                                if(e/2 == 1)
-                                                {
-                                                    eachMem.push(eachStudent[j].PersonId);
-                                                }
-                                               
-                                                    eachMem.push(" ");
-                                                                      
+                                                eachMem.push(" ");                          
                                             }
                                             eachMem.push(" ");
                                             eachMem.push(" ");

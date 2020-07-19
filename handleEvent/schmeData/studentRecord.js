@@ -14,6 +14,7 @@ const student = new Schema({
     formName: Array,
     status: Array,
     sendMail : Array,
+    reminder : Array,
 });
 
 module.exports = mongoose.model("students", student);

@@ -119,72 +119,113 @@ function sendEmail()
                 {
                     for(var j = 0 ; j < data[i].formName.length ; j++)
                     {
-                        if(data[i].sendMail[j] == "No")
+                        if(data[i].status[j] == "No")
                         {
-                            if(data[i].status[j] == "No")
+                            var findData = 
                             {
-                                var findData = 
+                                title : data[i].formName[j], 
+                                unitCode : data[i].UnitCode,
+                                teachPer : data[i].teachPeriod
+                            }
+                            
+                            let tempo = j;
+                            let formName = data[i].formName[j];
+                            let remider = data[i].reminder[j];
+                            let sendEmail = data[i].sendMail[j];
+
+                            formFromMongoDb.find( findData , function (err , form)
+                            {
+                                var current = getDate();
+                                var deadline = Date.parse(form[0].deadline);
+                                var currentDate = Date.parse(current);   
+                                var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
+                                var hashValue =  Buffer.from(data[i].PersonId, "binary").toString("base64") ;
+                               
+                                if(sendEmail == "No"  && diffDays < 7)
                                 {
-                                    title : data[i].formName[j], 
-                                    unitCode : data[i].UnitCode,
-                                    teachPer : data[i].teachPeriod
-                                }
-                                
-                                let tempo = j;
-                                let formName = data[i].formName[j];
-                                formFromMongoDb.find( findData , function (err , form)
-                                {
-                                    var current = getDate();
-                                    var deadline = Date.parse(form[0].deadline);
-                                    var currentDate = Date.parse(current);   
-                                    var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
-                                                   
-                                   
-                                    if(diffDays < 7)
+                                   var content = `
+                                    <p> Dear Student, please click the link below to access and complete your personal Self and Peer Evaluation form.</p> 
+                                    <br> <a href="http://ICT302-TMA-FT04.ad.murdoch.edu.au:`+port+`/student/id=`+hashValue+`/form=`+formName+`"> Click here to complete the form </a>`;
+                                    
+                
+                                    var mailOptions = 
                                     {
-                                        var hashValue =  Buffer.from(data[i].PersonId, "binary").toString("base64") 
-                                        var content = `
-                                        <p> Dear Student, please click the link below to access and complete your personal Self and Peer Evaluation form.</p> 
+                                        from: 'demoICT302@gmail.com',
+                                        to: data[i].email,
+                                        subject: 'Murdoch SPE Form',
+                                        text: "Please fill up the form",
+                                        html : content
+                                    }
+
+                                    transporter.sendMail(mailOptions, function(error, info)
+                                    {
+                                        if (error)
+                                        {
+                                            console.log(error);
+                                        } 
+                                        else
+                                        {
+                                            console.log('Email sent to : ' + data[i].email);
+                                            data[i].sendMail[tempo] ="Yes";
+                                            dataFormMongoDb.findOneAndUpdate({ PersonId : data[i].PersonId }, { sendMail : data[i].sendMail } , function(err ,statusEmail)
+                                            {
+                                                if(!err)
+                                                {
+                                                    statusEmail.save(function(err)
+                                                    {
+                                                        if(err)
+                                                        {
+                                                            console.log("Error at send email!!!!");
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })	 
+                                } 
+
+                                if(remider == "No"  && diffDays == 1)
+                                {
+                                    var content = `
+                                        <p> Dear Student, this is the reminder to fill up the form </p> <p> please click the link below to access and complete your personal Self and Peer Evaluation form.</p> 
                                         <br> <a href="http://ICT302-TMA-FT04.ad.murdoch.edu.au:`+port+`/student/id=`+hashValue+`/form=`+formName+`"> Click here to complete the form </a>`;
                                        
-                                      //http://ICT302-TMA-FT04.ad.murdoch.edu.au
-                                        var mailOptions = 
-                                        {
-                                            from: 'demoICT302@gmail.com',
-                                            to: data[i].email,
-                                            subject: 'Murdoch SPE Form',
-                                            text: "Please fill up the form",
-                                            html : content
-                                        }
-
-                                        transporter.sendMail(mailOptions, function(error, info)
-                                        {
-                                            if (error)
-                                            {
-                                                console.log(error);
-                                            } 
-                                            else
-                                            {
-                                                console.log('Email sent to : ' + data[i].email);
-                                                data[i].sendMail[tempo] ="Yes";
-                                                dataFormMongoDb.findOneAndUpdate({ PersonId : data[i].PersonId }, { sendMail : data[i].sendMail } , function(err ,statusEmail)
-                                                {
-                                                    if(!err)
-                                                    {
-                                                        statusEmail.save(function(err)
-                                                        {
-                                                            if(err)
-                                                            {
-                                                                console.log("Error at send email!!!!");
-                                                            }
-                                                        })
-                                                    }
-                                                })
-                                            }
-                                        })	
+                                    var mailOptions = 
+                                    {
+                                        from: 'demoICT302@gmail.com',
+                                        to: data[i].email,
+                                        subject: 'Murdoch SPE Form Reminder',
+                                        text: "Please fill up the form",
+                                        html : content
                                     }
-                                })
-                            }
+
+                                    transporter.sendMail(mailOptions, function(error, info)
+                                    {
+                                        if (error)
+                                        {
+                                            console.log(error);
+                                        } 
+                                        else
+                                        {
+                                            console.log('Email sent to : ' + data[i].email);
+                                            data[i].reminder[tempo] ="Yes";
+                                            dataFormMongoDb.findOneAndUpdate({ PersonId : data[i].PersonId }, { reminder : data[i].reminder } , function(err ,statusEmail)
+                                            {
+                                                if(!err)
+                                                {
+                                                    statusEmail.save(function(err)
+                                                    {
+                                                        if(err)
+                                                        {
+                                                            console.log("Error at send email!!!!");
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })	 
+                                }        
+                            })
                         }
                     }
                 }       

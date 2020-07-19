@@ -1,15 +1,17 @@
-Title Form	 ,SPE1,
-TeamID ,FT04
-,Student being assssed, , , , ,  , , 
- ,Assessment Criteria , , , , , Q1,Average from each, , 
+Title Form	 ,spe1,
+TeamID ,FT01
+,Student being assssed, , , , , qwerty,Tan,25632563, , qwertu,Tay,25632561, , 
+ ,Assessment Criteria , , , , , q1,q2,Average from each, , q1,q2,Average from each, , 
 TEAM #,StudentID,Surname,Title,Give Name
-FT04,2258,Phan,Mr,Phuoc , , 0 , 0 , 
- ,Average of  Criteria , , , , , 0.000,0.000, , 
+FT01,25632563,Tan,Mr,qwerty , ,5,5,5, ,5,5,5 
+FT01,25632561,Tay,Mr,qwertu , , 0 , 0 , 0 , , 0 , 0 , 0 ,  
+ ,Average of  Criteria , , , , , 2.500,2.500,2.500, , 2.500,2.500,2.500, , 
 
-TeamID ,FT03
-,Student being assssed, , , , ,  , , 
- ,Assessment Criteria , , , , , Q1,Average from each, , 
+TeamID ,FT02
+,Student being assssed, , , , , qwertp,Lim,25632565, , qwerta,Chew,25632566, , 
+ ,Assessment Criteria , , , , , q1,q2,Average from each, , q1,q2,Average from each, , 
 TEAM #,StudentID,Surname,Title,Give Name
-FT03,3356,Phung,Mr,Huy , ,2,2
- ,Average of  Criteria , , , , , 2.000,2.000, , 
+FT02,25632565,Lim,Mr,qwertp  , ,3,5,4, ,2,3,2.5
+FT02,25632566,Chew,Mr,qwerta , , 0 , 0 , 0 , , 0 , 0 , 0 ,  
+ ,Average of  Criteria , , , , , 1.500,2.500,2.000, , 1.000,1.500,1.250, , 
 

@@ -4,6 +4,7 @@
     <title> Murdoch University </title>
     <link rel="stylesheet" href="../css/fileUpload.css" />
     <link rel="icon" href="../image/logo.png"/>
+  
     <script>
         var id = "<%= id %>";
         var date = "<%= date %>";
@@ -38,16 +39,37 @@
                 document.getElementById('detail').insertAdjacentHTML("beforeend", `</table>`);
             }
         }
-        
 
+        const  refresh =0;  
+        
+       
         window.onload = function()
         {
             display();
+           
+        
+            //console.log(ab);
+            (function()
+                {
+                if( window.localStorage )
+                {
+                    if( !localStorage.getItem('firstLoad') )
+                    {
+                    localStorage['firstLoad'] = true;
+                    window.location.reload();
+                    }  
+                    else
+                    localStorage.removeItem('firstLoad');
+                }
+                })();
+
         }
+     
+       
     </script>
 </head>
 
-<body>
+<Body  >
     <div class="title">
         <div class="imgIcon">
             <a href="/UC"> <img src="../image/logo.svg"> </a>
