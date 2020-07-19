@@ -359,85 +359,57 @@ Router
     .route('/CreateForm')
     .get(function (req , res){
 
+        var dataFormMongoDb = mongoose.model('formstudent',  formStudent.Schema);
         if(tempUnit != "" &&  tempoTeach != "" )
         {
             var newUnit =  filterData(tempUnit);
             var newTeach =  filterData(tempoTeach);
 
-            res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+           var title = [];
+           var unitCode = [];
+           var teachTeac = [];
+            dataFormMongoDb.find( function(err , data)
             {
-                UnitCode : newUnit,
-                teachPeriod : newTeach
-            });
+                if(data.length == 0 )
+                {
+                    res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+                    {
+                        title : "",
+                        unit : "",
+                        teach : "",
+                        UnitCode : newUnit,
+                        teachPeriod : newTeach
+                    });
+                }
+                else 
+                {
+                    for(var i = 0 ; i < data.length ; i++)
+                    {
+                        title.push(data[i].title);
+                        unitCode.push(data[i].unitCode);
+                        teachTeac.push(data[i].teachPer);
+                    }
 
+                    res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
+                    {
+                        title : title,
+                        unit : unitCode,
+                        teach : teachTeac,
+                        UnitCode : newUnit,
+                        teachPeriod : newTeach
+                    });
+                }
+            })
+           
             tempUnit ="";
             tempoTeach="";
-        }
-        else if(studentUnit != "" && studentTeach != "")
-        {
-            var newUnit =  filterData(studentUnit);
-            var newTeach =  filterData(studentTeach);
 
-            res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
-            {
-                UnitCode : newUnit,
-                teachPeriod : newTeach
-            });
-
-            studentUnit ="";
-            studentTeach="";
         }
         else 
         {
-            const dataFormMongoDb = mongoose.model('students',  studentTable.Schema);
-            dataFormMongoDb.find( function(err ,data)
-            {
-                if(err)
-                {
-                    console.log("there is something wrong!!!");
-                }
-                else
-                {
-                    if(data.length != 0)
-                    {
-                        var unitCode = [];
-                        var teachPer = [];
-
-                        for(var i = 0 ; i < data.length ; i++)
-                        {         
-                            unitCode.push(data[i].UnitCode);
-                            teachPer.push(data[i].teachPeriod);
-                        }
-
-                        var newUnit =  filterData(unitCode);
-                        var newTeach =  filterData(teachPer);
-
-                        res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
-                        {
-                            UnitCode : newUnit,
-                            teachPeriod : newTeach
-                        });
-                    }
-                    else 
-                    {
-                        res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
-                        {
-                            UnitCode : "nothing",
-                            teachPeriod : "nothing"
-                        });
-                    }
-                }
-            })
+            res.redirect("/UC/fileUploaded");
+            
         }
-
-        // res.render(path.join(__dirname , "../htmlPage/html/CreateForm.html"),
-        // {
-                //     UnitCode : stringUnitCode,
-        //     teachPeriod : stringTeachPeriod
-        // });
-        // stringUnitCode = "";
-        // //stringTeamID = "";
-        // stringTeachPeriod  = ""; 
     })
     .post(function(req ,res)
     {   
@@ -890,25 +862,47 @@ Router
     { 
         if(idFromForm !="")
         {
+            var titleEx = [];
+            var unitCodeEx = [];
+            var teachTeacEx = [];
             var dataFormMongoDb = mongoose.model('formstudent',  formStudent.Schema);
             dataFormMongoDb.find({_id : idFromForm} ,  function(error, data) 
             { 
-                res.render(path.join(__dirname , "../htmlPage/html/editForm.html"),
+                if(!error)
                 {
-                    id : data[0].id , 
-                    title : data[0].title,
-                    unitCode : data[0].unitCode ,
-                    teachPer : data[0].teachPer,
-                    deadline : data[0].deadline,
-                    question : data[0].question
-                });
+                    dataFormMongoDb.find( function(error, exData) 
+                    {
+                        for(var i = 0 ; i < exData.length ; i++)
+                        {
+                            if(exData[i].title !=  idFromForm)
+                            {
+                                titleEx.push(exData[i].title);
+                                unitCodeEx.push(exData[i].unitCode);
+                                teachTeacEx.push(exData[i].teachPer);
+                            }
+                        }
+                        res.render(path.join(__dirname , "../htmlPage/html/editForm.html"),
+                        {
+                            id : data[0].id , 
+                            title : data[0].title,
+                            unitCode : data[0].unitCode ,
+                            teachPer : data[0].teachPer,
+                            deadline : data[0].deadline,
+                            question : data[0].question,
+                            titleEx : titleEx,
+                            unitCodeEx : unitCodeEx,
+                            teachTeacEx : teachTeacEx,
+                        });
+
+                    })
+                }
              })  
 
              idFromForm ="";
         }
         else 
         {
-            res.end("404 PAGE NOT FOUND");
+            res.redirect("/UC/formCreated");
         }
     })
 
