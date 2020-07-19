@@ -568,6 +568,7 @@ var idFromForm = "";
                         eachStudent[i].formName.splice(check, 1);
                         eachStudent[i].status.splice(check, 1);
                         eachStudent[i].sendMail.splice(check, 1);
+                        eachStudent[i].reminder.splice(check, 1);
                     }
 
                     var update = 
@@ -575,6 +576,7 @@ var idFromForm = "";
                         formName :  eachStudent[i].formName,
                         status : eachStudent[i].status,
                         sendMail : eachStudent[i].sendMail,
+                        reminder : eachStudent[i].reminder,
                     }
 
                     studentRecord.findOneAndUpdate({PersonId : eachStudent[i].PersonId} , update , function(err ,data)
