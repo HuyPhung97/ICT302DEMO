@@ -920,6 +920,8 @@ Router
         var dataPack = req.body;
         var containQuestion = [];
         var update;
+
+
         if( typeof (dataPack.question) == "string")
         {
             update = { 
@@ -936,6 +938,7 @@ Router
             {
                  containQuestion.push(dataPack.question[i]);
             }
+
             update = { 
                 title : req.body.title,
                 unitCode : req.body.unitCode,   
@@ -980,6 +983,7 @@ Router
                 }
             })
         }
+
 
         var dataFormMongoDb = mongoose.model('formstudent',  formStudent.Schema);
 
