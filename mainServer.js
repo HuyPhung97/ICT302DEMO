@@ -141,7 +141,8 @@ function sendEmail()
                                 var diffDays = parseInt((deadline - currentDate) / (1000 * 60 * 60 * 24), 10); 
                                 var hashValue =  Buffer.from(data[i].PersonId, "binary").toString("base64") ;
                                
-                                if(sendEmail == "No"  && diffDays < 7)
+                                var diffDays = 22;
+                                if(sendEmail == "No")
                                 {
                                    var content = `
                                     <p> Dear Student, please click the link below to access and complete your personal Self and Peer Evaluation form.</p> 

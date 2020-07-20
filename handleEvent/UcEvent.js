@@ -701,6 +701,7 @@ var idFromForm = "";
                             
                                 var diff = difference(totalPerson ,PersonIdHave );
 
+                                console.log(numberQuestion);
                                 // get data 
                                 for(var i = 0 ; i < sortNumberTeam.length ; i++)
                                 {
@@ -722,12 +723,12 @@ var idFromForm = "";
                                             eachMem.push(eachStudent[j].Surname);
                                             eachMem.push(eachStudent[j].PersonId);
 
-                                            for(var e = 0 ; e < numberQuestion-3 ; e++)
+                                            
+                                            for(var e = 0 ; e < numberQuestion ; e++)
                                             {
                                                 eachMem.push(" ");                          
                                             }
-                                            eachMem.push(" ");
-                                            eachMem.push(" ");
+                                           
                                             groupStudent = groupStudent + eachMem;
 
                                             // get question 
@@ -945,6 +946,41 @@ Router
         }
         
         console.log(update);
+        
+        if(dataPack.title != dataPack.previous)
+        {
+            const studentRecord = mongoose.model('students',  studentTable.Schema);
+
+            var findResult = 
+            {
+                teachPeriod :req.body.teachPer,
+                UnitCode : req.body.unitCode
+            }
+
+            studentRecord.find(findResult , function(err ,students)
+            {
+                for(var i = 0 ; i < students.length ; i++)
+                {
+                    console.log(students[i].formName);
+                    var index = students[i].formName.indexOf(dataPack.previous);
+
+                    students[i].formName[index] = dataPack.title;
+                    
+                    var update = 
+                    {
+                        formName :  students[i].formName,
+                    }
+                    studentRecord.findOneAndUpdate({PersonId : students[i].PersonId} , update , function(err , result)
+                    {
+                        if(!err)
+                        {
+                             result.save();
+                        }
+                    })
+                }
+            })
+        }
+
         var dataFormMongoDb = mongoose.model('formstudent',  formStudent.Schema);
 
         dataFormMongoDb.findByIdAndUpdate({_id : req.body.id}, update ,  function(error, data) 

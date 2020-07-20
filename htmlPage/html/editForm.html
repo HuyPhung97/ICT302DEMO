@@ -136,13 +136,13 @@
         var teachTemp = '<%= teachPer %>';
         var current = '<%= title %>';
        
-        console.log(unitTemp);
         var checkEx = false;
         if(titleEx != "" &&  unitEx != "" && teachEx != "")
         {
             for(var i = 0 ; i < titleEx.split(",").length ; i ++)
             {
-                if(titleTemp != current && titleTemp == titleEx.split(",")[i] && unitTemp == unitEx.split(",")[i] &&  teachTemp  == teachEx.split(",")[i])
+                //itleTemp = current
+                if(current != titleTemp && titleTemp == titleEx.split(",")[i]  && unitTemp == unitEx.split(",")[i] &&  teachTemp  == teachEx.split(",")[i])
                 {
                     console.log("Hello world");
                     checkEx = true;
@@ -201,6 +201,7 @@
                                 <input type="text" name="id" value="<%= id %>" readonly />
                            </div>  
                             <div id="title">
+                                <input type="text" name="previous" value="<%= title %>"   style="display: none;" />
                                  <input type="text" id="titleName" name="title" value="<%= title %>" oninput="checkSame()" placeholder="Please enter title..." required />
                                  <div id="warning"> </div>   
                             </div>    
